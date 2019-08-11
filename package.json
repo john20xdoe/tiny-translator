@@ -11,7 +11,6 @@
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",
-    "extract-i18n": "ng xi18n --output-path src/i18n --locale en && xliffmerge --profile xliffmerge.json en de fr-google ru-google",
     "extract-html": "ng xi18n --configuration",
     "extract-ts": "npx ngx-extractor -i \"./src/**/*.ts\" -f xlf -o src/i18n/messages.xlf --locale",
     "extract": "xAll(){ npm run extract-html -- ${1:-en} && npm run extract-ts -- ${1:-en} ;};xAll",
@@ -46,20 +45,21 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/martinroob/tiny-translator.git"
+    "url": "git+https://github.com/john20xdoe/tiny-translator.git"
   },
   "keywords": [
     "i18n",
     "tooling",
     "angular",
-    "xliff"
+    "xliff",
+    "angular7"
   ],
   "author": "Martin Roob <martinroob65@gmail.com> (www.roobsoft.de)",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/martinroob/tiny-translator/issues"
+    "url": "https://github.com/john20xdoe/tiny-translator/issues"
   },
-  "homepage": "https://github.com/martinroob/tiny-translator#readme",
+  "homepage": "https://github.com/john20xdoe/tiny-translator#readme",
   "dependencies": {
     "@angular/animations": "^7.2.15",
     "@angular/cdk": "^7.3.7",

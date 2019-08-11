@@ -11,26 +11,40 @@
 
 ## Local Run
 
-- npm install
-- npm run start-en
-- Go to [localhost:4200](http://localhost:4200)
+```bash
+$ npm install
+$ npm run start-en
+```
+
+Go to [localhost:4200](http://localhost:4200)
+
+## Extract Translations Strings
+
+```bash
+$ npm run extract
+```
+
+## Publish to Github Pages
+
+```bash
+$ npm run publish:ghpages
+```
 
 ## Credits
 
 ### \* This is forked from [martinroob/tiny-translator](https://github.com/martinroob/tiny-translator)
 
-Notes from original repo/author:
+### Notes from original repo/author:
 
-```
 This project has moved to the monorepo [ngx-i18nsupport](https://github.com/martinroob/ngx-i18nsupport).
 
 Here can find the actual [Tiny-Translator README](https://github.com/martinroob/ngx-i18nsupport/tree/master/projects/tiny-translator/README.md).
 
 The ready to use application can be found on the following GitHubPages:
-* [Tiny Translator (English)](https://martinroob.github.io/tiny-translator/en)
-* [Tiny Translator (Deutsch)](https://martinroob.github.io/tiny-translator/de)
-* [Tiny Translator (Google traduit Français)](https://martinroob.github.io/tiny-translator/fr-google)
-* [Tiny Translator (Русский Google переведен)](https://martinroob.github.io/tiny-translator/ru-google)
+
+- [Tiny Translator (English)](https://martinroob.github.io/tiny-translator/en)
+- [Tiny Translator (Deutsch)](https://martinroob.github.io/tiny-translator/de)
+- [Tiny Translator (Google traduit Français)](https://martinroob.github.io/tiny-translator/fr-google)
+- [Tiny Translator (Русский Google переведен)](https://martinroob.github.io/tiny-translator/ru-google)
 
 Bugs can be reported using the [issue tracker of this repo](https://github.com/martinroob/tiny-translator/issues) or using the [issue tracker of the new monorepo](https://github.com/martinroob/ngx-i18nsupport/issues).
-```
