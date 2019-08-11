@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs/Observable';
-import { ReplaySubject } from 'rxjs/ReplaySubject';
+import { Observable, ReplaySubject } from 'rxjs';
 
 /**
  * Service to read a file.
@@ -28,7 +27,7 @@ export class AsynchronousFileReaderService {
     if (file) {
       const reader = new FileReader();
       reader.onloadend = () => {
-        const fileContent = reader.result;
+        const fileContent = reader.result as string;
         subject.next({
           name: file.name,
           size: file.size,

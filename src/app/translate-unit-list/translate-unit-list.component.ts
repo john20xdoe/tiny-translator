@@ -3,8 +3,7 @@ import { TranslationUnit } from '../model/translation-unit';
 import { MatRadioChange } from '@angular/material';
 import { TranslationFileView } from '../model/translation-file-view';
 import { WorkflowType } from '../model/translation-project';
-import { Subject } from 'rxjs/Subject';
-import { Subscription } from 'rxjs/Subscription';
+import { Subject, Subscription } from 'rxjs';
 import {
   FILTER_ALL,
   FILTER_AUTOTRANSLATED,
@@ -15,6 +14,7 @@ import {
   FILTER_UNTRANSLATED,
   TranslationUnitFilterService,
 } from '../model/filters/translation-unit-filter.service';
+import { debounceTime } from 'rxjs/operators';
 
 /**
  * Component that shows a list of trans units.
@@ -87,7 +87,7 @@ export class TranslateUnitListComponent implements OnInit {
     }
     const substr = this.substringToSearch ? this.substringToSearch : '';
     this.translationFileView.setActiveFilter(this.translationUnitFilterService.getFilter(FILTER_SUBSTRING, substr));
-    this.substringSubscription = this.substringSubject.debounceTime(200).subscribe(sub => {
+    this.substringSubscription = this.substringSubject.pipe(debounceTime(200)).subscribe(sub => {
       this.translationFileView.setActiveFilter(this.translationUnitFilterService.getFilter(FILTER_SUBSTRING, sub));
     });
   }
