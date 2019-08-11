@@ -1,9 +1,9 @@
-import {ITransUnit, INormalizedMessage, STATE_NEW} from 'ngx-i18nsupport-lib';
-import {TranslationFile} from './translation-file';
-import {NormalizedMessage} from './normalized-message';
-import {format, isNullOrUndefined} from 'util';
-import {AutoTranslateResult} from './auto-translate-result';
-import {IICUMessageTranslation} from 'ngx-i18nsupport-lib/dist';
+import { ITransUnit, INormalizedMessage, STATE_NEW } from 'ngx-i18nsupport-lib';
+import { TranslationFile } from './translation-file';
+import { NormalizedMessage } from './normalized-message';
+import { format, isNullOrUndefined } from 'util';
+import { AutoTranslateResult } from './auto-translate-result';
+import { IICUMessageTranslation } from 'ngx-i18nsupport-lib/dist';
 
 /**
  * A wrapper around ITransUnit.
@@ -12,12 +12,14 @@ import {IICUMessageTranslation} from 'ngx-i18nsupport-lib/dist';
  */
 
 export class TranslationUnit {
-
   private _isDirty: boolean;
   private _normalizedSourceContent: NormalizedMessage;
   private _normalizedTargetContent: NormalizedMessage;
 
-  constructor(private _translationFile: TranslationFile, private _transUnit: ITransUnit) {
+  constructor(
+    private _translationFile: TranslationFile,
+    private _transUnit: ITransUnit,
+  ) {
     this._isDirty = false;
   }
 
@@ -52,7 +54,12 @@ export class TranslationUnit {
         } catch (error) {
           parseError = error.message;
         }
-        this._normalizedSourceContent = new NormalizedMessage(original, normalizedMessage, parseError, normalizedMessage);
+        this._normalizedSourceContent = new NormalizedMessage(
+          original,
+          normalizedMessage,
+          parseError,
+          normalizedMessage,
+        );
       }
       return this._normalizedSourceContent;
     } else {
@@ -79,7 +86,12 @@ export class TranslationUnit {
         } catch (error) {
           parseError = error.message;
         }
-        this._normalizedTargetContent = new NormalizedMessage(original, normalizedMessage, parseError, this._transUnit.sourceContentNormalized());
+        this._normalizedTargetContent = new NormalizedMessage(
+          original,
+          normalizedMessage,
+          parseError,
+          this._transUnit.sourceContentNormalized(),
+        );
       }
       return this._normalizedTargetContent;
     } else {
@@ -103,7 +115,7 @@ export class TranslationUnit {
     }
   }
 
-  public sourceReferences(): {sourcefile: string, linenumber: number}[] {
+  public sourceReferences(): { sourcefile: string; linenumber: number }[] {
     if (this._transUnit) {
       return this._transUnit.sourceReferences();
     } else {
@@ -142,12 +154,20 @@ export class TranslationUnit {
     }
   }
 
-  public autoTranslateNonICUUnit(translatedMessage: string): AutoTranslateResult {
-    return this.autoTranslate(this.sourceContentNormalized().translate(translatedMessage, true));
+  public autoTranslateNonICUUnit(
+    translatedMessage: string,
+  ): AutoTranslateResult {
+    return this.autoTranslate(
+      this.sourceContentNormalized().translate(translatedMessage, true),
+    );
   }
 
-  public autoTranslateICUUnit(translation: IICUMessageTranslation): AutoTranslateResult {
-    return this.autoTranslate(this.sourceContentNormalized().translateICUMessage(translation));
+  public autoTranslateICUUnit(
+    translation: IICUMessageTranslation,
+  ): AutoTranslateResult {
+    return this.autoTranslate(
+      this.sourceContentNormalized().translateICUMessage(translation),
+    );
   }
 
   /**
@@ -156,13 +176,24 @@ export class TranslationUnit {
    * @param translatedMessage
    * @return {AutoTranslateResult} wether it was successful or not.
    */
-  public autoTranslate(translatedMessage: NormalizedMessage): AutoTranslateResult {
+  public autoTranslate(
+    translatedMessage: NormalizedMessage,
+  ): AutoTranslateResult {
     const errors = translatedMessage.validate(true);
     const warnings = translatedMessage.validateWarnings(true);
     if (!isNullOrUndefined(errors)) {
-      return AutoTranslateResult.Failed(this, format('errors detected, not translated: %s', JSON.stringify(errors)));
+      return AutoTranslateResult.Failed(
+        this,
+        format('errors detected, not translated: %s', JSON.stringify(errors)),
+      );
     } else if (!isNullOrUndefined(warnings)) {
-      return AutoTranslateResult.Failed(this, format('warnings detected, not translated: %s', JSON.stringify(warnings)));
+      return AutoTranslateResult.Failed(
+        this,
+        format(
+          'warnings detected, not translated: %s',
+          JSON.stringify(warnings),
+        ),
+      );
     } else {
       this.translate(translatedMessage);
       return AutoTranslateResult.Success(this);

@@ -5,11 +5,14 @@ import { BackendLocalStorageService } from './backend-local-storage.service';
 describe('BackendLocalStorageService', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [BackendLocalStorageService]
+      providers: [BackendLocalStorageService],
     });
   });
 
-  it('should ...', inject([BackendLocalStorageService], (service: BackendLocalStorageService) => {
-    expect(service).toBeTruthy();
-  }));
+  it('should ...', inject(
+    [BackendLocalStorageService],
+    (service: BackendLocalStorageService) => {
+      expect(service).toBeTruthy();
+    },
+  ));
 });

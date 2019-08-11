@@ -1,7 +1,11 @@
-import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
-import {TranslationProject, UserRole, WorkflowType} from '../model/translation-project';
-import {FormBuilder, FormGroup} from '@angular/forms';
-import {isNullOrUndefined} from 'util';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import {
+  TranslationProject,
+  UserRole,
+  WorkflowType,
+} from '../model/translation-project';
+import { FormBuilder, FormGroup } from '@angular/forms';
+import { isNullOrUndefined } from 'util';
 
 /**
  * Component to edit some properties of the current project.
@@ -10,17 +14,18 @@ import {isNullOrUndefined} from 'util';
 @Component({
   selector: 'app-project-editor',
   templateUrl: './project-editor.component.html',
-  styleUrls: ['./project-editor.component.css']
+  styleUrls: ['./project-editor.component.css'],
 })
 export class ProjectEditorComponent implements OnInit {
-
-  @Output() onEditProject: EventEmitter<TranslationProject> = new EventEmitter();
+  @Output() onEditProject: EventEmitter<
+    TranslationProject
+  > = new EventEmitter();
 
   @Input() project: TranslationProject;
 
   form: FormGroup;
 
-  constructor(private formBuilder: FormBuilder) { }
+  constructor(private formBuilder: FormBuilder) {}
 
   ngOnInit() {
     this.initForm();
@@ -93,9 +98,13 @@ export class ProjectEditorComponent implements OnInit {
 
   editProject() {
     this.project.setName(this.form.value.projectName);
-    this.project.setWorkflowType(this.toWorkflowType(this.form.value.workflowType));
+    this.project.setWorkflowType(
+      this.toWorkflowType(this.form.value.workflowType),
+    );
     this.project.setUserRole(this.toUserRole(this.form.value.userRole));
-    this.project.translationFile.setSourceLanguage(this.form.value.sourceLanguage);
+    this.project.translationFile.setSourceLanguage(
+      this.form.value.sourceLanguage,
+    );
     this.onEditProject.emit(this.project);
   }
 
@@ -108,14 +117,18 @@ export class ProjectEditorComponent implements OnInit {
   }
 
   isWorkflowWithReview(): boolean {
-    return this.toWorkflowType(this.form.value.workflowType) === WorkflowType.WITH_REVIEW;
+    return (
+      this.toWorkflowType(this.form.value.workflowType) ===
+      WorkflowType.WITH_REVIEW
+    );
   }
 
   hasExplicitSourceLanguage(): boolean {
-    return this.project &&
+    return (
+      this.project &&
       this.project.translationFile &&
       !this.project.translationFile.hasErrors() &&
-      isNullOrUndefined(this.project.translationFile.sourceLanguageFromFile());
+      isNullOrUndefined(this.project.translationFile.sourceLanguageFromFile())
+    );
   }
-
 }

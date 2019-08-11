@@ -1,8 +1,8 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { NormalizedMessageInputComponent } from './normalized-message-input.component';
-import {NO_ERRORS_SCHEMA} from '@angular/core';
-import {FormBuilder} from '@angular/forms';
+import { NO_ERRORS_SCHEMA } from '@angular/core';
+import { FormBuilder } from '@angular/forms';
 
 describe('NormalizedMessageInputComponent', () => {
   let component: NormalizedMessageInputComponent;
@@ -10,11 +10,10 @@ describe('NormalizedMessageInputComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ NormalizedMessageInputComponent ],
+      declarations: [NormalizedMessageInputComponent],
       providers: [FormBuilder],
-      schemas: [NO_ERRORS_SCHEMA]
-    })
-    .compileComponents();
+      schemas: [NO_ERRORS_SCHEMA],
+    }).compileComponents();
   }));
 
   beforeEach(() => {

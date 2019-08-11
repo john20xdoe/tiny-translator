@@ -1,5 +1,5 @@
-import {TranslationProject} from './translation-project';
-import {InjectionToken} from '@angular/core';
+import { TranslationProject } from './translation-project';
+import { InjectionToken } from '@angular/core';
 
 /**
  * Interface of BackendService.
@@ -7,13 +7,10 @@ import {InjectionToken} from '@angular/core';
  * It also can store an API key for Google Translate.
  */
 export class BackendServiceAPI {
-
   /**
    * Store a project.
    */
-  store(project: TranslationProject) {
-
-  }
+  store(project: TranslationProject) {}
 
   /**
    * Get all stored projects.
@@ -26,9 +23,7 @@ export class BackendServiceAPI {
    * Save id of curent project.
    * @param id of project, null to remove.
    */
-  storeCurrentProjectId(id: string) {
-
-  }
+  storeCurrentProjectId(id: string) {}
 
   /**
    * ID if current project.
@@ -42,9 +37,7 @@ export class BackendServiceAPI {
    * Save ID of last active TransUnit
    * @param tuId active unit id or null.
    */
-  storeCurrentTransUnitId(tuId: string) {
-
-  }
+  storeCurrentTransUnitId(tuId: string) {}
 
   /**
    * ID of last active TransUnit
@@ -58,17 +51,13 @@ export class BackendServiceAPI {
    * Delete a project from store.
    * @param project
    */
-  deleteProject(project: TranslationProject) {
-
-  }
+  deleteProject(project: TranslationProject) {}
 
   /**
    * Save API Key in store.
    * @param key
    */
-  storeAutoTranslateApiKey(key: string) {
-
-  }
+  storeAutoTranslateApiKey(key: string) {}
 
   /**
    * Get API key from store.
@@ -86,13 +75,16 @@ export class BackendServiceAPI {
   static generateUUID(): string {
     // Public Domain/MIT
     var d = new Date().getTime();
-    if (typeof performance !== 'undefined' && typeof performance.now === 'function'){
+    if (
+      typeof performance !== 'undefined' &&
+      typeof performance.now === 'function'
+    ) {
       d += performance.now(); //use high-precision timer if available
     }
-    return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
+    return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
       var r = (d + Math.random() * 16) % 16 | 0;
       d = Math.floor(d / 16);
-      return (c === 'x' ? r : (r & 0x3 | 0x8)).toString(16);
+      return (c === 'x' ? r : (r & 0x3) | 0x8).toString(16);
     });
   }
 }

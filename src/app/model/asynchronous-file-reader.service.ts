@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import {Observable} from 'rxjs/Observable';
-import {ReplaySubject} from 'rxjs/ReplaySubject';
+import { Observable } from 'rxjs/Observable';
+import { ReplaySubject } from 'rxjs/ReplaySubject';
 
 /**
  * Service to read a file.
@@ -16,8 +16,7 @@ export interface AsynchronousFileReaderResult {
 
 @Injectable()
 export class AsynchronousFileReaderService {
-
-  constructor() { }
+  constructor() {}
 
   /**
    * Asynchronously read an uploaded file.
@@ -30,7 +29,11 @@ export class AsynchronousFileReaderService {
       const reader = new FileReader();
       reader.onloadend = () => {
         const fileContent = reader.result;
-        subject.next({name: file.name, size: file.size, content: fileContent});
+        subject.next({
+          name: file.name,
+          size: file.size,
+          content: fileContent,
+        });
         subject.complete();
       };
       reader.onerror = () => {
@@ -41,10 +44,9 @@ export class AsynchronousFileReaderService {
       };
       reader.readAsText(file);
     } else {
-      subject.next({name: null, size: 0, content: null});
+      subject.next({ name: null, size: 0, content: null });
       subject.complete();
     }
     return subject;
   }
-
 }

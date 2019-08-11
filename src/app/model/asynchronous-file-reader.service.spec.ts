@@ -5,11 +5,14 @@ import { AsynchronousFileReaderService } from './asynchronous-file-reader.servic
 describe('AsynchronousFileReaderService', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [AsynchronousFileReaderService]
+      providers: [AsynchronousFileReaderService],
     });
   });
 
-  it('should ...', inject([AsynchronousFileReaderService], (service: AsynchronousFileReaderService) => {
-    expect(service).toBeTruthy();
-  }));
+  it('should ...', inject(
+    [AsynchronousFileReaderService],
+    (service: AsynchronousFileReaderService) => {
+      expect(service).toBeTruthy();
+    },
+  ));
 });

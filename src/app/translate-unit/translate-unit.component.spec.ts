@@ -1,10 +1,10 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { TranslateUnitComponent } from './translate-unit.component';
-import {NO_ERRORS_SCHEMA} from '@angular/core';
-import {FormBuilder} from '@angular/forms';
-import {MatDialog, MatDialogModule, MatDialogRef} from '@angular/material';
-import {AppModule} from '../app.module';
+import { NO_ERRORS_SCHEMA } from '@angular/core';
+import { FormBuilder } from '@angular/forms';
+import { MatDialog, MatDialogModule, MatDialogRef } from '@angular/material';
+import { AppModule } from '../app.module';
 
 describe('TranslateUnitComponent', () => {
   let component: TranslateUnitComponent;
@@ -14,9 +14,8 @@ describe('TranslateUnitComponent', () => {
     TestBed.configureTestingModule({
       declarations: [],
       imports: [AppModule, MatDialogModule],
-      schemas: [NO_ERRORS_SCHEMA]
-    })
-    .compileComponents();
+      schemas: [NO_ERRORS_SCHEMA],
+    }).compileComponents();
   }));
 
   beforeEach(() => {

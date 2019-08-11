@@ -1,4 +1,4 @@
-import {Observable} from 'rxjs/Observable';
+import { Observable } from 'rxjs/Observable';
 
 /**
  * Reasons, why you cannot use the API.
@@ -9,12 +9,12 @@ export enum AutoTranslateDisabledReasonKey {
   INVALID_KEY,
   SOURCE_LANG_NOT_SUPPORTED,
   TARGET_LANG_NOT_SUPPORTED,
-  CONNECT_PROBLEM
+  CONNECT_PROBLEM,
 }
 
 export interface AutoTranslateDisabledReason {
   reason: AutoTranslateDisabledReasonKey;
-  details?: string;  // in case of CONNECT_PROBLEM some readable details like status code, error message
+  details?: string; // in case of CONNECT_PROBLEM some readable details like status code, error message
 }
 
 export interface Language {
@@ -27,7 +27,6 @@ export interface Language {
  * An AutoTranslateService can translate messages to other languages.
  */
 export class AutoTranslateServiceAPI {
-
   public apiKey(): string {
     return null;
   }
@@ -51,8 +50,13 @@ export class AutoTranslateServiceAPI {
    * @param target the language to translate to
    * @return {AutoTranslateDisabledReason} or null, if API is enabled.
    */
-  public disabledReason(source: string, target: string): Observable<AutoTranslateDisabledReason> {
-    return Observable.of({reason: AutoTranslateDisabledReasonKey.NO_PROVIDER});
+  public disabledReason(
+    source: string,
+    target: string,
+  ): Observable<AutoTranslateDisabledReason> {
+    return Observable.of({
+      reason: AutoTranslateDisabledReasonKey.NO_PROVIDER,
+    });
   }
 
   /**
@@ -72,7 +76,11 @@ export class AutoTranslateServiceAPI {
    * @param to target language code
    * @return Observable with translated message or error
    */
-  public translate(message: string, from: string, to: string): Observable<string> {
+  public translate(
+    message: string,
+    from: string,
+    to: string,
+  ): Observable<string> {
     return Observable.throw('no translation service installed');
   }
 
@@ -83,7 +91,11 @@ export class AutoTranslateServiceAPI {
    * @param to target language code
    * @return Observable with translated messages or error
    */
-  public translateMultipleStrings(messages: string[], from: string, to: string): Observable<string[]> {
+  public translateMultipleStrings(
+    messages: string[],
+    from: string,
+    to: string,
+  ): Observable<string[]> {
     return Observable.throw('no translation service installed');
   }
 }

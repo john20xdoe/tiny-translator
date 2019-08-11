@@ -1,16 +1,15 @@
-import {INormalizedMessage} from 'ngx-i18nsupport-lib';
-import {ValidationErrors} from '@angular/forms';
-import {isNullOrUndefined} from 'util';
-import {IICUMessage, IICUMessageTranslation} from 'ngx-i18nsupport-lib/dist';
-import {AutoTranslateServiceAPI} from './auto-translate-service-api';
-import {Observable} from 'rxjs/Observable';
+import { INormalizedMessage } from 'ngx-i18nsupport-lib';
+import { ValidationErrors } from '@angular/forms';
+import { isNullOrUndefined } from 'util';
+import { IICUMessage, IICUMessageTranslation } from 'ngx-i18nsupport-lib/dist';
+import { AutoTranslateServiceAPI } from './auto-translate-service-api';
+import { Observable } from 'rxjs/Observable';
 /**
  * Created by martin on 19.05.2017.
  * Wrapper around INormalizedMessage for GUI usage.
  * Holds the normalized form and the original.
  */
 export class NormalizedMessage {
-
   /**
    * Original source as string.
    */
@@ -43,7 +42,12 @@ export class NormalizedMessage {
    * @param normalizedMessage parsed version or null, if parsing error.
    * @param parseError parsing error or (normally) null, if no error.
    */
-  constructor(original: string, normalizedMessage: INormalizedMessage, parseError: string, sourceMessage: INormalizedMessage) {
+  constructor(
+    original: string,
+    normalizedMessage: INormalizedMessage,
+    parseError: string,
+    sourceMessage: INormalizedMessage,
+  ) {
     this._original = original;
     this._normalizedMessage = normalizedMessage;
     this._parseError = parseError;
@@ -56,14 +60,23 @@ export class NormalizedMessage {
    * Return a copy of the message.
    */
   public copy(): NormalizedMessage {
-    return new NormalizedMessage(this._original, this._normalizedMessage, this._parseError, this._sourceMessage);
+    return new NormalizedMessage(
+      this._original,
+      this._normalizedMessage,
+      this._parseError,
+      this._sourceMessage,
+    );
   }
 
   public dislayText(normalize: boolean): string {
     if (normalize) {
       if (this._normalizedMessage) {
         if (this.isICUMessage()) {
-          return this._normalizedMessage.asDisplayString() + ' ' + this._normalizedMessage.getICUMessage().asNativeString();
+          return (
+            this._normalizedMessage.asDisplayString() +
+            ' ' +
+            this._normalizedMessage.getICUMessage().asNativeString()
+          );
         } else {
           return this._normalizedMessage.asDisplayString();
         }
@@ -79,11 +92,16 @@ export class NormalizedMessage {
    * Test, wether it is an ICU message.
    */
   isICUMessage(): boolean {
-    return this._normalizedMessage && !isNullOrUndefined(this._normalizedMessage.getICUMessage());
+    return (
+      this._normalizedMessage &&
+      !isNullOrUndefined(this._normalizedMessage.getICUMessage())
+    );
   }
 
   getICUMessage(): IICUMessage {
-    return this._normalizedMessage ? this._normalizedMessage.getICUMessage() : null;
+    return this._normalizedMessage
+      ? this._normalizedMessage.getICUMessage()
+      : null;
   }
 
   public translate(newValue: string, normalize: boolean): NormalizedMessage {
@@ -109,7 +127,12 @@ export class NormalizedMessage {
         parseError = error.message;
       }
     }
-    return new NormalizedMessage(newOriginal, newMessage, parseError, this._sourceMessage);
+    return new NormalizedMessage(
+      newOriginal,
+      newMessage,
+      parseError,
+      this._sourceMessage,
+    );
   }
 
   /**
@@ -119,30 +142,52 @@ export class NormalizedMessage {
    * @param targetLanguage Language of target
    * @return new translated message (as Observable, it is an async call)
    */
-  public autoTranslateUsingService(autoTranslateService: AutoTranslateServiceAPI, sourceLanguage: string, targetLanguage: string): Observable<NormalizedMessage> {
+  public autoTranslateUsingService(
+    autoTranslateService: AutoTranslateServiceAPI,
+    sourceLanguage: string,
+    targetLanguage: string,
+  ): Observable<NormalizedMessage> {
     // TODO corner cases to be researched like special tags, ...
     if (this.getICUMessage()) {
-      return this.autoTranslateICUMessageUsingService(autoTranslateService, sourceLanguage, targetLanguage);
+      return this.autoTranslateICUMessageUsingService(
+        autoTranslateService,
+        sourceLanguage,
+        targetLanguage,
+      );
     } else {
-      return autoTranslateService.translate(this.dislayText(true), sourceLanguage, targetLanguage).map((translation: string) => {
-        if (!isNullOrUndefined(translation)) {
-          return this.translate(translation, true);
-        } else {
-          return null;
-        }
-      });
+      return autoTranslateService
+        .translate(this.dislayText(true), sourceLanguage, targetLanguage)
+        .map((translation: string) => {
+          if (!isNullOrUndefined(translation)) {
+            return this.translate(translation, true);
+          } else {
+            return null;
+          }
+        });
     }
   }
 
-  private autoTranslateICUMessageUsingService(autoTranslateService: AutoTranslateServiceAPI, sourceLanguage: string, targetLanguage: string): Observable<NormalizedMessage> {
+  private autoTranslateICUMessageUsingService(
+    autoTranslateService: AutoTranslateServiceAPI,
+    sourceLanguage: string,
+    targetLanguage: string,
+  ): Observable<NormalizedMessage> {
     const icuMessage: IICUMessage = this.getICUMessage();
     const categories = icuMessage.getCategories();
     // check for nested ICUs, we do not support that
-    if (categories.find((category) => !isNullOrUndefined(category.getMessageNormalized().getICUMessage()))) {
+    if (
+      categories.find(
+        category =>
+          !isNullOrUndefined(category.getMessageNormalized().getICUMessage()),
+      )
+    ) {
       throw new Error('nested ICU message not supported');
     }
-    const allMessages: string[] = categories.map((category) => category.getMessageNormalized().asDisplayString());
-    return autoTranslateService.translateMultipleStrings(allMessages, sourceLanguage, targetLanguage)
+    const allMessages: string[] = categories.map(category =>
+      category.getMessageNormalized().asDisplayString(),
+    );
+    return autoTranslateService
+      .translateMultipleStrings(allMessages, sourceLanguage, targetLanguage)
       .map((translations: string[]) => {
         const icuTranslation: IICUMessageTranslation = {};
         for (let i = 0; i < translations.length; i++) {
@@ -154,24 +199,31 @@ export class NormalizedMessage {
       });
   }
 
-  public translateICUMessage(newValue: IICUMessageTranslation): NormalizedMessage {
+  public translateICUMessage(
+    newValue: IICUMessageTranslation,
+  ): NormalizedMessage {
     let newOriginal: string;
     let newMessage: INormalizedMessage;
     let parseError: string;
-      try {
-        if (this._normalizedMessage) {
-          newMessage = this._normalizedMessage.translateICUMessage(newValue);
-        } else {
-          newMessage = this._sourceMessage.translateICUMessage(newValue);
-        }
-        newOriginal = newMessage.asNativeString();
-        parseError = null;
-      } catch (error) {
-        parseError = error.message;
-        newMessage = null;
-        newOriginal = null;
+    try {
+      if (this._normalizedMessage) {
+        newMessage = this._normalizedMessage.translateICUMessage(newValue);
+      } else {
+        newMessage = this._sourceMessage.translateICUMessage(newValue);
       }
-    return new NormalizedMessage(newOriginal, newMessage, parseError, this._sourceMessage);
+      newOriginal = newMessage.asNativeString();
+      parseError = null;
+    } catch (error) {
+      parseError = error.message;
+      newMessage = null;
+      newOriginal = null;
+    }
+    return new NormalizedMessage(
+      newOriginal,
+      newMessage,
+      parseError,
+      this._sourceMessage,
+    );
   }
 
   public nativeString(): string {
@@ -188,7 +240,7 @@ export class NormalizedMessage {
         if (this._normalizedMessage) {
           this._errors = this._normalizedMessage.validate();
         } else {
-          this._errors = {'parseError': this._parseError};
+          this._errors = { parseError: this._parseError };
         }
       } else {
         this._errors = null;

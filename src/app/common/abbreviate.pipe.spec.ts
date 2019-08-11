@@ -25,5 +25,4 @@ describe('AbbreviatePipe', () => {
     const abbreviatedText = longText.substr(0, 10) + '..';
     expect(pipe.transform(longText, 10)).toBe(abbreviatedText);
   });
-
 });

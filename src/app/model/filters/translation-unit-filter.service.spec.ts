@@ -5,11 +5,14 @@ import { TranslationUnitFilterService } from './translation-unit-filter.service'
 describe('TranslationUnitFilterService', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [TranslationUnitFilterService]
+      providers: [TranslationUnitFilterService],
     });
   });
 
-  it('should be created', inject([TranslationUnitFilterService], (service: TranslationUnitFilterService) => {
-    expect(service).toBeTruthy();
-  }));
+  it('should be created', inject(
+    [TranslationUnitFilterService],
+    (service: TranslationUnitFilterService) => {
+      expect(service).toBeTruthy();
+    },
+  ));
 });

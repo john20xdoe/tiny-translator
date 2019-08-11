@@ -1,5 +1,5 @@
-import {InjectionToken} from '@angular/core';
-import {environment} from '../environments/environment';
+import { InjectionToken } from '@angular/core';
+import { environment } from '../environments/environment';
 /**
  * Created by martin on 23.03.2017.
  * Configuration Data of the application.
@@ -21,11 +21,12 @@ export class AppConfig {
 
 export const APP_CONFIG_VALUE: AppConfig = {
   // set values here
-  'BUILDVERSION': '0.12.0',
-  'BUILDTIME': '2017-12-08', // TODO should be dynamic
+  BUILDVERSION: '0.12.0',
+  BUILDTIME: '2017-12-08', // TODO should be dynamic
   GOOGLETRANSLATE_API_ROOT_URL: 'https://translation.googleapis.com/',
   GOOGLETRANSLATE_API_KEY: environment.googletranslate_api_key,
-  GOOGLETRANSLATE_PROVOKE_FAILURES: environment.googletranslate_provoke_failures
+  GOOGLETRANSLATE_PROVOKE_FAILURES:
+    environment.googletranslate_provoke_failures,
 };
 
 export let APP_CONFIG = new InjectionToken<AppConfig>('app.config');

@@ -1,20 +1,29 @@
-import {Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChange, SimpleChanges} from '@angular/core';
-import {TranslationUnit} from '../model/translation-unit';
-import {MatDialog, MatSnackBar} from '@angular/material';
-import {NormalizedMessage} from '../model/normalized-message';
-import {FormBuilder, FormGroup} from '@angular/forms';
-import {Observable} from 'rxjs/Observable';
-import {TranslateUnitWarningConfirmDialogComponent} from '../translate-unit-warning-confirm-dialog/translate-unit-warning-confirm-dialog.component';
-import {TranslationFileView} from '../model/translation-file-view';
-import {WorkflowType} from '../model/translation-project';
-import {STATE_FINAL, STATE_TRANSLATED} from 'ngx-i18nsupport-lib/dist';
-import {AutoTranslateServiceAPI} from '../model/auto-translate-service-api';
-import {isNullOrUndefined} from 'util';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  OnChanges,
+  OnInit,
+  Output,
+  SimpleChange,
+  SimpleChanges,
+} from '@angular/core';
+import { TranslationUnit } from '../model/translation-unit';
+import { MatDialog, MatSnackBar } from '@angular/material';
+import { NormalizedMessage } from '../model/normalized-message';
+import { FormBuilder, FormGroup } from '@angular/forms';
+import { Observable } from 'rxjs/Observable';
+import { TranslateUnitWarningConfirmDialogComponent } from '../translate-unit-warning-confirm-dialog/translate-unit-warning-confirm-dialog.component';
+import { TranslationFileView } from '../model/translation-file-view';
+import { WorkflowType } from '../model/translation-project';
+import { STATE_FINAL, STATE_TRANSLATED } from 'ngx-i18nsupport-lib/dist';
+import { AutoTranslateServiceAPI } from '../model/auto-translate-service-api';
+import { isNullOrUndefined } from 'util';
 
 export enum NavigationDirection {
   NEXT,
   PREV,
-  STAY
+  STAY,
 }
 
 export interface TranslateUnitChange {
@@ -29,10 +38,9 @@ export interface TranslateUnitChange {
 @Component({
   selector: 'app-translate-unit',
   templateUrl: './translate-unit.component.html',
-  styleUrls: ['./translate-unit.component.css']
+  styleUrls: ['./translate-unit.component.css'],
 })
 export class TranslateUnitComponent implements OnInit, OnChanges {
-
   @Input() translationFileView: TranslationFileView;
 
   @Input() translationUnit: TranslationUnit;
@@ -57,15 +65,18 @@ export class TranslateUnitComponent implements OnInit, OnChanges {
   private isMarkedAsTranslated = false;
   private isMarkedAsReviewed = false;
 
-  constructor(private formBuilder: FormBuilder,
-              private dialog: MatDialog,
-              private _snackbar: MatSnackBar,
-              private autoTranslateService: AutoTranslateServiceAPI) {
-  }
+  constructor(
+    private formBuilder: FormBuilder,
+    private dialog: MatDialog,
+    private _snackbar: MatSnackBar,
+    private autoTranslateService: AutoTranslateServiceAPI,
+  ) {}
 
   ngOnInit() {
     this.initForm();
-    this.form.valueChanges.subscribe(formValue => {this.valueChanged(formValue); });
+    this.form.valueChanges.subscribe(formValue => {
+      this.valueChanged(formValue);
+    });
   }
 
   private valueChanged(v: any) {
@@ -184,7 +195,7 @@ export class TranslateUnitComponent implements OnInit, OnChanges {
    */
   public showSourceRefInfo() {
     const sourceRefMessage = 'Original message position: ' + this.sourceRef(); // TODO i18n it
-    this._snackbar.open(sourceRefMessage, 'OK', {duration: 5000}); // TODO i18n it
+    this._snackbar.open(sourceRefMessage, 'OK', { duration: 5000 }); // TODO i18n it
   }
 
   /**
@@ -192,7 +203,7 @@ export class TranslateUnitComponent implements OnInit, OnChanges {
    */
   public showTransUnitID() {
     const message = 'ID: ' + this.transUnitID();
-    this._snackbar.open(message, 'OK', {duration: 5000});
+    this._snackbar.open(message, 'OK', { duration: 5000 });
   }
 
   errors(): any[] {
@@ -211,7 +222,9 @@ export class TranslateUnitComponent implements OnInit, OnChanges {
     if (!this._editedTargetMessage) {
       return [];
     }
-    const errors = this._editedTargetMessage.validateWarnings(this.showNormalized);
+    const errors = this._editedTargetMessage.validateWarnings(
+      this.showNormalized,
+    );
     if (errors) {
       return Object.keys(errors).map(key => errors[key]);
     } else {
@@ -221,7 +234,11 @@ export class TranslateUnitComponent implements OnInit, OnChanges {
 
   commitChanges(navigationDirection: NavigationDirection) {
     if (this.translationUnit) {
-      if (this.isTranslationChanged() || this.isMarkedAsTranslated || this.isMarkedAsReviewed) {
+      if (
+        this.isTranslationChanged() ||
+        this.isMarkedAsTranslated ||
+        this.isMarkedAsReviewed
+      ) {
         this.translationUnit.translate(this._editedTargetMessage);
         switch (this.workflowType) {
           case WorkflowType.SINGLE_USER:
@@ -235,11 +252,14 @@ export class TranslateUnitComponent implements OnInit, OnChanges {
             }
             break;
         }
-        this.changed.emit({changedUnit: this.translationUnit, navigationDirection: navigationDirection});
+        this.changed.emit({
+          changedUnit: this.translationUnit,
+          navigationDirection: navigationDirection,
+        });
         this.isMarkedAsTranslated = false;
         this.isMarkedAsReviewed = false;
       } else {
-        this.changed.emit({navigationDirection: navigationDirection});
+        this.changed.emit({ navigationDirection: navigationDirection });
       }
     }
   }
@@ -264,14 +284,18 @@ export class TranslateUnitComponent implements OnInit, OnChanges {
           this.commitChanges(NavigationDirection.STAY);
           break;
       }
-
     });
   }
 
   undo() {
-    this._editableTargetMessage = this.translationUnit.targetContentNormalized().copy();
+    this._editableTargetMessage = this.translationUnit
+      .targetContentNormalized()
+      .copy();
     this._editedTargetMessage = this._editableTargetMessage;
-    this.changed.emit({changedUnit: this.translationUnit, navigationDirection: NavigationDirection.STAY});
+    this.changed.emit({
+      changedUnit: this.translationUnit,
+      navigationDirection: NavigationDirection.STAY,
+    });
   }
 
   markReviewed() {
@@ -296,12 +320,13 @@ export class TranslateUnitComponent implements OnInit, OnChanges {
     } else if (!this.isTranslationChanged()) {
       return Observable.of('accept');
     } else {
-      const dialogRef = this.dialog.open(TranslateUnitWarningConfirmDialogComponent,
+      const dialogRef = this.dialog.open(
+        TranslateUnitWarningConfirmDialogComponent,
         {
-          data: {errors: errors, warnings: warnings},
-          disableClose: true
-        }
-        );
+          data: { errors: errors, warnings: warnings },
+          disableClose: true,
+        },
+      );
       return dialogRef.afterClosed();
     }
   }
@@ -317,11 +342,15 @@ export class TranslateUnitComponent implements OnInit, OnChanges {
             break;
           case 'discard':
             if (this.translationFileView.hasNext()) {
-              this.changed.emit({navigationDirection: NavigationDirection.NEXT});
+              this.changed.emit({
+                navigationDirection: NavigationDirection.NEXT,
+              });
             }
             break;
           case 'accept':
-            const direction = (this.translationFileView.hasNext()) ? NavigationDirection.NEXT : NavigationDirection.STAY;
+            const direction = this.translationFileView.hasNext()
+              ? NavigationDirection.NEXT
+              : NavigationDirection.STAY;
             this.commitChanges(direction);
             break;
         }
@@ -349,11 +378,15 @@ export class TranslateUnitComponent implements OnInit, OnChanges {
             break;
           case 'discard':
             if (this.translationFileView.hasPrev()) {
-              this.changed.emit({navigationDirection: NavigationDirection.PREV});
+              this.changed.emit({
+                navigationDirection: NavigationDirection.PREV,
+              });
             }
             break;
           case 'accept':
-            const direction = (this.translationFileView.hasPrev()) ? NavigationDirection.PREV : NavigationDirection.STAY;
+            const direction = this.translationFileView.hasPrev()
+              ? NavigationDirection.PREV
+              : NavigationDirection.STAY;
             this.commitChanges(direction);
             break;
         }
@@ -373,24 +406,31 @@ export class TranslateUnitComponent implements OnInit, OnChanges {
    * Auto translate this unit using Google Translate.
    */
   autoTranslate() {
-    this.sourceContentNormalized().autoTranslateUsingService(
-      this.autoTranslateService,
-      this.sourceLanguage(),
-      this.targetLanguage()
-    ).subscribe((translatedMessage: NormalizedMessage) => {
+    this.sourceContentNormalized()
+      .autoTranslateUsingService(
+        this.autoTranslateService,
+        this.sourceLanguage(),
+        this.targetLanguage(),
+      )
+      .subscribe((translatedMessage: NormalizedMessage) => {
         this._editableTargetMessage = translatedMessage;
         this._editedTargetMessage = translatedMessage;
-        this.changed.emit({changedUnit: this.translationUnit, navigationDirection: NavigationDirection.STAY});
-    });
+        this.changed.emit({
+          changedUnit: this.translationUnit,
+          navigationDirection: NavigationDirection.STAY,
+        });
+      });
   }
 
   autoTranslateDisabled(): Observable<boolean> {
     if (!this.translationUnit) {
       return Observable.of(true);
     }
-    return this.autoTranslateService.canAutoTranslate(
-      this.translationUnit.translationFile().sourceLanguage(),
-      this.translationUnit.translationFile().targetLanguage()).map(val => !val);
+    return this.autoTranslateService
+      .canAutoTranslate(
+        this.translationUnit.translationFile().sourceLanguage(),
+        this.translationUnit.translationFile().targetLanguage(),
+      )
+      .map(val => !val);
   }
-
 }
