@@ -1,6 +1,6 @@
 export const environment = {
   production: true,
-  version: '%VERSION%',
+  version: require('../../package.json').version,
   buildtime: '%BUILDTIME%',
   base_href: '%BASE_HREF%',
   googletranslate_api_key: null,
