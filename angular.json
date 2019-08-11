@@ -184,8 +184,32 @@
             "development": {
               "browserTarget": "tiny-translator:build:development"
             },
+            "development-en": {
+              "browserTarget": "tiny-translator:build:development"
+            },
+            "development-de": {
+              "browserTarget": "tiny-translator:build:development-de"
+            },
+            "development-fr": {
+              "browserTarget": "tiny-translator:build:development-fr"
+            },
+            "development-ru": {
+              "browserTarget": "tiny-translator:build:development-ru"
+            },
             "production": {
               "browserTarget": "tiny-translator:build:production"
+            },
+            "production-en": {
+              "browserTarget": "tiny-translator:build:production"
+            },
+            "production-de": {
+              "browserTarget": "tiny-translator:build:production-de"
+            },
+            "production-fr": {
+              "browserTarget": "tiny-translator:build:production-fr"
+            },
+            "production-ru": {
+              "browserTarget": "tiny-translator:build:production-ru"
             },
             "failtests": {
               "browserTarget": "tiny-translator:build:failtests"
