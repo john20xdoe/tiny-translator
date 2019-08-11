@@ -9,12 +9,19 @@ mat-toolbar .mat-toolbar-layout mat-toolbar-row {
   min-height: 40px;
 }
 
+.toolbar-spacer {
+  flex: 1 1 auto;
+}
+
+
 .content {
   margin-top: 40px;
 }
 
 #container {
   min-height: 100vh;
+ 
+  overflow-y: hidden;
 }
 
 #header {
@@ -24,11 +31,18 @@ mat-toolbar .mat-toolbar-layout mat-toolbar-row {
   overflow: auto;
   margin: 8px;
   /* 164px = Height of toolbar (128) plus footer (20) + 2*margin */
-  max-height: calc(100vh - 164px);
-  max-width: calc(1000vw);
+  // max-height: calc(100vh - 164px);
+  max-height: calc(100vh - 84px);
+  // max-width: calc(1000vw);
+
+  max-width: 1024px;
+  width: 80%;
+  min-width: 300px;
+  margin: 0 auto;
 }
 
 #footer {
   background-color: mat-color($dit-app-primary);
   height: 20px;
+  font-size: 0.8em;
 }

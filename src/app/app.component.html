@@ -14,16 +14,17 @@
         <app-language code="in" [showCode]="false"></app-language>
         <app-language code="pt-br" [showCode]="false"></app-language>
       </div>
-    </mat-toolbar-row>
-    <mat-toolbar-row>
-      <button mat-icon-button [matMenuTriggerFor]="menu">
-        <mat-icon>more_vert</mat-icon>
-      </button>
+      <span>&nbsp;</span>
+      <span class="toolbar-spacer"> </span>
       <a mat-icon-button routerLink="/home" routerLinkActive="active"><mat-icon>home</mat-icon></a>
-      <a mat-icon-button routerLink="/editproject" routerLinkActive="active" matTooltip="Details of the project (click to open)" i18n-matTooltip>
-        <mat-icon>edit</mat-icon>
-        {{ currentProjectName() | abbreviate: 30 }}
+      <a mat-raised-button color="accent" routerLink="/editproject" routerLinkActive="active" matTooltip="Details of the project (click to open)" i18n-matTooltip>
+        <span>{{ currentProjectName() | abbreviate: 30 }}</span>
       </a>
+
+      <a mat-icon-button [matMenuTriggerFor]="menu">
+        <mat-icon>more_horiz</mat-icon>
+      </a>
+
       <!-- main menu -->
       <mat-menu #menu="matMenu">
         <button mat-menu-item (click)="save()" matTooltip="export current translation state to file (download)" i18n-matTooltip>
@@ -45,6 +46,7 @@
       </mat-menu>
     </mat-toolbar-row>
   </mat-toolbar>
+
   <div id="main" fxFlex="1 1 auto" fxLayout="column" fxLayoutAlign="start start">
     <router-outlet></router-outlet>
   </div>
