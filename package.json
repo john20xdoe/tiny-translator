@@ -18,7 +18,7 @@
     "start-ru": "ng serve --aot --i18n-file=src/i18n/messages.ru-google.xlf --locale=ru --i18n-format=xlf",
     "serve-prod-ngsw": "npm run build-prod-en && http-server dist/en -p 8080",
     "serve-prod": "http-server buildtest -p 8080",
-    "build-prod": "npm run build-prod-en && npm run build-prod-de && npm run build-prod-fr && npm run build-prod-ru && cpx ./src/ghpages/* ./dist",
+    "build-prod": "npm run build-prod-en && npm run build-prod-de && npm run build-prod-fr && npm run build-prod-ru && cpx './src/ghpages/*' './dist'",
     "build-prod-en": "cross-env-shell LANG=\"en\" XLFFILE=\"src/i18n/messages.en.xlf\" npm run build-prod-lang",
     "build-prod-de": "cross-env-shell LANG=\"de\" XLFFILE=\"src/i18n/messages.de.xlf\" npm run build-prod-lang",
     "build-prod-fr": "cross-env-shell LANG=\"fr\" XLFFILE=\"src/i18n/messages.fr-google.xlf\" npm run build-prod-lang",
