@@ -5,7 +5,7 @@ import { DownloaderService } from './downloader.service';
 describe('DownloaderService', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [DownloaderService]
+      providers: [DownloaderService],
     });
   });
 

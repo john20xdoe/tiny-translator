@@ -5,7 +5,7 @@ import { BackendLocalStorageService } from './backend-local-storage.service';
 describe('BackendLocalStorageService', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [BackendLocalStorageService]
+      providers: [BackendLocalStorageService],
     });
   });
 

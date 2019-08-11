@@ -1,0 +1,29 @@
+:host {
+  max-width: 280px;
+}
+
+:host(.open) {
+  mat-card {
+    background-color: seashell;
+  }
+}
+
+
+.mat-card {
+  padding: 8px;
+
+  // Unclear bottom margin from somewhere
+  > .mat-card-actions:last-child {
+    margin: unset;  
+    padding-bottom: 0;
+  }
+
+  mat-card-actions{
+    display: flex;
+    justify-content: space-between;
+  }
+}
+
+mat-mini-fab {
+  margin-left: auto;
+}

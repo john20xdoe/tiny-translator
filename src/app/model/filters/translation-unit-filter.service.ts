@@ -1,13 +1,13 @@
 import { Injectable } from '@angular/core';
-import {ITranslationUnitFilter} from './i-translation-unit-filter';
-import {TranslationUnitFilterAll} from './translation-unit-filter-all';
-import {TranslationUnitFilterAutoTranslated} from './translation-unit-filter-autotranslated';
-import {AutoTranslateSummaryReport} from '../auto-translate-summary-report';
-import {TranslationUnitFilterAutoTranslatedFailed} from './translation-unit-filter-autotranslated-failed';
-import {TranslationUnitFilterAutoTranslatedIgnored} from './translation-unit-filter-autotranslated-ignored';
-import {TranslationUnitFilterNeedsReview} from './translation-unit-filter-needs-review';
-import {TranslationUnitFilterSubstring} from './translation-unit-filter-substring';
-import {TranslationUnitFilterUntranslated} from './translation-unit-filter-untranslated';
+import { ITranslationUnitFilter } from './i-translation-unit-filter';
+import { TranslationUnitFilterAll } from './translation-unit-filter-all';
+import { TranslationUnitFilterAutoTranslated } from './translation-unit-filter-autotranslated';
+import { AutoTranslateSummaryReport } from '../auto-translate-summary-report';
+import { TranslationUnitFilterAutoTranslatedFailed } from './translation-unit-filter-autotranslated-failed';
+import { TranslationUnitFilterAutoTranslatedIgnored } from './translation-unit-filter-autotranslated-ignored';
+import { TranslationUnitFilterNeedsReview } from './translation-unit-filter-needs-review';
+import { TranslationUnitFilterSubstring } from './translation-unit-filter-substring';
+import { TranslationUnitFilterUntranslated } from './translation-unit-filter-untranslated';
 
 export const FILTER_ALL = 'all';
 export const FILTER_AUTOTRANSLATED = 'autotranslated';
@@ -19,11 +19,9 @@ export const FILTER_UNTRANSLATED = 'untranslated';
 
 @Injectable()
 export class TranslationUnitFilterService {
-
   private _autoTranslateSummaryReport: AutoTranslateSummaryReport;
 
-  constructor() {
-  }
+  constructor() {}
 
   /**
    * Create a new filter.

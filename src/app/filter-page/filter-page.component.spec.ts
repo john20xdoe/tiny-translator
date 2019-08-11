@@ -1,8 +1,8 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { FilterPageComponent } from './filter-page.component';
-import {NO_ERRORS_SCHEMA} from '@angular/core';
-import {AppModule} from '../app.module';
+import { NO_ERRORS_SCHEMA } from '@angular/core';
+import { AppModule } from '../app.module';
 
 describe('FilterPageComponent', () => {
   let component: FilterPageComponent;
@@ -10,10 +10,9 @@ describe('FilterPageComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [ AppModule ],
-      schemas: [NO_ERRORS_SCHEMA]
-    })
-    .compileComponents();
+      imports: [AppModule],
+      schemas: [NO_ERRORS_SCHEMA],
+    }).compileComponents();
   }));
 
   beforeEach(() => {

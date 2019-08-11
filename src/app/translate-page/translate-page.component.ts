@@ -1,21 +1,19 @@
 import { Component, OnInit } from '@angular/core';
-import {TinyTranslatorService} from '../model/tiny-translator.service';
-import {TranslationUnit} from '../model/translation-unit';
-import {TranslationProject, UserRole} from '../model/translation-project';
-import {TranslationFileView} from '../model/translation-file-view';
-import {NavigationDirection, TranslateUnitChange} from '../translate-unit/translate-unit.component';
+import { TinyTranslatorService } from '../model/tiny-translator.service';
+import { TranslationUnit } from '../model/translation-unit';
+import { TranslationProject, UserRole } from '../model/translation-project';
+import { TranslationFileView } from '../model/translation-file-view';
+import { NavigationDirection, TranslateUnitChange } from '../translate-unit/translate-unit.component';
 
 @Component({
   selector: 'app-translate-page',
   templateUrl: './translate-page.component.html',
-  styleUrls: ['./translate-page.component.css']
+  styleUrls: ['./translate-page.component.css'],
 })
 export class TranslatePageComponent implements OnInit {
+  constructor(private translationService: TinyTranslatorService) {}
 
-  constructor(private translationService: TinyTranslatorService) { }
-
-  ngOnInit() {
-  }
+  ngOnInit() {}
 
   currentProject(): TranslationProject {
     return this.translationService.currentProject();
@@ -62,9 +60,12 @@ export class TranslatePageComponent implements OnInit {
   }
 
   hasAutotranslatedUnits(): boolean {
-    return this.currentProject()
-      && this.currentProject().autoTranslateSummaryReport()
-      && this.currentProject().autoTranslateSummaryReport().total() > 0;
+    return (
+      this.currentProject() &&
+      this.currentProject().autoTranslateSummaryReport() &&
+      this.currentProject()
+        .autoTranslateSummaryReport()
+        .total() > 0
+    );
   }
-
 }

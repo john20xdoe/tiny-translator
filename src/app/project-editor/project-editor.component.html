@@ -1,20 +1,22 @@
-<div fxLayout="column" style="min-width: calc(100vw-16px);"><!-- 16px = 2xmargin of container page -->
+<div fxLayout="column" style="min-width: calc(100vw-16px);">
+  <!-- 16px = 2xmargin of container page -->
   <h1 i18n>Edit project</h1>
   <form id="editProjectForm" fxLayout="column" [formGroup]="form">
     <div fxLayout="row" fxLayoutGap="20px" fxLayoutAlign="start center">
       <mat-form-field fxFlex="80%">
-        <input type="text" placeholder="Project name" i18n-placeholder matInput formControlName="projectName" name="projectName"/>
+        <input type="text" placeholder="Project name" i18n-placeholder matInput formControlName="projectName" name="projectName" />
       </mat-form-field>
     </div>
     <p><b i18n>Selected translation file:</b></p>
-    <app-translation-file-status
-                                 [translationFileView]="project?.translationFileView"
-                                 [translationFile]="project?.translationFile">
-    </app-translation-file-status>
+    <app-translation-file-status [translationFileView]="project?.translationFileView" [translationFile]="project?.translationFile"> </app-translation-file-status>
     <div fxLayout="row" fxLayoutGap="20px" fxLayoutAlign="start center">
-      <mat-form-field *ngIf="hasExplicitSourceLanguage()" fxFlex="50%"
-                          matTooltip="Your selected file contains no information about the language used. You can set it here explicitly." i18n-matTooltip>
-        <input placeholder="Explicitly set source language" i18n-placeholder matInput formControlName="sourceLanguage" name="sourceLanguage"/>
+      <mat-form-field
+        *ngIf="hasExplicitSourceLanguage()"
+        fxFlex="50%"
+        matTooltip="Your selected file contains no information about the language used. You can set it here explicitly."
+        i18n-matTooltip
+      >
+        <input placeholder="Explicitly set source language" i18n-placeholder matInput formControlName="sourceLanguage" name="sourceLanguage" />
       </mat-form-field>
     </div>
     <div fxLayout="row" fxLayoutGap="20px" fxLayoutAlign="start center">
@@ -35,11 +37,7 @@
         </div>
       </div>
     </div>
-    <button fxFlexAlign="center"
-            mat-raised-button
-            color="primary"
-            (click)="editProject()"
-            matTooltip="commit changes and continue working" i18n-matTooltip>
+    <button fxFlexAlign="center" mat-raised-button color="primary" (click)="editProject()" matTooltip="commit changes and continue working" i18n-matTooltip>
       <mat-icon>edit</mat-icon>&nbsp;<span i18n>Save project changes</span>
     </button>
   </form>

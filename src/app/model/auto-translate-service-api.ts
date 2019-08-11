@@ -1,4 +1,4 @@
-import {Observable} from 'rxjs/Observable';
+import { Observable } from 'rxjs/Observable';
 
 /**
  * Reasons, why you cannot use the API.
@@ -9,12 +9,12 @@ export enum AutoTranslateDisabledReasonKey {
   INVALID_KEY,
   SOURCE_LANG_NOT_SUPPORTED,
   TARGET_LANG_NOT_SUPPORTED,
-  CONNECT_PROBLEM
+  CONNECT_PROBLEM,
 }
 
 export interface AutoTranslateDisabledReason {
   reason: AutoTranslateDisabledReasonKey;
-  details?: string;  // in case of CONNECT_PROBLEM some readable details like status code, error message
+  details?: string; // in case of CONNECT_PROBLEM some readable details like status code, error message
 }
 
 export interface Language {
@@ -27,7 +27,6 @@ export interface Language {
  * An AutoTranslateService can translate messages to other languages.
  */
 export class AutoTranslateServiceAPI {
-
   public apiKey(): string {
     return null;
   }
@@ -52,7 +51,9 @@ export class AutoTranslateServiceAPI {
    * @return {AutoTranslateDisabledReason} or null, if API is enabled.
    */
   public disabledReason(source: string, target: string): Observable<AutoTranslateDisabledReason> {
-    return Observable.of({reason: AutoTranslateDisabledReasonKey.NO_PROVIDER});
+    return Observable.of({
+      reason: AutoTranslateDisabledReasonKey.NO_PROVIDER,
+    });
   }
 
   /**

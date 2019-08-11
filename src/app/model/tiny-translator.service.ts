@@ -1,21 +1,17 @@
-import {Injectable} from '@angular/core';
-import {TranslationFile} from './translation-file';
-import {isNullOrUndefined} from 'util';
-import {BackendServiceAPI} from './backend-service-api';
-import {TranslationProject, WorkflowType} from './translation-project';
-import {Observable} from 'rxjs/Observable';
-import {DownloaderService} from './downloader.service';
-import {AsynchronousFileReaderService} from './asynchronous-file-reader.service';
-import {
-  AutoTranslateDisabledReasonKey,
-  AutoTranslateServiceAPI
-} from './auto-translate-service-api';
-import {AutoTranslateSummaryReport} from './auto-translate-summary-report';
-import {TranslationUnit} from './translation-unit';
+import { Injectable } from '@angular/core';
+import { TranslationFile } from './translation-file';
+import { isNullOrUndefined } from 'util';
+import { BackendServiceAPI } from './backend-service-api';
+import { TranslationProject, WorkflowType } from './translation-project';
+import { Observable } from 'rxjs/Observable';
+import { DownloaderService } from './downloader.service';
+import { AsynchronousFileReaderService } from './asynchronous-file-reader.service';
+import { AutoTranslateDisabledReasonKey, AutoTranslateServiceAPI } from './auto-translate-service-api';
+import { AutoTranslateSummaryReport } from './auto-translate-summary-report';
+import { TranslationUnit } from './translation-unit';
 
 @Injectable()
 export class TinyTranslatorService {
-
   /**
    * List of projects for work.
    */
@@ -26,18 +22,22 @@ export class TinyTranslatorService {
    */
   private _currentProject: TranslationProject;
 
-  constructor(private backendService: BackendServiceAPI,
-              private fileReaderService: AsynchronousFileReaderService,
-              private downloaderService: DownloaderService,
-              private autoTranslateService: AutoTranslateServiceAPI) {
+  constructor(
+    private backendService: BackendServiceAPI,
+    private fileReaderService: AsynchronousFileReaderService,
+    private downloaderService: DownloaderService,
+    private autoTranslateService: AutoTranslateServiceAPI,
+  ) {
     this._projects = this.backendService.projects();
     const currentProjectId = this.backendService.currentProjectId();
     if (currentProjectId) {
-      this._currentProject = this._projects.find((project) => project.id === currentProjectId);
+      this._currentProject = this._projects.find(project => project.id === currentProjectId);
     }
     const currentTransUnitId: string = this.backendService.currentTransUnitId();
     if (currentTransUnitId && this.currentProject()) {
-      const transUnit = this.currentProject().translationFile.allTransUnits().find(tu => tu.id() === currentTransUnitId);
+      const transUnit = this.currentProject()
+        .translationFile.allTransUnits()
+        .find(tu => tu.id() === currentTransUnitId);
       this.currentProject().translationFileView.selectTransUnit(transUnit);
     }
     this.autoTranslateService.setApiKey(this.backendService.autoTranslateApiKey());
@@ -67,10 +67,9 @@ export class TinyTranslatorService {
   public createProject(projectName: string, file: File, masterXmbFile?: File, workflowType?: WorkflowType): Observable<TranslationProject> {
     const uploadingFile = this.fileReaderService.readFile(file);
     const readingMaster = this.fileReaderService.readFile(masterXmbFile);
-    return TranslationFile.fromUploadedFile(uploadingFile, readingMaster)
-      .map((translationfile: TranslationFile) => {
-        return new TranslationProject(projectName, translationfile, workflowType);
-      });
+    return TranslationFile.fromUploadedFile(uploadingFile, readingMaster).map((translationfile: TranslationFile) => {
+      return new TranslationProject(projectName, translationfile, workflowType);
+    });
   }
 
   public setCurrentProject(project: TranslationProject) {
@@ -136,7 +135,7 @@ export class TinyTranslatorService {
     if (!this._projects || this._projects.length === 0) {
       return false;
     }
-    const projectWithErrors = this._projects.find((p) => p.hasErrors());
+    const projectWithErrors = this._projects.find(p => p.hasErrors());
     return !isNullOrUndefined(projectWithErrors);
   }
 
@@ -191,9 +190,7 @@ export class TinyTranslatorService {
     if (isNullOrUndefined(this.currentProject()) || !this.currentProject().canTranslate()) {
       return Observable.of(false);
     }
-    return this.canAutoTranslateForLanguages(
-      this.currentProject().translationFile.sourceLanguage(),
-      this.currentProject().translationFile.targetLanguage());
+    return this.canAutoTranslateForLanguages(this.currentProject().translationFile.sourceLanguage(), this.currentProject().translationFile.targetLanguage());
   }
 
   /**
@@ -214,9 +211,7 @@ export class TinyTranslatorService {
     if (isNullOrUndefined(this.currentProject()) || !this.currentProject().canTranslate()) {
       return Observable.of('no translatable project');
     }
-    return this.autoTranslateDisabledReasonForLanguages(
-      this.currentProject().translationFile.sourceLanguage(),
-      this.currentProject().translationFile.targetLanguage());
+    return this.autoTranslateDisabledReasonForLanguages(this.currentProject().translationFile.sourceLanguage(), this.currentProject().translationFile.targetLanguage());
   }
 
   /**
@@ -224,7 +219,7 @@ export class TinyTranslatorService {
    * @return {Observable<string>}
    */
   public autoTranslateDisabledReasonForLanguages(source: string, target: string): Observable<string> {
-    return this.autoTranslateService.disabledReason(source, target).map((reason) => {
+    return this.autoTranslateService.disabledReason(source, target).map(reason => {
       if (isNullOrUndefined(reason)) {
         return null; // means not disabled, everything is ok!
       }
@@ -259,15 +254,16 @@ export class TinyTranslatorService {
   /**
    * Auto translate all untranslated units.
    */
-  public autoTranslate(): Observable<AutoTranslateSummaryReport>  {
+  public autoTranslate(): Observable<AutoTranslateSummaryReport> {
     if (this.currentProject() && this.currentProject().translationFile) {
-      return this.currentProject().translationFile.autoTranslateUsingService(this.autoTranslateService).map((summary) => {
-        this.commitChanges(this.currentProject());
-        return summary;
-      });
+      return this.currentProject()
+        .translationFile.autoTranslateUsingService(this.autoTranslateService)
+        .map(summary => {
+          this.commitChanges(this.currentProject());
+          return summary;
+        });
     } else {
       return Observable.of(new AutoTranslateSummaryReport());
     }
   }
-
 }

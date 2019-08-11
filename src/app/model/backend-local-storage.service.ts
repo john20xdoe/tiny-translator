@@ -1,10 +1,9 @@
 import { Injectable } from '@angular/core';
-import {BackendServiceAPI} from './backend-service-api';
-import {TranslationProject} from './translation-project';
+import { BackendServiceAPI } from './backend-service-api';
+import { TranslationProject } from './translation-project';
 
 @Injectable()
 export class BackendLocalStorageService extends BackendServiceAPI {
-
   private PRAEFIX = 'tinytranslator.';
   private PRAEFIX_PROJECT = this.PRAEFIX + 'project.';
   private KEY_CURRENT_PROJECT_ID = this.PRAEFIX + 'currentproject.id';
@@ -34,7 +33,9 @@ export class BackendLocalStorageService extends BackendServiceAPI {
   projects(): TranslationProject[] {
     const projectKeys = this.getProjectKeys();
     return projectKeys
-      .map(key => {return TranslationProject.deserialize(localStorage.getItem(key)); })
+      .map(key => {
+        return TranslationProject.deserialize(localStorage.getItem(key));
+      })
       .sort((p1, p2) => p1.name.localeCompare(p2.name));
   }
 
@@ -119,5 +120,4 @@ export class BackendLocalStorageService extends BackendServiceAPI {
     }
     return result;
   }
-
 }

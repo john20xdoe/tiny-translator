@@ -1,13 +1,22 @@
-import {NgModule} from '@angular/core';
+import { NgModule } from '@angular/core';
 import {
-  MatButtonModule, MatCardModule, MatCheckboxModule, MatDialogModule, MatIconModule, MatInputModule, MatListModule,
+  MatButtonModule,
+  MatCardModule,
+  MatCheckboxModule,
+  MatDialogModule,
+  MatIconModule,
+  MatInputModule,
+  MatListModule,
   MatMenuModule,
   MatProgressSpinnerModule,
-  MatRadioModule, MatSlideToggleModule, MatSnackBarModule,
-  MatToolbarModule, MatTooltipModule
+  MatRadioModule,
+  MatSlideToggleModule,
+  MatSnackBarModule,
+  MatToolbarModule,
+  MatTooltipModule,
 } from '@angular/material';
-import {OverlayModule} from '@angular/cdk/overlay';
-import {FlexLayoutModule} from '@angular/flex-layout';
+import { OverlayModule } from '@angular/cdk/overlay';
+import { FlexLayoutModule } from '@angular/flex-layout';
 /**
  * All imports of used material components.
  */
@@ -29,7 +38,7 @@ import {FlexLayoutModule} from '@angular/flex-layout';
     MatToolbarModule,
     MatTooltipModule,
     OverlayModule,
-    FlexLayoutModule
+    FlexLayoutModule,
   ],
   exports: [
     MatButtonModule,
@@ -47,8 +56,8 @@ import {FlexLayoutModule} from '@angular/flex-layout';
     MatToolbarModule,
     MatTooltipModule,
     OverlayModule,
-    FlexLayoutModule
+    FlexLayoutModule,
   ],
   providers: [],
 })
-export class AppMaterialModule { }
+export class AppMaterialModule {}

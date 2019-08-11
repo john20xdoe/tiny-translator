@@ -1,21 +1,19 @@
 import { Component, OnInit } from '@angular/core';
-import {TinyTranslatorService} from '../model/tiny-translator.service';
-import {TranslationProject} from '../model/translation-project';
-import {TranslationFileView} from '../model/translation-file-view';
-import {TranslationUnit} from '../model/translation-unit';
-import {Router} from '@angular/router';
+import { TinyTranslatorService } from '../model/tiny-translator.service';
+import { TranslationProject } from '../model/translation-project';
+import { TranslationFileView } from '../model/translation-file-view';
+import { TranslationUnit } from '../model/translation-unit';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-filter-page',
   templateUrl: './filter-page.component.html',
-  styleUrls: ['./filter-page.component.css']
+  styleUrls: ['./filter-page.component.css'],
 })
 export class FilterPageComponent implements OnInit {
+  constructor(private translationService: TinyTranslatorService, private router: Router) {}
 
-  constructor(private translationService: TinyTranslatorService, private router: Router) { }
-
-  ngOnInit() {
-  }
+  ngOnInit() {}
 
   currentProject(): TranslationProject {
     return this.translationService.currentProject();
@@ -35,9 +33,12 @@ export class FilterPageComponent implements OnInit {
   }
 
   hasAutotranslatedUnits(): boolean {
-    return this.currentProject()
-      && this.currentProject().autoTranslateSummaryReport()
-      && this.currentProject().autoTranslateSummaryReport().total() > 0;
+    return (
+      this.currentProject() &&
+      this.currentProject().autoTranslateSummaryReport() &&
+      this.currentProject()
+        .autoTranslateSummaryReport()
+        .total() > 0
+    );
   }
-
 }

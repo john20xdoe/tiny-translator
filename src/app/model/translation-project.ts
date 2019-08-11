@@ -1,7 +1,7 @@
-import {TranslationFile} from './translation-file';
-import {TranslationFileView} from './translation-file-view';
-import {isNullOrUndefined} from 'util';
-import {AutoTranslateSummaryReport} from './auto-translate-summary-report';
+import { TranslationFile } from './translation-file';
+import { TranslationFileView } from './translation-file-view';
+import { isNullOrUndefined } from 'util';
+import { AutoTranslateSummaryReport } from './auto-translate-summary-report';
 
 /**
  * Workflow type determines, how you work with the tool.
@@ -16,7 +16,7 @@ import {AutoTranslateSummaryReport} from './auto-translate-summary-report';
  */
 export enum WorkflowType {
   SINGLE_USER,
-  WITH_REVIEW
+  WITH_REVIEW,
 }
 
 /**
@@ -26,7 +26,7 @@ export enum WorkflowType {
  */
 export enum UserRole {
   REVIEWER,
-  TRANSLATOR
+  TRANSLATOR,
 }
 
 /**
@@ -34,7 +34,6 @@ export enum UserRole {
  * A name and a translation file.
  */
 export class TranslationProject {
-
   public id: string;
 
   private _view: TranslationFileView;
@@ -50,10 +49,7 @@ export class TranslationProject {
    */
   static deserialize(serializationString: string): TranslationProject {
     const deserializedObject: any = JSON.parse(serializationString);
-    const project = new TranslationProject(
-      deserializedObject.name,
-      TranslationFile.deserialize(deserializedObject.translationFile),
-      deserializedObject.workflowType);
+    const project = new TranslationProject(deserializedObject.name, TranslationFile.deserialize(deserializedObject.translationFile), deserializedObject.workflowType);
     project.id = deserializedObject.id;
     project.setUserRole(deserializedObject.userRole);
     return project;
@@ -76,7 +72,7 @@ export class TranslationProject {
       name: this.name,
       translationFile: this.translationFile.serialize(),
       workflowType: this.workflowType,
-      userRole: this.userRole
+      userRole: this.userRole,
     };
     return JSON.stringify(serializedObject);
   }

@@ -5,7 +5,7 @@ import { AsynchronousFileReaderService } from './asynchronous-file-reader.servic
 describe('AsynchronousFileReaderService', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [AsynchronousFileReaderService]
+      providers: [AsynchronousFileReaderService],
     });
   });
 

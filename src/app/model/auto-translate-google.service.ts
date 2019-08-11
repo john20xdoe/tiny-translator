@@ -1,13 +1,10 @@
-import {Inject, Injectable} from '@angular/core';
-import {
-  AutoTranslateDisabledReason, AutoTranslateDisabledReasonKey, AutoTranslateServiceAPI,
-  Language
-} from './auto-translate-service-api';
-import {APP_CONFIG, AppConfig} from '../app.config';
-import {Observable} from 'rxjs/Observable';
-import {HttpClient} from '@angular/common/http';
-import {isNullOrUndefined} from 'util';
-import {BehaviorSubject} from 'rxjs/BehaviorSubject';
+import { Inject, Injectable } from '@angular/core';
+import { AutoTranslateDisabledReason, AutoTranslateDisabledReasonKey, AutoTranslateServiceAPI, Language } from './auto-translate-service-api';
+import { APP_CONFIG, AppConfig } from '../app.config';
+import { Observable } from 'rxjs/Observable';
+import { HttpClient } from '@angular/common/http';
+import { isNullOrUndefined } from 'util';
+import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 
 /**
  * Types form google translate api.
@@ -27,7 +24,7 @@ interface LanguagesListResponse {
 }
 
 interface TranslateTextRequest {
-  q: string[];  // The input texts to translate
+  q: string[]; // The input texts to translate
   target: string; // The language to use for translation of the input text
   source: string; // The language of the source text
   format?: string; // "html" (default) or "text"
@@ -52,7 +49,6 @@ const MAX_SEGMENTS = 128;
  */
 @Injectable()
 export class AutoTranslateGoogleService extends AutoTranslateServiceAPI {
-
   private _rootUrl: string;
 
   private _apiKey: string;
@@ -65,7 +61,7 @@ export class AutoTranslateGoogleService extends AutoTranslateServiceAPI {
   /**
    * Cache of supported languages.
    */
-  private _subjects: {[target: string]: BehaviorSubject<Language[]>};
+  private _subjects: { [target: string]: BehaviorSubject<Language[]> };
 
   /**
    * Reason, that currently disables the API.
@@ -114,7 +110,9 @@ export class AutoTranslateGoogleService extends AutoTranslateServiceAPI {
     this._permanentFailReason = null;
     this._subjects = {};
     if (!this._apiKey) {
-      this._permanentFailReason = {reason: AutoTranslateDisabledReasonKey.NO_KEY};
+      this._permanentFailReason = {
+        reason: AutoTranslateDisabledReasonKey.NO_KEY,
+      };
     }
   }
 
@@ -127,10 +125,10 @@ export class AutoTranslateGoogleService extends AutoTranslateServiceAPI {
     return this.supportedLanguages().map((languages: Language[]) => {
       const s = AutoTranslateGoogleService.stripRegioncode(source);
       const t = AutoTranslateGoogleService.stripRegioncode(target);
-      if (!s || languages.findIndex((lang) => lang.language === s) < 0) {
+      if (!s || languages.findIndex(lang => lang.language === s) < 0) {
         return false;
       }
-      return (t && languages.findIndex((lang) => lang.language === t) >= 0);
+      return t && languages.findIndex(lang => lang.language === t) >= 0;
     });
   }
 
@@ -146,12 +144,16 @@ export class AutoTranslateGoogleService extends AutoTranslateServiceAPI {
         return this._permanentFailReason;
       }
       const s = AutoTranslateGoogleService.stripRegioncode(source);
-      if (!s || languages.findIndex((lang) => lang.language === s) < 0) {
-        return {reason: AutoTranslateDisabledReasonKey.SOURCE_LANG_NOT_SUPPORTED};
+      if (!s || languages.findIndex(lang => lang.language === s) < 0) {
+        return {
+          reason: AutoTranslateDisabledReasonKey.SOURCE_LANG_NOT_SUPPORTED,
+        };
       }
       const t = AutoTranslateGoogleService.stripRegioncode(target);
-      if (!t || languages.findIndex((lang) => lang.language === t) < 0) {
-        return {reason: AutoTranslateDisabledReasonKey.TARGET_LANG_NOT_SUPPORTED};
+      if (!t || languages.findIndex(lang => lang.language === t) < 0) {
+        return {
+          reason: AutoTranslateDisabledReasonKey.TARGET_LANG_NOT_SUPPORTED,
+        };
       }
       return null;
     });
@@ -170,26 +172,39 @@ export class AutoTranslateGoogleService extends AutoTranslateServiceAPI {
     }
     if (!this._subjects[target]) {
       if (this._apiKey) {
-        this._permanentFailReason = {reason: AutoTranslateDisabledReasonKey.NO_PROVIDER};
+        this._permanentFailReason = {
+          reason: AutoTranslateDisabledReasonKey.NO_PROVIDER,
+        };
       } else {
-        this._permanentFailReason = {reason: AutoTranslateDisabledReasonKey.NO_KEY};
+        this._permanentFailReason = {
+          reason: AutoTranslateDisabledReasonKey.NO_KEY,
+        };
       }
       this._subjects[target] = new BehaviorSubject<Language[]>([]);
       if (this._apiKey) {
         const languagesRequestUrl = this._rootUrl + 'language/translate/v2/languages' + '?key=' + this._apiKey + '&target=' + target;
-        this.httpClient.get<{data: LanguagesListResponse}>(languagesRequestUrl).catch((error: Response) => {
-          if (this.isInvalidApiKeyError(error)) {
-            this._permanentFailReason = {reason: AutoTranslateDisabledReasonKey.INVALID_KEY};
-          } else {
-            this._permanentFailReason = {reason: AutoTranslateDisabledReasonKey.CONNECT_PROBLEM, details: JSON.stringify(error.body)};
-          }
-          return [];
-        }).map((response) => {
-          const result: LanguagesListResponse = response.data;
-          return result.languages;
-        }).subscribe((languages) => {
-          this._subjects[target].next(languages);
-        });
+        this.httpClient
+          .get<{ data: LanguagesListResponse }>(languagesRequestUrl)
+          .catch((error: Response) => {
+            if (this.isInvalidApiKeyError(error)) {
+              this._permanentFailReason = {
+                reason: AutoTranslateDisabledReasonKey.INVALID_KEY,
+              };
+            } else {
+              this._permanentFailReason = {
+                reason: AutoTranslateDisabledReasonKey.CONNECT_PROBLEM,
+                details: JSON.stringify(error.body),
+              };
+            }
+            return [];
+          })
+          .map(response => {
+            const result: LanguagesListResponse = response.data;
+            return result.languages;
+          })
+          .subscribe(languages => {
+            this._subjects[target].next(languages);
+          });
       }
     }
     return this._subjects[target];
@@ -228,7 +243,7 @@ export class AutoTranslateGoogleService extends AutoTranslateServiceAPI {
       // format: TODO useful html or text
     };
     const realUrl = this._rootUrl + 'language/translate/v2' + '?key=' + this._apiKey;
-    return this.httpClient.post<{data: TranslationsListResponse}>(realUrl, translateRequest).map((response) => {
+    return this.httpClient.post<{ data: TranslationsListResponse }>(realUrl, translateRequest).map(response => {
       const result: TranslationsListResponse = response.data;
       return result.translations[0].translatedText;
     });
@@ -283,7 +298,7 @@ export class AutoTranslateGoogleService extends AutoTranslateServiceAPI {
       // format: TODO useful html or text
     };
     const realUrl = this._rootUrl + 'language/translate/v2' + '?key=' + this._apiKey;
-    return this.httpClient.post<{data: TranslationsListResponse}>(realUrl, translateRequest).map((response) => {
+    return this.httpClient.post<{ data: TranslationsListResponse }>(realUrl, translateRequest).map(response => {
       const result: TranslationsListResponse = response.data;
       return result.translations.map((translation: TranslationsResource) => {
         // just for tests, provoke errors and warnings, if explicitly wanted
@@ -326,6 +341,4 @@ export class AutoTranslateGoogleService extends AutoTranslateServiceAPI {
     }
     return result;
   }
-
-
 }

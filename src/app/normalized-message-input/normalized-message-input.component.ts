@@ -1,19 +1,9 @@
-import {
-  Component,
-  forwardRef,
-  Input,
-  OnChanges,
-  OnInit,
-  SimpleChange,
-  SimpleChanges,
-  Output,
-  EventEmitter
-} from "@angular/core";
-import {NormalizedMessage} from '../model/normalized-message';
-import {isNullOrUndefined} from 'util';
-import {ControlValueAccessor, FormBuilder, FormGroup, NG_VALUE_ACCESSOR} from '@angular/forms';
-import {IICUMessageCategory, IICUMessageTranslation} from 'ngx-i18nsupport-lib/dist';
-import {Subscription} from 'rxjs/Subscription';
+import { Component, forwardRef, Input, OnChanges, OnInit, SimpleChange, SimpleChanges, Output, EventEmitter } from '@angular/core';
+import { NormalizedMessage } from '../model/normalized-message';
+import { isNullOrUndefined } from 'util';
+import { ControlValueAccessor, FormBuilder, FormGroup, NG_VALUE_ACCESSOR } from '@angular/forms';
+import { IICUMessageCategory, IICUMessageTranslation } from 'ngx-i18nsupport-lib/dist';
+import { Subscription } from 'rxjs/Subscription';
 /**
  * A component used as an input field for normalized message.
  */
@@ -25,12 +15,11 @@ import {Subscription} from 'rxjs/Subscription';
     {
       provide: NG_VALUE_ACCESSOR,
       useExisting: forwardRef(() => NormalizedMessageInputComponent),
-      multi: true
-    }
-  ]
+      multi: true,
+    },
+  ],
 })
 export class NormalizedMessageInputComponent implements OnInit, OnChanges, ControlValueAccessor {
-
   /**
    * The message to be edited or shown.
    */
@@ -59,7 +48,7 @@ export class NormalizedMessageInputComponent implements OnInit, OnChanges, Contr
 
   propagateChange = (_: any) => {};
 
-  constructor(private formBuilder: FormBuilder) { }
+  constructor(private formBuilder: FormBuilder) {}
 
   ngOnInit() {
     this.initForm();
@@ -80,8 +69,8 @@ export class NormalizedMessageInputComponent implements OnInit, OnChanges, Contr
       this.subscription.unsubscribe();
     }
     this.form = this.formBuilder.group({
-      displayedText: [{value: this.textToDisplay(), disabled: this.disabled}],
-      icuMessages: this.formBuilder.array(this.initIcuMessagesFormArray())
+      displayedText: [{ value: this.textToDisplay(), disabled: this.disabled }],
+      icuMessages: this.formBuilder.array(this.initIcuMessagesFormArray()),
     });
     this.subscription = this.form.valueChanges.debounceTime(200).subscribe(formValue => {
       this.valueChanged(formValue);
@@ -92,7 +81,7 @@ export class NormalizedMessageInputComponent implements OnInit, OnChanges, Contr
     if (!this.isICUMessage()) {
       return [];
     }
-    return this.getICUMessageCategories().map((category) => {
+    return this.getICUMessageCategories().map(category => {
       return [category.getMessageNormalized().asDisplayString()];
     });
   }
@@ -100,8 +89,7 @@ export class NormalizedMessageInputComponent implements OnInit, OnChanges, Contr
   /**
    * Write a new value to the element.
    */
-  writeValue(obj: any): void {
-  }
+  writeValue(obj: any): void {}
 
   /**
    * Set the function to be called when the control receives a change event.
@@ -113,9 +101,7 @@ export class NormalizedMessageInputComponent implements OnInit, OnChanges, Contr
   /**
    * Set the function to be called when the control receives a touch event.
    */
-  registerOnTouched(fn: any): void {
-
-  }
+  registerOnTouched(fn: any): void {}
 
   /**
    * This function is called when the control status changes to or from "DISABLED".
@@ -125,7 +111,9 @@ export class NormalizedMessageInputComponent implements OnInit, OnChanges, Contr
    */
   setDisabledState?(isDisabled: boolean): void {
     this.disabled = isDisabled;
-    this.form = this.formBuilder.group({displayedText: [{value: this.textToDisplay(), disabled: this.disabled}]});
+    this.form = this.formBuilder.group({
+      displayedText: [{ value: this.textToDisplay(), disabled: this.disabled }],
+    });
   }
 
   /**

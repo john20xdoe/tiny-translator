@@ -1,9 +1,9 @@
-import {ITransUnit, INormalizedMessage, STATE_NEW} from 'ngx-i18nsupport-lib';
-import {TranslationFile} from './translation-file';
-import {NormalizedMessage} from './normalized-message';
-import {format, isNullOrUndefined} from 'util';
-import {AutoTranslateResult} from './auto-translate-result';
-import {IICUMessageTranslation} from 'ngx-i18nsupport-lib/dist';
+import { ITransUnit, INormalizedMessage, STATE_NEW } from 'ngx-i18nsupport-lib';
+import { TranslationFile } from './translation-file';
+import { NormalizedMessage } from './normalized-message';
+import { format, isNullOrUndefined } from 'util';
+import { AutoTranslateResult } from './auto-translate-result';
+import { IICUMessageTranslation } from 'ngx-i18nsupport-lib/dist';
 
 /**
  * A wrapper around ITransUnit.
@@ -12,7 +12,6 @@ import {IICUMessageTranslation} from 'ngx-i18nsupport-lib/dist';
  */
 
 export class TranslationUnit {
-
   private _isDirty: boolean;
   private _normalizedSourceContent: NormalizedMessage;
   private _normalizedTargetContent: NormalizedMessage;
@@ -103,7 +102,7 @@ export class TranslationUnit {
     }
   }
 
-  public sourceReferences(): {sourcefile: string, linenumber: number}[] {
+  public sourceReferences(): { sourcefile: string; linenumber: number }[] {
     if (this._transUnit) {
       return this._transUnit.sourceReferences();
     } else {

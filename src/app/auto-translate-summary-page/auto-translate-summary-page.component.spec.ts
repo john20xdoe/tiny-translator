@@ -1,8 +1,8 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { AutoTranslateSummaryPageComponent } from './auto-translate-summary-page.component';
-import {AppModule} from '../app.module';
-import {AppMaterialModule} from '../app-material.module';
+import { AppModule } from '../app.module';
+import { AppMaterialModule } from '../app-material.module';
 
 describe('AutoTranslateSummaryPageComponent', () => {
   let component: AutoTranslateSummaryPageComponent;
@@ -11,9 +11,8 @@ describe('AutoTranslateSummaryPageComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [AppModule, AppMaterialModule],
-      declarations: []
-    })
-    .compileComponents();
+      declarations: [],
+    }).compileComponents();
   }));
 
   beforeEach(() => {

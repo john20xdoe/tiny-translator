@@ -1,8 +1,8 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { EditProjectPageComponent } from './edit-project-page.component';
-import {ProjectEditorComponent} from '../project-editor/project-editor.component';
-import {AppModule} from '../app.module';
+import { ProjectEditorComponent } from '../project-editor/project-editor.component';
+import { AppModule } from '../app.module';
 
 describe('EditProjectPageComponent', () => {
   let component: EditProjectPageComponent;
@@ -10,9 +10,8 @@ describe('EditProjectPageComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [AppModule]
-    })
-    .compileComponents();
+      imports: [AppModule],
+    }).compileComponents();
   }));
 
   beforeEach(() => {

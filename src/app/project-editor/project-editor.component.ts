@@ -1,7 +1,7 @@
-import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
-import {TranslationProject, UserRole, WorkflowType} from '../model/translation-project';
-import {FormBuilder, FormGroup} from '@angular/forms';
-import {isNullOrUndefined} from 'util';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { TranslationProject, UserRole, WorkflowType } from '../model/translation-project';
+import { FormBuilder, FormGroup } from '@angular/forms';
+import { isNullOrUndefined } from 'util';
 
 /**
  * Component to edit some properties of the current project.
@@ -10,17 +10,16 @@ import {isNullOrUndefined} from 'util';
 @Component({
   selector: 'app-project-editor',
   templateUrl: './project-editor.component.html',
-  styleUrls: ['./project-editor.component.css']
+  styleUrls: ['./project-editor.component.css'],
 })
 export class ProjectEditorComponent implements OnInit {
-
   @Output() onEditProject: EventEmitter<TranslationProject> = new EventEmitter();
 
   @Input() project: TranslationProject;
 
   form: FormGroup;
 
-  constructor(private formBuilder: FormBuilder) { }
+  constructor(private formBuilder: FormBuilder) {}
 
   ngOnInit() {
     this.initForm();
@@ -112,10 +111,6 @@ export class ProjectEditorComponent implements OnInit {
   }
 
   hasExplicitSourceLanguage(): boolean {
-    return this.project &&
-      this.project.translationFile &&
-      !this.project.translationFile.hasErrors() &&
-      isNullOrUndefined(this.project.translationFile.sourceLanguageFromFile());
+    return this.project && this.project.translationFile && !this.project.translationFile.hasErrors() && isNullOrUndefined(this.project.translationFile.sourceLanguageFromFile());
   }
-
 }

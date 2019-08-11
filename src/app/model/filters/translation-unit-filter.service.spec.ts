@@ -5,7 +5,7 @@ import { TranslationUnitFilterService } from './translation-unit-filter.service'
 describe('TranslationUnitFilterService', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [TranslationUnitFilterService]
+      providers: [TranslationUnitFilterService],
     });
   });
 

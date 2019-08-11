@@ -13,8 +13,15 @@
       <mat-radio-button value="bySubstring">
         <span i18n>Search</span>&nbsp;
         <mat-form-field>
-          <input matInput type="text" placeholder="Substring" i18n-placeholder [(ngModel)]="substringToSearch"
-                 (keyup)="substringToSearchChange()" [disabled]="_selectedFilterName !== 'bySubstring'">
+          <input
+            matInput
+            type="text"
+            placeholder="Substring"
+            i18n-placeholder
+            [(ngModel)]="substringToSearch"
+            (keyup)="substringToSearchChange()"
+            [disabled]="_selectedFilterName !== 'bySubstring'"
+          />
         </mat-form-field>
       </mat-radio-button>
     </mat-radio-group>
@@ -25,8 +32,12 @@
       <mat-icon matListAvatar *ngIf="tu.targetState() === 'final'">done</mat-icon>
       <mat-icon matListAvatar *ngIf="tu.targetState() === 'translated'">label_outline</mat-icon>
       <mat-icon matListAvatar *ngIf="!tu.isTranslated()">translate</mat-icon>
-      <h4 matLine [ngClass]="{'selected': isSelected(tu)}">{{tu.sourceContentNormalized().dislayText(true) | abbreviate}}</h4>
-      <h4 matLine [ngClass]="{'selected': isSelected(tu)}">{{tu.targetContentNormalized().dislayText(true) | abbreviate}}</h4>
+      <h4 matLine [ngClass]="{ selected: isSelected(tu) }">
+        {{ tu.sourceContentNormalized().dislayText(true) | abbreviate }}
+      </h4>
+      <h4 matLine [ngClass]="{ selected: isSelected(tu) }">
+        {{ tu.targetContentNormalized().dislayText(true) | abbreviate }}
+      </h4>
     </mat-list-item>
   </mat-list>
 </div>

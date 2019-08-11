@@ -1,10 +1,14 @@
 @import '~flag-icon-css/css/flag-icon.min.css';
 
+:host {
+  display: inline-flex;
+}
+
 div {
 }
 
 #code {
-  font-family: "Courier New";
+  font-family: 'Courier New';
 }
 
 .missing-code {

@@ -1,14 +1,44 @@
 <mat-card>
   <mat-card-header>
     <mat-card-title>
-      <p i18n><b>Project </b> {{project?.name}}</p>
+      <h3 i18n>
+        {{ project?.name }}
+      </h3>
     </mat-card-title>
+    <mat-card-subtitle>
+      <app-language [code]="project?.translationFile?.sourceLanguage()"></app-language>
+      &nbsp;
+      <span i18n> <b>to</b> </span>&nbsp;
+      <app-language [code]="project?.translationFile?.targetLanguage()"></app-language>
+    </mat-card-subtitle>
   </mat-card-header>
+
   <mat-card-content>
-    <app-translation-file-status [translationFileView]="project?.translationFileView" [translationFile]="project?.translationFile" (onSave)="save($event)"></app-translation-file-status>
+    <app-translation-file-status
+      [translationFileView]="project?.translationFileView"
+      [translationFile]="project?.translationFile"
+      (onSave)="save($event)"
+    ></app-translation-file-status>
   </mat-card-content>
+
   <mat-card-actions *ngIf="showActions">
-    <button mat-icon-button *ngIf="!project?.translationFile?.isDirty()" (click)="deleteProject()"  matTooltip="Delete Project" i18n-matTooltip><mat-icon>delete</mat-icon></button>
-    <button mat-fab *ngIf="project?.canTranslate()" (click)="startWork()" matTooltip="Start Translation" i18n-matTooltip><mat-icon>translate</mat-icon></button>
+    <div>
+      <button mat-icon-button [disabled]="project?.translationFile?.isDirty()" (click)="deleteProject()" matTooltip="Delete Project" i18n-matTooltip>
+        <mat-icon color="warn">delete</mat-icon>
+      </button>
+      <button
+        mat-icon-button
+        [disabled]="project?.translationFile?.isDirty()"
+        (click)="save(project?.translationFile)"
+        matTooltip="Export current translation state to file (download)"
+        i18n-matTooltip
+      >
+        <mat-icon>cloud_download</mat-icon>
+      </button>
+    </div>
+
+    <button mat-mini-fab *ngIf="project?.canTranslate()" (click)="startWork()" matTooltip="Start Translation" i18n-matTooltip>
+      <mat-icon>translate</mat-icon>
+    </button>
   </mat-card-actions>
 </mat-card>

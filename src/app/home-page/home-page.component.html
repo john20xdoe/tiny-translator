@@ -1,6 +1,21 @@
-<div>
-  <p i18n>{projects().length, plural, =0 {Currently there is no open project.} =1 {Currently there is <b>1</b> open project.} other {Currently there are <b>{{projects().length}}</b> open projects.}}</p>
-  <a mat-raised-button color="accent" routerLink="/createproject" i18n>Create a new project</a>
-  <p></p>
-  <app-project-list [projects]="projects()" (onStartProject)="startProject($event)" (onDeleteProject)="deleteProject($event)" (onSaveProject)="saveProject($event)"></app-project-list>
+<div class="home-actions">
+  <a mat-fab color="accent" routerLink="/createproject" i18n title="Create a new project">
+    <mat-icon>add</mat-icon>
+  </a>
+</div>
+<div fxLayout="row" fxLayoutAlign="start">
+  <div>
+    <p i18n>
+      {projects().length, plural, =0 {Currently there is no open project.} =1 {Currently there is <b>an</b> open project.} other {Currently there are
+      <b>{{ projects().length }}</b> open projects.}}
+    </p>
+    <app-project-list
+      [projects]="projects()"
+      [currentProjectId]="getCurrentProjectId()"
+      (onStartProject)="startProject($event)"
+      (onDeleteProject)="deleteProject($event)"
+      (onSaveProject)="saveProject($event)"
+      fxLayout="row"
+    ></app-project-list>
+  </div>
 </div>

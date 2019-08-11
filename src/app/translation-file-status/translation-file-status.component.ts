@@ -1,6 +1,6 @@
-import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
-import {TranslationFile} from '../model/translation-file';
-import {TranslationFileView} from '../model/translation-file-view';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { TranslationFile } from '../model/translation-file';
+import { TranslationFileView } from '../model/translation-file-view';
 
 /**
  * Component to show the current status of a loaded translation file.
@@ -9,20 +9,18 @@ import {TranslationFileView} from '../model/translation-file-view';
 @Component({
   selector: 'app-translation-file-status',
   templateUrl: './translation-file-status.component.html',
-  styleUrls: ['./translation-file-status.component.css']
+  styleUrls: ['./translation-file-status.component.css'],
 })
 export class TranslationFileStatusComponent implements OnInit {
-
   @Input() translationFile: TranslationFile;
   @Input() translationFileView: TranslationFileView;
   @Input() shortInfo = false;
 
   @Output() onSave: EventEmitter<TranslationFile> = new EventEmitter();
 
-  constructor() { }
+  constructor() {}
 
-  ngOnInit() {
-  }
+  ngOnInit() {}
 
   /**
    * percentage translated rounded to 0 digits.
@@ -35,6 +33,15 @@ export class TranslationFileStatusComponent implements OnInit {
     } else {
       return '0';
     }
+  }
+
+  /** specific number of untranslated and translated units */
+  public unitsCount(): string {
+    if (this.translationFile) {
+      let { numberOfTransUnits, numberOfUntranslatedTransUnits } = this.translationFile;
+      return `${numberOfUntranslatedTransUnits}/${numberOfTransUnits}`;
+    }
+    return 'None';
   }
 
   /**

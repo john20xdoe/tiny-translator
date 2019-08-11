@@ -1,17 +1,16 @@
-import {AutoTranslateResult} from './auto-translate-result';
-import {format} from 'util';
+import { AutoTranslateResult } from './auto-translate-result';
+import { format } from 'util';
 /**
  * A report about a run of Google Translate over all untranslated unit.
  * * Created by martin on 29.06.2017.
  */
 
 export class AutoTranslateSummaryReport {
-
   private _total: number;
   private _ignored: number;
   private _success: number;
   private _failed: number;
-  private _allResults: {[id: string]: AutoTranslateResult};
+  private _allResults: { [id: string]: AutoTranslateResult };
 
   constructor() {
     this._allResults = {};
@@ -71,8 +70,7 @@ export class AutoTranslateSummaryReport {
    * Human readable version of report
    */
   public content(): string {
-    return format('Total translated: %s\nIgnored: %s\nSuccesful: %s\nFailed: %s',
-      this._total, this._ignored, this._success, this._failed);
+    return format('Total translated: %s\nIgnored: %s\nSuccesful: %s\nFailed: %s', this._total, this._ignored, this._success, this._failed);
   }
 
   public singleResult(tuId: string): AutoTranslateResult {
@@ -81,9 +79,9 @@ export class AutoTranslateSummaryReport {
 
   public allResults(): AutoTranslateResult[] {
     const result: AutoTranslateResult[] = [];
-    Object.keys(this._allResults).forEach((val) => {
+    Object.keys(this._allResults).forEach(val => {
       result.push(this._allResults[val]);
-    })
+    });
     return result;
   }
 }

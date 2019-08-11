@@ -1,8 +1,8 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { ProjectListComponent } from './project-list.component';
-import {ProjectComponent} from '../project/project.component';
-import {NO_ERRORS_SCHEMA} from '@angular/core';
+import { ProjectComponent } from '../project/project.component';
+import { NO_ERRORS_SCHEMA } from '@angular/core';
 
 describe('ProjectListComponent', () => {
   let component: ProjectListComponent;
@@ -10,10 +10,9 @@ describe('ProjectListComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ ProjectListComponent, ProjectComponent ],
-      schemas: [NO_ERRORS_SCHEMA]
-    })
-    .compileComponents();
+      declarations: [ProjectListComponent, ProjectComponent],
+      schemas: [NO_ERRORS_SCHEMA],
+    }).compileComponents();
   }));
 
   beforeEach(() => {

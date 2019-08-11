@@ -1,12 +1,11 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { TranslateUnitWarningConfirmDialogComponent } from './translate-unit-warning-confirm-dialog.component';
-import {NO_ERRORS_SCHEMA} from '@angular/core';
-import {MAT_DIALOG_DATA, MatDialog, MatDialogContainer, MatDialogModule, MatDialogRef} from '@angular/material';
-import {AppModule} from '../app.module';
+import { NO_ERRORS_SCHEMA } from '@angular/core';
+import { MAT_DIALOG_DATA, MatDialog, MatDialogContainer, MatDialogModule, MatDialogRef } from '@angular/material';
+import { AppModule } from '../app.module';
 
-class MatDialogRefMock {
-}
+class MatDialogRefMock {}
 
 describe('TranslateUnitWarningConfirmDialogComponent', () => {
   let dialog: MatDialog;
@@ -17,12 +16,9 @@ describe('TranslateUnitWarningConfirmDialogComponent', () => {
     TestBed.configureTestingModule({
       declarations: [],
       imports: [AppModule, MatDialogModule],
-      providers: [
-        { provide: MatDialogRef, useClass: MatDialogRefMock },
-        { provide: MAT_DIALOG_DATA, useValue: "lmaa"}],
-      schemas: [NO_ERRORS_SCHEMA]
-    })
-    .compileComponents();
+      providers: [{ provide: MatDialogRef, useClass: MatDialogRefMock }, { provide: MAT_DIALOG_DATA, useValue: 'lmaa' }],
+      schemas: [NO_ERRORS_SCHEMA],
+    }).compileComponents();
   }));
 
   beforeEach(() => {

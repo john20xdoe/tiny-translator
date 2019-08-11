@@ -1,16 +1,15 @@
-import {INormalizedMessage} from 'ngx-i18nsupport-lib';
-import {ValidationErrors} from '@angular/forms';
-import {isNullOrUndefined} from 'util';
-import {IICUMessage, IICUMessageTranslation} from 'ngx-i18nsupport-lib/dist';
-import {AutoTranslateServiceAPI} from './auto-translate-service-api';
-import {Observable} from 'rxjs/Observable';
+import { INormalizedMessage } from 'ngx-i18nsupport-lib';
+import { ValidationErrors } from '@angular/forms';
+import { isNullOrUndefined } from 'util';
+import { IICUMessage, IICUMessageTranslation } from 'ngx-i18nsupport-lib/dist';
+import { AutoTranslateServiceAPI } from './auto-translate-service-api';
+import { Observable } from 'rxjs/Observable';
 /**
  * Created by martin on 19.05.2017.
  * Wrapper around INormalizedMessage for GUI usage.
  * Holds the normalized form and the original.
  */
 export class NormalizedMessage {
-
   /**
    * Original source as string.
    */
@@ -138,39 +137,38 @@ export class NormalizedMessage {
     const icuMessage: IICUMessage = this.getICUMessage();
     const categories = icuMessage.getCategories();
     // check for nested ICUs, we do not support that
-    if (categories.find((category) => !isNullOrUndefined(category.getMessageNormalized().getICUMessage()))) {
+    if (categories.find(category => !isNullOrUndefined(category.getMessageNormalized().getICUMessage()))) {
       throw new Error('nested ICU message not supported');
     }
-    const allMessages: string[] = categories.map((category) => category.getMessageNormalized().asDisplayString());
-    return autoTranslateService.translateMultipleStrings(allMessages, sourceLanguage, targetLanguage)
-      .map((translations: string[]) => {
-        const icuTranslation: IICUMessageTranslation = {};
-        for (let i = 0; i < translations.length; i++) {
-          const translationText = translations[i];
-          icuTranslation[categories[i].getCategory()] = translationText;
-        }
-        const result = this.translateICUMessage(icuTranslation);
-        return result;
-      });
+    const allMessages: string[] = categories.map(category => category.getMessageNormalized().asDisplayString());
+    return autoTranslateService.translateMultipleStrings(allMessages, sourceLanguage, targetLanguage).map((translations: string[]) => {
+      const icuTranslation: IICUMessageTranslation = {};
+      for (let i = 0; i < translations.length; i++) {
+        const translationText = translations[i];
+        icuTranslation[categories[i].getCategory()] = translationText;
+      }
+      const result = this.translateICUMessage(icuTranslation);
+      return result;
+    });
   }
 
   public translateICUMessage(newValue: IICUMessageTranslation): NormalizedMessage {
     let newOriginal: string;
     let newMessage: INormalizedMessage;
     let parseError: string;
-      try {
-        if (this._normalizedMessage) {
-          newMessage = this._normalizedMessage.translateICUMessage(newValue);
-        } else {
-          newMessage = this._sourceMessage.translateICUMessage(newValue);
-        }
-        newOriginal = newMessage.asNativeString();
-        parseError = null;
-      } catch (error) {
-        parseError = error.message;
-        newMessage = null;
-        newOriginal = null;
+    try {
+      if (this._normalizedMessage) {
+        newMessage = this._normalizedMessage.translateICUMessage(newValue);
+      } else {
+        newMessage = this._sourceMessage.translateICUMessage(newValue);
       }
+      newOriginal = newMessage.asNativeString();
+      parseError = null;
+    } catch (error) {
+      parseError = error.message;
+      newMessage = null;
+      newOriginal = null;
+    }
     return new NormalizedMessage(newOriginal, newMessage, parseError, this._sourceMessage);
   }
 
@@ -188,7 +186,7 @@ export class NormalizedMessage {
         if (this._normalizedMessage) {
           this._errors = this._normalizedMessage.validate();
         } else {
-          this._errors = {'parseError': this._parseError};
+          this._errors = { parseError: this._parseError };
         }
       } else {
         this._errors = null;

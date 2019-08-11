@@ -17,10 +17,10 @@
 // (imported above). For each palette, you can optionally specify a default, lighter, and darker
 // hue.
 $dit-app-primary: mat-palette($mat-red);
-$dit-app-accent:  mat-palette($mat-green, A200, A100, A400);
+$dit-app-accent: mat-palette($mat-green, A200, A100, A400);
 
 // The warn palette is optional (defaults to red).
-$dit-app-warn:    mat-palette($mat-red);
+$dit-app-warn: mat-palette($mat-red);
 
 // Create the theme object (a Sass map containing all of the palettes).
 $dit-app-theme: mat-light-theme($dit-app-primary, $dit-app-accent, $dit-app-warn);
@@ -30,9 +30,14 @@ $dit-app-theme: mat-light-theme($dit-app-primary, $dit-app-accent, $dit-app-warn
 // that you are using.
 @include angular-material-theme($dit-app-theme);
 
+$typography: mat-typography-config(
+  $font-family: 'Raleway, sans-serif'
+);
+@include mat-core($typography);
+
 body {
   margin: 0;
-  font-family: Roboto;
+  font-family: 'Raleway', Roboto, sans-serif;
 }
 
 .warn {

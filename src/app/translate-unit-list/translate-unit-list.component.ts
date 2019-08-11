@@ -1,15 +1,19 @@
-import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
-import {TranslationUnit} from '../model/translation-unit';
-import {MatRadioChange} from '@angular/material';
-import {TranslationFileView} from '../model/translation-file-view';
-import {WorkflowType} from '../model/translation-project';
-import {Subject} from 'rxjs/Subject';
-import {Subscription} from 'rxjs/Subscription';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { TranslationUnit } from '../model/translation-unit';
+import { MatRadioChange } from '@angular/material';
+import { TranslationFileView } from '../model/translation-file-view';
+import { WorkflowType } from '../model/translation-project';
+import { Subject } from 'rxjs/Subject';
+import { Subscription } from 'rxjs/Subscription';
 import {
-  FILTER_ALL, FILTER_AUTOTRANSLATED, FILTER_AUTOTRANSLATED_FAILED, FILTER_AUTOTRANSLATED_IGNORED, FILTER_NEEDS_REVIEW,
+  FILTER_ALL,
+  FILTER_AUTOTRANSLATED,
+  FILTER_AUTOTRANSLATED_FAILED,
+  FILTER_AUTOTRANSLATED_IGNORED,
+  FILTER_NEEDS_REVIEW,
   FILTER_SUBSTRING,
   FILTER_UNTRANSLATED,
-  TranslationUnitFilterService
+  TranslationUnitFilterService,
 } from '../model/filters/translation-unit-filter.service';
 
 /**
@@ -19,10 +23,9 @@ import {
 @Component({
   selector: 'app-translate-unit-list',
   templateUrl: './translate-unit-list.component.html',
-  styleUrls: ['./translate-unit-list.component.scss']
+  styleUrls: ['./translate-unit-list.component.scss'],
 })
 export class TranslateUnitListComponent implements OnInit {
-
   private _translationFileView: TranslationFileView;
   public _selectedFilterName = 'all';
   public substringToSearch: string;
@@ -60,8 +63,7 @@ export class TranslateUnitListComponent implements OnInit {
     this._selectedFilterName = this._translationFileView.activeFilter().name();
   }
 
-  ngOnInit() {
-  }
+  ngOnInit() {}
 
   public transUnits(): TranslationUnit[] {
     return this.translationFileView.scrollabeTransUnits();
@@ -85,7 +87,7 @@ export class TranslateUnitListComponent implements OnInit {
     }
     const substr = this.substringToSearch ? this.substringToSearch : '';
     this.translationFileView.setActiveFilter(this.translationUnitFilterService.getFilter(FILTER_SUBSTRING, substr));
-    this.substringSubscription = this.substringSubject.debounceTime(200).subscribe((sub) => {
+    this.substringSubscription = this.substringSubject.debounceTime(200).subscribe(sub => {
       this.translationFileView.setActiveFilter(this.translationUnitFilterService.getFilter(FILTER_SUBSTRING, sub));
     });
   }
@@ -130,7 +132,7 @@ export class TranslateUnitListComponent implements OnInit {
         this.showAutotranslatedIgnored();
         break;
       default:
-        // do nothing
+      // do nothing
     }
   }
 
@@ -145,5 +147,4 @@ export class TranslateUnitListComponent implements OnInit {
   isWorkflowWithReview(): boolean {
     return this.workflowType === WorkflowType.WITH_REVIEW;
   }
-
 }

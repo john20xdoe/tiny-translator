@@ -1,16 +1,15 @@
-import {Component, Inject, OnInit} from '@angular/core';
-import {TinyTranslatorService} from '../model/tiny-translator.service';
-import {Observable} from 'rxjs/Observable';
+import { Component, Inject, OnInit } from '@angular/core';
+import { TinyTranslatorService } from '../model/tiny-translator.service';
+import { Observable } from 'rxjs/Observable';
 
 const TEST_MESSAGE = 'Hello world!';
 
 @Component({
   selector: 'app-configure-auto-translate-page',
   templateUrl: './configure-auto-translate-page.component.html',
-  styleUrls: ['./configure-auto-translate-page.component.css']
+  styleUrls: ['./configure-auto-translate-page.component.css'],
 })
 export class ConfigureAutoTranslatePageComponent implements OnInit {
-
   apiKey: string; // connected to input field
 
   _sourceLanguage: string;
@@ -34,7 +33,7 @@ export class ConfigureAutoTranslatePageComponent implements OnInit {
   }
 
   autoTranslateDisabled(): Observable<boolean> {
-    return this.translatorService.canAutoTranslate().map((val) => !val);
+    return this.translatorService.canAutoTranslate().map(val => !val);
   }
 
   autoTranslateDisabledReason(): Observable<string> {
@@ -50,7 +49,7 @@ export class ConfigureAutoTranslatePageComponent implements OnInit {
   }
 
   autoTranslateDisabledTest(): Observable<boolean> {
-    return this.translatorService.canAutoTranslateForLanguages(this._sourceLanguageTest, this._targetLanguageTest).map((val) => !val);
+    return this.translatorService.canAutoTranslateForLanguages(this._sourceLanguageTest, this._targetLanguageTest).map(val => !val);
   }
 
   autoTranslateDisabledReasonTest(): Observable<string> {
@@ -73,20 +72,17 @@ export class ConfigureAutoTranslatePageComponent implements OnInit {
     this.testCallSourceResult = null;
     this.testCallTargetResult = null;
     if (this._sourceLanguageTest !== 'en') {
-      this.translatorService.testAutoTranslate(TEST_MESSAGE, 'en', this._sourceLanguageTest)
-        .subscribe((translationToSource) => {
-          this.testCallSourceResult = translationToSource;
-          this.translatorService.testAutoTranslate(translationToSource, this._sourceLanguageTest, this._targetLanguageTest)
-            .subscribe((translationToTarget) => {
-              this.testCallTargetResult = translationToTarget;
-            });
-        });
-    } else {
-      this.testCallSourceResult = TEST_MESSAGE;
-      this.translatorService.testAutoTranslate(this.testCallSourceResult, this._sourceLanguageTest, this._targetLanguageTest)
-        .subscribe((translationToTarget) => {
+      this.translatorService.testAutoTranslate(TEST_MESSAGE, 'en', this._sourceLanguageTest).subscribe(translationToSource => {
+        this.testCallSourceResult = translationToSource;
+        this.translatorService.testAutoTranslate(translationToSource, this._sourceLanguageTest, this._targetLanguageTest).subscribe(translationToTarget => {
           this.testCallTargetResult = translationToTarget;
         });
+      });
+    } else {
+      this.testCallSourceResult = TEST_MESSAGE;
+      this.translatorService.testAutoTranslate(this.testCallSourceResult, this._sourceLanguageTest, this._targetLanguageTest).subscribe(translationToTarget => {
+        this.testCallTargetResult = translationToTarget;
+      });
     }
   }
 }
