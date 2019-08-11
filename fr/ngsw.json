@@ -1,6 +1,6 @@
 {
   "configVersion": 1,
-  "timestamp": 1565537800124,
+  "timestamp": 1565538516802,
   "appData": {
     "version": "0.11.0",
     "message": "Introducing Service Worker"
@@ -48,7 +48,7 @@
     "/tiny-translator/fr/assets/icons/launcher-icon-4x.png": "69b2166eef189f609fae199e442ff45d063ba848",
     "/tiny-translator/fr/assets/unknowflag.png": "cc728d91f0714001c4e5f285f744821480ad2303",
     "/tiny-translator/fr/favicon.ico": "84161b857f5c547e3699ddfbffc6d8d737542e01",
-    "/tiny-translator/fr/index.html": "3e38cf189eef8e93c027c2e686608123f1180c70"
+    "/tiny-translator/fr/index.html": "b55448ee4343d8b4ce252e0f8e0ecb55ccc56d9d"
   },
   "navigationUrls": [
     {
