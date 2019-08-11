@@ -6,7 +6,6 @@
 export const environment = {
   production: false,
   version: '%VERSION%',
-  buildtime: '%BUILDTIME%',
   base_href: '%BASE_HREF%',
   googletranslate_api_key: null,
   googletranslate_provoke_failures: true,

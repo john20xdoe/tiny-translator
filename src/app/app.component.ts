@@ -34,10 +34,6 @@ export class AppComponent implements OnInit {
     }
   }
 
-  buildtime() {
-    return this.APP_CONFIG.BUILDTIME;
-  }
-
   buildversion() {
     return this.APP_CONFIG.BUILDVERSION;
   }

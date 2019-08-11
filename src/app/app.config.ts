@@ -15,13 +15,11 @@ export class AppConfig {
   // Used to allow testing of report page and filters for failed translations.
   GOOGLETRANSLATE_PROVOKE_FAILURES?: boolean;
   BUILDVERSION: string;
-  BUILDTIME: string;
 }
 
 export const APP_CONFIG_VALUE: AppConfig = {
   // set values here
   BUILDVERSION: environment.version,
-  BUILDTIME: environment.buildtime, // TODO should be dynamic
   GOOGLETRANSLATE_API_ROOT_URL: 'https://translation.googleapis.com/',
   GOOGLETRANSLATE_API_KEY: environment.googletranslate_api_key,
   GOOGLETRANSLATE_PROVOKE_FAILURES: environment.googletranslate_provoke_failures,
