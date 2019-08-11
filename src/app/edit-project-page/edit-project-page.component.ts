@@ -13,10 +13,7 @@ import { TranslationProject } from '../model/translation-project';
   styleUrls: ['./edit-project-page.component.css'],
 })
 export class EditProjectPageComponent implements OnInit {
-  constructor(
-    private translatorService: TinyTranslatorService,
-    private router: Router,
-  ) {}
+  constructor(private translatorService: TinyTranslatorService, private router: Router) {}
 
   ngOnInit() {}
 

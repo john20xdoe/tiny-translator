@@ -9,10 +9,7 @@ describe('TranslationUnitFilterService', () => {
     });
   });
 
-  it('should be created', inject(
-    [TranslationUnitFilterService],
-    (service: TranslationUnitFilterService) => {
-      expect(service).toBeTruthy();
-    },
-  ));
+  it('should be created', inject([TranslationUnitFilterService], (service: TranslationUnitFilterService) => {
+    expect(service).toBeTruthy();
+  }));
 });

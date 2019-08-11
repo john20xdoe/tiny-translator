@@ -13,49 +13,25 @@
       <mat-icon *ngIf="targetState() === 'final'">done</mat-icon>
       <mat-icon *ngIf="targetState() === 'translated'">label_outline</mat-icon>
       <mat-icon *ngIf="targetState() === 'new'">translate</mat-icon>
-      <button
-        mat-icon-button
-        (click)="showTransUnitID()"
-        matTooltip="ID {{ transUnitID() }}"
-      >
+      <button mat-icon-button (click)="showTransUnitID()" matTooltip="ID {{ transUnitID() }}">
         <mat-icon>info</mat-icon>
       </button>
-      <button
-        mat-icon-button
-        *ngIf="sourceRef()"
-        (click)="showSourceRefInfo()"
-        matTooltip="{{ sourceRef() }}"
-      >
+      <button mat-icon-button *ngIf="sourceRef()" (click)="showSourceRefInfo()" matTooltip="{{ sourceRef() }}">
         <mat-icon>location_on</mat-icon>
       </button>
     </mat-card-title>
   </mat-card-header>
-  <mat-card-content
-    fxLayout="column"
-    fxLayoutGap="5px"
-    [ngClass.gt-sm]="'mdcardcontent_gt'"
-    [ngClass.lt-md]="'mdcardcontent_sm'"
-  >
+  <mat-card-content fxLayout="column" fxLayoutGap="5px" [ngClass.gt-sm]="'mdcardcontent_gt'" [ngClass.lt-md]="'mdcardcontent_sm'">
     <div>
       <div id="sourcemessage">
         <app-language [code]="sourceLanguage()"></app-language>
-        <app-normalized-message-input
-          [readonly]="true"
-          [normalized]="showNormalized"
-          [message]="sourceContentNormalized()"
-        ></app-normalized-message-input>
-        <p *ngIf="sourceDescription()">
-          <b i18n>Description</b> {{ sourceDescription() }}
-        </p>
+        <app-normalized-message-input [readonly]="true" [normalized]="showNormalized" [message]="sourceContentNormalized()"></app-normalized-message-input>
+        <p *ngIf="sourceDescription()"><b i18n>Description</b> {{ sourceDescription() }}</p>
         <p *ngIf="sourceMeaning()"><b i18n>Meaning</b> {{ sourceMeaning() }}</p>
       </div>
     </div>
     <form id="translation" fxLayout="column" [formGroup]="form">
-      <p fxLayout="row">
-        <span i18n>Your translation to</span>&nbsp;<app-language
-          [code]="targetLanguage()"
-        ></app-language>
-      </p>
+      <p fxLayout="row"><span i18n>Your translation to</span>&nbsp;<app-language [code]="targetLanguage()"></app-language></p>
       <div fxLayout="row" fxLayoutGap="30px" fxFlex="noshrink">
         <div fxLayout="column">
           <mat-slide-toggle
@@ -108,12 +84,8 @@
         formControlName="_editedTargetMessage"
         (accept)="next()"
       ></app-normalized-message-input>
-      <p *ngFor="let w of warnings()" class="warn">
-        <mat-icon>warning</mat-icon>&nbsp;{{ w }}
-      </p>
-      <p *ngFor="let e of errors()" class="error">
-        <mat-icon>error</mat-icon>&nbsp;{{ e }}
-      </p>
+      <p *ngFor="let w of warnings()" class="warn"><mat-icon>warning</mat-icon>&nbsp;{{ w }}</p>
+      <p *ngFor="let e of errors()" class="error"><mat-icon>error</mat-icon>&nbsp;{{ e }}</p>
       <div fxLayout="row">
         <button
           *ngIf="!reviewMode"
@@ -155,24 +127,10 @@
     </form>
   </mat-card-content>
   <mat-card-actions>
-    <button
-      mat-button
-      i18n
-      (click)="prev()"
-      [disabled]="!hasPrev()"
-      matTooltip="accept translation and go to previous unit"
-      i18n-matTooltip
-    >
+    <button mat-button i18n (click)="prev()" [disabled]="!hasPrev()" matTooltip="accept translation and go to previous unit" i18n-matTooltip>
       Previous
     </button>
-    <button
-      mat-button
-      i18n
-      (click)="next()"
-      [disabled]="!hasNext()"
-      matTooltip="accept translation and go to next unit (Keyboard shortcut 'Ctrl Enter')"
-      i18n-matTooltip
-    >
+    <button mat-button i18n (click)="next()" [disabled]="!hasNext()" matTooltip="accept translation and go to next unit (Keyboard shortcut 'Ctrl Enter')" i18n-matTooltip>
       Next
     </button>
   </mat-card-actions>

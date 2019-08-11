@@ -18,31 +18,20 @@ describe('ActiveProjectGuard', () => {
   beforeEach(() => {
     const translatorServiceStub = new TinyTranslatorServiceStub();
     TestBed.configureTestingModule({
-      providers: [
-        ActiveProjectGuard,
-        { provide: TinyTranslatorService, useValue: translatorServiceStub },
-      ],
+      providers: [ActiveProjectGuard, { provide: TinyTranslatorService, useValue: translatorServiceStub }],
       imports: [RouterTestingModule],
     });
   });
 
-  it('should create an instance', inject(
-    [ActiveProjectGuard],
-    (guard: ActiveProjectGuard) => {
-      expect(guard).toBeTruthy();
-    },
-  ));
+  it('should create an instance', inject([ActiveProjectGuard], (guard: ActiveProjectGuard) => {
+    expect(guard).toBeTruthy();
+  }));
 
-  it('should allow activation when there is a current project', inject(
-    [ActiveProjectGuard, TinyTranslatorService],
-    (guard: ActiveProjectGuard, tinyTranslatorService) => {
-      spyOn(tinyTranslatorService, 'currentProject').and.returnValue(
-        'anything, but not null',
-      );
-      expect(guard.canActivate(null, null)).toBeTruthy();
-      expect(tinyTranslatorService.currentProject).toHaveBeenCalled();
-    },
-  ));
+  it('should allow activation when there is a current project', inject([ActiveProjectGuard, TinyTranslatorService], (guard: ActiveProjectGuard, tinyTranslatorService) => {
+    spyOn(tinyTranslatorService, 'currentProject').and.returnValue('anything, but not null');
+    expect(guard.canActivate(null, null)).toBeTruthy();
+    expect(tinyTranslatorService.currentProject).toHaveBeenCalled();
+  }));
 
   it('should forbid activation and navigate to home when there is no current project', inject(
     [ActiveProjectGuard, TinyTranslatorService, Router],

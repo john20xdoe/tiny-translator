@@ -30,8 +30,6 @@ describe('AppComponent', () => {
     fixture.detectChanges();
     const compiled = fixture.debugElement.nativeElement;
     expect(compiled.querySelector('mat-toolbar')).toBeTruthy();
-    expect(compiled.querySelector('#apptitle').textContent).toBe(
-      'Tiny Translator',
-    );
+    expect(compiled.querySelector('#apptitle').textContent).toBe('Tiny Translator');
   }));
 });

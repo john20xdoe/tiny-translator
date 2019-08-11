@@ -12,22 +12,10 @@
     ></app-translation-file-status>
   </mat-card-content>
   <mat-card-actions *ngIf="showActions">
-    <button
-      mat-icon-button
-      *ngIf="!project?.translationFile?.isDirty()"
-      (click)="deleteProject()"
-      matTooltip="Delete Project"
-      i18n-matTooltip
-    >
+    <button mat-icon-button *ngIf="!project?.translationFile?.isDirty()" (click)="deleteProject()" matTooltip="Delete Project" i18n-matTooltip>
       <mat-icon>delete</mat-icon>
     </button>
-    <button
-      mat-fab
-      *ngIf="project?.canTranslate()"
-      (click)="startWork()"
-      matTooltip="Start Translation"
-      i18n-matTooltip
-    >
+    <button mat-fab *ngIf="project?.canTranslate()" (click)="startWork()" matTooltip="Start Translation" i18n-matTooltip>
       <mat-icon>translate</mat-icon>
     </button>
   </mat-card-actions>

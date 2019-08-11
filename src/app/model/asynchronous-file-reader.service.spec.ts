@@ -9,10 +9,7 @@ describe('AsynchronousFileReaderService', () => {
     });
   });
 
-  it('should ...', inject(
-    [AsynchronousFileReaderService],
-    (service: AsynchronousFileReaderService) => {
-      expect(service).toBeTruthy();
-    },
-  ));
+  it('should ...', inject([AsynchronousFileReaderService], (service: AsynchronousFileReaderService) => {
+    expect(service).toBeTruthy();
+  }));
 });

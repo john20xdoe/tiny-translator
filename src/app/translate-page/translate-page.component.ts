@@ -3,10 +3,7 @@ import { TinyTranslatorService } from '../model/tiny-translator.service';
 import { TranslationUnit } from '../model/translation-unit';
 import { TranslationProject, UserRole } from '../model/translation-project';
 import { TranslationFileView } from '../model/translation-file-view';
-import {
-  NavigationDirection,
-  TranslateUnitChange,
-} from '../translate-unit/translate-unit.component';
+import { NavigationDirection, TranslateUnitChange } from '../translate-unit/translate-unit.component';
 
 @Component({
   selector: 'app-translate-page',
@@ -23,16 +20,12 @@ export class TranslatePageComponent implements OnInit {
   }
 
   currentView(): TranslationFileView {
-    return this.currentProject()
-      ? this.currentProject().translationFileView
-      : null;
+    return this.currentProject() ? this.currentProject().translationFileView : null;
   }
 
   currentTranslationUnit(): TranslationUnit {
     const currentProject = this.currentProject();
-    return currentProject
-      ? currentProject.translationFileView.currentTransUnit()
-      : null;
+    return currentProject ? currentProject.translationFileView.currentTransUnit() : null;
   }
 
   commitChanges(translateUnitChange: TranslateUnitChange) {
@@ -63,10 +56,7 @@ export class TranslatePageComponent implements OnInit {
   }
 
   isInReviewMode(): boolean {
-    return (
-      this.currentProject() &&
-      this.currentProject().userRole === UserRole.REVIEWER
-    );
+    return this.currentProject() && this.currentProject().userRole === UserRole.REVIEWER;
   }
 
   hasAutotranslatedUnits(): boolean {

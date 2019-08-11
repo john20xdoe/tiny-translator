@@ -4,52 +4,26 @@
   <form id="createProjectForm" fxLayout="column" [formGroup]="form">
     <div fxLayout="row" fxLayoutGap="20px" fxLayoutAlign="start center">
       <mat-form-field fxFlex="90%">
-        <input
-          type="text"
-          placeholder="Project name"
-          i18n-placeholder
-          matInput
-          formControlName="projectName"
-          name="projectName"
-        />
+        <input type="text" placeholder="Project name" i18n-placeholder matInput formControlName="projectName" name="projectName" />
       </mat-form-field>
     </div>
     <div fxLayout="row" fxLayoutGap="20px" fxLayoutAlign="start center">
       <p fxFlex="50%" i18n>
         Select the file you want to translate.<br />
         The file can be of format XLIFF 1.2, XLIFF 2.0 or XMB.<br />
-        The file will be stored in your browser local storage until you export
-        the translated version.
+        The file will be stored in your browser local storage until you export the translated version.
       </p>
       <div fxLayout="column" fxFlexAlign="end" fxFlex="40%">
-        <input
-          type="file"
-          id="fileupload"
-          (change)="fileSelectionChange(input)"
-          formControlName="selectedFiles"
-          name="selectedFiles"
-          class="inputfile"
-          #input
-        />
-        <label for="fileupload">
-          <mat-icon>open_in_browser</mat-icon>&nbsp;<span i18n
-            >Upload a translation file (xlf, xtb)</span
-          ></label
-        >
+        <input type="file" id="fileupload" (change)="fileSelectionChange(input)" formControlName="selectedFiles" name="selectedFiles" class="inputfile" #input />
+        <label for="fileupload"> <mat-icon>open_in_browser</mat-icon>&nbsp;<span i18n>Upload a translation file (xlf, xtb)</span></label>
         <div><span i18n>selected: </span>{{ selectedFilesFormatted() }}</div>
       </div>
     </div>
-    <div
-      *ngIf="isMasterXmbFileNeeded()"
-      fxLayout="row"
-      fxLayoutGap="20px"
-      fxLayoutAlign="start center"
-    >
+    <div *ngIf="isMasterXmbFileNeeded()" fxLayout="row" fxLayoutGap="20px" fxLayoutAlign="start center">
       <p fxFlex="50%" i18n>
         You selected an xtb file.<br />
         This file type only contains one language, the target language.<br />
-        To show you the original source texts, you should also select the master
-        xmb file.
+        To show you the original source texts, you should also select the master xmb file.
       </p>
       <div fxFlex="50%" fxLayout="column">
         <input
@@ -61,22 +35,12 @@
           class="inputfile"
           #masterinput
         />
-        <label for="masterfileupload">
-          <mat-icon>open_in_browser</mat-icon>&nbsp;<span i18n
-            >Upload master xmb file</span
-          ></label
-        >
-        <div>
-          <span i18n>selected: </span>{{ selectedMasterFilesFormatted() }}
-        </div>
+        <label for="masterfileupload"> <mat-icon>open_in_browser</mat-icon>&nbsp;<span i18n>Upload master xmb file</span></label>
+        <div><span i18n>selected: </span>{{ selectedMasterFilesFormatted() }}</div>
       </div>
     </div>
     <p><b i18n>Selected translation file:</b></p>
-    <app-translation-file-status
-      *ngIf="isFileSelected()"
-      [translationFileView]="createdProject?.translationFileView"
-      [translationFile]="createdProject?.translationFile"
-    >
+    <app-translation-file-status *ngIf="isFileSelected()" [translationFileView]="createdProject?.translationFileView" [translationFile]="createdProject?.translationFile">
     </app-translation-file-status>
     <p></p>
     <div fxLayout="row" fxLayoutGap="20px" fxLayoutAlign="start center">
@@ -86,13 +50,7 @@
         matTooltip="Your selected file contains no information about the language used. You can set it here explicitly."
         i18n-matTooltip
       >
-        <input
-          placeholder="Explicitly set source language"
-          i18n-placeholder
-          matInput
-          formControlName="sourceLanguage"
-          name="sourceLanguage"
-        />
+        <input placeholder="Explicitly set source language" i18n-placeholder matInput formControlName="sourceLanguage" name="sourceLanguage" />
       </mat-form-field>
     </div>
     <div fxLayout="row" fxLayoutGap="20px" fxLayoutAlign="start center">
@@ -121,9 +79,7 @@
         <div *ngIf="isWorkflowWithReview()">
           <p i18n>Your role</p>
           <mat-radio-group name="userRole" formControlName="userRole">
-            <mat-radio-button value="translator" i18n
-              >Translator</mat-radio-button
-            >
+            <mat-radio-button value="translator" i18n>Translator</mat-radio-button>
             <mat-radio-button value="reviewer" i18n>Reviewer</mat-radio-button>
           </mat-radio-group>
         </div>

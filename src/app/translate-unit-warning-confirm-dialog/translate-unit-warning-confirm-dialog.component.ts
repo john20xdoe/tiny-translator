@@ -14,10 +14,7 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
   styleUrls: ['./translate-unit-warning-confirm-dialog.component.css'],
 })
 export class TranslateUnitWarningConfirmDialogComponent implements OnInit {
-  constructor(
-    public dialogRef: MatDialogRef<TranslateUnitWarningConfirmDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: any,
-  ) {}
+  constructor(public dialogRef: MatDialogRef<TranslateUnitWarningConfirmDialogComponent>, @Inject(MAT_DIALOG_DATA) public data: any) {}
 
   ngOnInit() {}
 

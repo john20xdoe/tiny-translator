@@ -9,15 +9,9 @@ import { TranslationProject } from '../model/translation-project';
 export class ProjectListComponent implements OnInit {
   @Input() projects: TranslationProject[];
 
-  @Output() onStartProject: EventEmitter<
-    TranslationProject
-  > = new EventEmitter();
-  @Output() onDeleteProject: EventEmitter<
-    TranslationProject
-  > = new EventEmitter();
-  @Output() onSaveProject: EventEmitter<
-    TranslationProject
-  > = new EventEmitter();
+  @Output() onStartProject: EventEmitter<TranslationProject> = new EventEmitter();
+  @Output() onDeleteProject: EventEmitter<TranslationProject> = new EventEmitter();
+  @Output() onSaveProject: EventEmitter<TranslationProject> = new EventEmitter();
 
   constructor() {}
 

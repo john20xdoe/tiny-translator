@@ -8,15 +8,8 @@
     fxHide.lt-md
   ></app-translate-unit-list>
   <div id="transunit" fxLayout="column" fxFlex="grow">
-    <app-filter-status
-      fxHide.gt-sm
-      [translationFileView]="currentView()"
-    ></app-filter-status>
-    <app-project-status
-      fxHide.lt-md
-      [project]="currentProject()"
-      (onSave)="save()"
-    ></app-project-status>
+    <app-filter-status fxHide.gt-sm [translationFileView]="currentView()"></app-filter-status>
+    <app-project-status fxHide.lt-md [project]="currentProject()" (onSave)="save()"></app-project-status>
     <app-translate-unit
       [translationFileView]="currentView()"
       [translationUnit]="currentTranslationUnit()"

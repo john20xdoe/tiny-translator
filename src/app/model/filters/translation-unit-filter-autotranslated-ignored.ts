@@ -7,15 +7,12 @@ import { AutoTranslateSummaryReport } from '../auto-translate-summary-report';
  * This list is contained in the AutoTranslateSummaryReport.
  * Created by roobm on 10.07.2017.
  */
-export class TranslationUnitFilterAutoTranslatedIgnored
-  implements ITranslationUnitFilter {
+export class TranslationUnitFilterAutoTranslatedIgnored implements ITranslationUnitFilter {
   constructor(private autoTranslateSummaryReport: AutoTranslateSummaryReport) {}
 
   public filters(tu: TranslationUnit): boolean {
     if (this.autoTranslateSummaryReport) {
-      const autotranslateResult = this.autoTranslateSummaryReport.singleResult(
-        tu.id(),
-      );
+      const autotranslateResult = this.autoTranslateSummaryReport.singleResult(tu.id());
       return autotranslateResult && autotranslateResult.ignored();
     } else {
       return false;

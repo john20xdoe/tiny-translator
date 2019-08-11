@@ -20,16 +20,9 @@ export class ConfigureAutoTranslatePageComponent implements OnInit {
   testCallTargetResult: string;
 
   constructor(private translatorService: TinyTranslatorService) {
-    if (
-      this.translatorService.currentProject() &&
-      this.translatorService.currentProject().canTranslate()
-    ) {
-      this._sourceLanguage = this.translatorService
-        .currentProject()
-        .translationFile.sourceLanguage();
-      this._targetLanguage = this.translatorService
-        .currentProject()
-        .translationFile.targetLanguage();
+    if (this.translatorService.currentProject() && this.translatorService.currentProject().canTranslate()) {
+      this._sourceLanguage = this.translatorService.currentProject().translationFile.sourceLanguage();
+      this._targetLanguage = this.translatorService.currentProject().translationFile.targetLanguage();
     }
     this._sourceLanguageTest = 'en';
     this._targetLanguageTest = 'de';
@@ -56,19 +49,11 @@ export class ConfigureAutoTranslatePageComponent implements OnInit {
   }
 
   autoTranslateDisabledTest(): Observable<boolean> {
-    return this.translatorService
-      .canAutoTranslateForLanguages(
-        this._sourceLanguageTest,
-        this._targetLanguageTest,
-      )
-      .map(val => !val);
+    return this.translatorService.canAutoTranslateForLanguages(this._sourceLanguageTest, this._targetLanguageTest).map(val => !val);
   }
 
   autoTranslateDisabledReasonTest(): Observable<string> {
-    return this.translatorService.autoTranslateDisabledReasonForLanguages(
-      this._sourceLanguageTest,
-      this._targetLanguageTest,
-    );
+    return this.translatorService.autoTranslateDisabledReasonForLanguages(this._sourceLanguageTest, this._targetLanguageTest);
   }
 
   sourceLanguageTest(): string {
@@ -87,31 +72,17 @@ export class ConfigureAutoTranslatePageComponent implements OnInit {
     this.testCallSourceResult = null;
     this.testCallTargetResult = null;
     if (this._sourceLanguageTest !== 'en') {
-      this.translatorService
-        .testAutoTranslate(TEST_MESSAGE, 'en', this._sourceLanguageTest)
-        .subscribe(translationToSource => {
-          this.testCallSourceResult = translationToSource;
-          this.translatorService
-            .testAutoTranslate(
-              translationToSource,
-              this._sourceLanguageTest,
-              this._targetLanguageTest,
-            )
-            .subscribe(translationToTarget => {
-              this.testCallTargetResult = translationToTarget;
-            });
-        });
-    } else {
-      this.testCallSourceResult = TEST_MESSAGE;
-      this.translatorService
-        .testAutoTranslate(
-          this.testCallSourceResult,
-          this._sourceLanguageTest,
-          this._targetLanguageTest,
-        )
-        .subscribe(translationToTarget => {
+      this.translatorService.testAutoTranslate(TEST_MESSAGE, 'en', this._sourceLanguageTest).subscribe(translationToSource => {
+        this.testCallSourceResult = translationToSource;
+        this.translatorService.testAutoTranslate(translationToSource, this._sourceLanguageTest, this._targetLanguageTest).subscribe(translationToTarget => {
           this.testCallTargetResult = translationToTarget;
         });
+      });
+    } else {
+      this.testCallSourceResult = TEST_MESSAGE;
+      this.translatorService.testAutoTranslate(this.testCallSourceResult, this._sourceLanguageTest, this._targetLanguageTest).subscribe(translationToTarget => {
+        this.testCallTargetResult = translationToTarget;
+      });
     }
   }
 }

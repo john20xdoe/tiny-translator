@@ -11,10 +11,7 @@ import { Router } from '@angular/router';
   styleUrls: ['./filter-page.component.css'],
 })
 export class FilterPageComponent implements OnInit {
-  constructor(
-    private translationService: TinyTranslatorService,
-    private router: Router,
-  ) {}
+  constructor(private translationService: TinyTranslatorService, private router: Router) {}
 
   ngOnInit() {}
 
@@ -23,9 +20,7 @@ export class FilterPageComponent implements OnInit {
   }
 
   currentView(): TranslationFileView {
-    return this.currentProject()
-      ? this.currentProject().translationFileView
-      : null;
+    return this.currentProject() ? this.currentProject().translationFileView : null;
   }
 
   /**

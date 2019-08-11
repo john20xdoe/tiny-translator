@@ -1,10 +1,6 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { TinyTranslatorService } from '../model/tiny-translator.service';
-import {
-  TranslationProject,
-  UserRole,
-  WorkflowType,
-} from '../model/translation-project';
+import { TranslationProject, UserRole, WorkflowType } from '../model/translation-project';
 import { FILETYPE_XTB } from 'ngx-i18nsupport-lib/dist';
 import { isNullOrUndefined } from 'util';
 import { FormBuilder, FormGroup } from '@angular/forms';
@@ -27,10 +23,7 @@ export class ProjectStarterComponent implements OnInit {
   private selectedFiles: FileList;
   private selectedMasterXmbFiles: FileList;
 
-  constructor(
-    private formBuilder: FormBuilder,
-    private translatorService: TinyTranslatorService,
-  ) {}
+  constructor(private formBuilder: FormBuilder, private translatorService: TinyTranslatorService) {}
 
   ngOnInit() {
     this.initForm();
@@ -63,30 +56,17 @@ export class ProjectStarterComponent implements OnInit {
   }
 
   valueChanged(formValue) {
-    const translationFile = this.selectedFiles
-      ? this.selectedFiles.item(0)
-      : null;
-    const masterXmbFile = this.selectedMasterXmbFiles
-      ? this.selectedMasterXmbFiles.item(0)
-      : null;
-    this.translatorService
-      .createProject(
-        formValue.projectName,
-        translationFile,
-        masterXmbFile,
-        this.toWorkflowType(formValue.workflowType),
-      )
-      .subscribe(newProject => {
-        this.createdProject = newProject;
-        if (this.createdProject) {
-          this.createdProject.setUserRole(this.toUserRole(formValue.userRole));
-          if (this.createdProject.translationFile) {
-            this.createdProject.translationFile.setSourceLanguage(
-              formValue.sourceLanguage,
-            );
-          }
+    const translationFile = this.selectedFiles ? this.selectedFiles.item(0) : null;
+    const masterXmbFile = this.selectedMasterXmbFiles ? this.selectedMasterXmbFiles.item(0) : null;
+    this.translatorService.createProject(formValue.projectName, translationFile, masterXmbFile, this.toWorkflowType(formValue.workflowType)).subscribe(newProject => {
+      this.createdProject = newProject;
+      if (this.createdProject) {
+        this.createdProject.setUserRole(this.toUserRole(formValue.userRole));
+        if (this.createdProject.translationFile) {
+          this.createdProject.translationFile.setSourceLanguage(formValue.sourceLanguage);
         }
-      });
+      }
+    });
   }
 
   /**
@@ -153,12 +133,7 @@ export class ProjectStarterComponent implements OnInit {
    * Enables the input for a second file, the master xmb.
    */
   isMasterXmbFileNeeded(): boolean {
-    return (
-      this.isFileSelected() &&
-      this.createdProject &&
-      this.createdProject.translationFile &&
-      this.createdProject.translationFile.fileType() === FILETYPE_XTB
-    );
+    return this.isFileSelected() && this.createdProject && this.createdProject.translationFile && this.createdProject.translationFile.fileType() === FILETYPE_XTB;
   }
 
   /**
@@ -166,20 +141,11 @@ export class ProjectStarterComponent implements OnInit {
    * Enables the add button.
    */
   isInputComplete(): boolean {
-    return (
-      this.createdProject &&
-      this.createdProject.name &&
-      !this.createdProject.hasErrors() &&
-      this.isFileSelected()
-    );
+    return this.createdProject && this.createdProject.name && !this.createdProject.hasErrors() && this.isFileSelected();
   }
 
   isFileSelected(): boolean {
-    return (
-      this.selectedFiles &&
-      this.selectedFiles.length > 0 &&
-      !!this.createdProject
-    );
+    return this.selectedFiles && this.selectedFiles.length > 0 && !!this.createdProject;
   }
 
   needsExplicitSourceLanguage(): boolean {
@@ -187,16 +153,11 @@ export class ProjectStarterComponent implements OnInit {
       this.createdProject &&
       this.createdProject.translationFile &&
       !this.createdProject.translationFile.hasErrors() &&
-      isNullOrUndefined(
-        this.createdProject.translationFile.sourceLanguageFromFile(),
-      )
+      isNullOrUndefined(this.createdProject.translationFile.sourceLanguageFromFile())
     );
   }
 
   isWorkflowWithReview(): boolean {
-    return (
-      this.createdProject &&
-      this.createdProject.workflowType === WorkflowType.WITH_REVIEW
-    );
+    return this.createdProject && this.createdProject.workflowType === WorkflowType.WITH_REVIEW;
   }
 }

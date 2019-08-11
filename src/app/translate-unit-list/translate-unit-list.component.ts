@@ -43,13 +43,9 @@ export class TranslateUnitListComponent implements OnInit {
    * Emitted, when user wants to navigate to another unit.
    * @type {EventEmitter<TranslationUnit>} the wanted trans unit.
    */
-  @Output() changeTranslationUnit: EventEmitter<
-    TranslationUnit
-  > = new EventEmitter();
+  @Output() changeTranslationUnit: EventEmitter<TranslationUnit> = new EventEmitter();
 
-  constructor(
-    private translationUnitFilterService: TranslationUnitFilterService,
-  ) {
+  constructor(private translationUnitFilterService: TranslationUnitFilterService) {
     this.translationFileView = new TranslationFileView(null);
     this.substringSubject = new Subject<string>();
   }
@@ -74,21 +70,15 @@ export class TranslateUnitListComponent implements OnInit {
   }
 
   public showAll() {
-    this.translationFileView.setActiveFilter(
-      this.translationUnitFilterService.getFilter(FILTER_ALL),
-    );
+    this.translationFileView.setActiveFilter(this.translationUnitFilterService.getFilter(FILTER_ALL));
   }
 
   public showUntranslated() {
-    this.translationFileView.setActiveFilter(
-      this.translationUnitFilterService.getFilter(FILTER_UNTRANSLATED),
-    );
+    this.translationFileView.setActiveFilter(this.translationUnitFilterService.getFilter(FILTER_UNTRANSLATED));
   }
 
   public showNeedsReview() {
-    this.translationFileView.setActiveFilter(
-      this.translationUnitFilterService.getFilter(FILTER_NEEDS_REVIEW),
-    );
+    this.translationFileView.setActiveFilter(this.translationUnitFilterService.getFilter(FILTER_NEEDS_REVIEW));
   }
 
   public showBySearchFilter() {
@@ -96,16 +86,10 @@ export class TranslateUnitListComponent implements OnInit {
       this.substringSubscription.unsubscribe();
     }
     const substr = this.substringToSearch ? this.substringToSearch : '';
-    this.translationFileView.setActiveFilter(
-      this.translationUnitFilterService.getFilter(FILTER_SUBSTRING, substr),
-    );
-    this.substringSubscription = this.substringSubject
-      .debounceTime(200)
-      .subscribe(sub => {
-        this.translationFileView.setActiveFilter(
-          this.translationUnitFilterService.getFilter(FILTER_SUBSTRING, sub),
-        );
-      });
+    this.translationFileView.setActiveFilter(this.translationUnitFilterService.getFilter(FILTER_SUBSTRING, substr));
+    this.substringSubscription = this.substringSubject.debounceTime(200).subscribe(sub => {
+      this.translationFileView.setActiveFilter(this.translationUnitFilterService.getFilter(FILTER_SUBSTRING, sub));
+    });
   }
 
   substringToSearchChange() {
@@ -113,23 +97,15 @@ export class TranslateUnitListComponent implements OnInit {
   }
 
   public showAutotranslated() {
-    this.translationFileView.setActiveFilter(
-      this.translationUnitFilterService.getFilter(FILTER_AUTOTRANSLATED),
-    );
+    this.translationFileView.setActiveFilter(this.translationUnitFilterService.getFilter(FILTER_AUTOTRANSLATED));
   }
 
   public showAutotranslatedFailed() {
-    this.translationFileView.setActiveFilter(
-      this.translationUnitFilterService.getFilter(FILTER_AUTOTRANSLATED_FAILED),
-    );
+    this.translationFileView.setActiveFilter(this.translationUnitFilterService.getFilter(FILTER_AUTOTRANSLATED_FAILED));
   }
 
   public showAutotranslatedIgnored() {
-    this.translationFileView.setActiveFilter(
-      this.translationUnitFilterService.getFilter(
-        FILTER_AUTOTRANSLATED_IGNORED,
-      ),
-    );
+    this.translationFileView.setActiveFilter(this.translationUnitFilterService.getFilter(FILTER_AUTOTRANSLATED_IGNORED));
   }
 
   filterChanged(changeEvent: MatRadioChange) {

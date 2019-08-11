@@ -7,12 +7,7 @@ import { TranslationUnitFilterAutoTranslated } from '../model/filters/translatio
 import { AutoTranslateResult } from '../model/auto-translate-result';
 import { TranslationUnitFilterAutoTranslatedFailed } from '../model/filters/translation-unit-filter-autotranslated-failed';
 import { TranslationUnitFilterAutoTranslatedIgnored } from '../model/filters/translation-unit-filter-autotranslated-ignored';
-import {
-  FILTER_AUTOTRANSLATED,
-  FILTER_AUTOTRANSLATED_FAILED,
-  FILTER_AUTOTRANSLATED_IGNORED,
-  TranslationUnitFilterService,
-} from '../model/filters/translation-unit-filter.service';
+import { FILTER_AUTOTRANSLATED, FILTER_AUTOTRANSLATED_FAILED, FILTER_AUTOTRANSLATED_IGNORED, TranslationUnitFilterService } from '../model/filters/translation-unit-filter.service';
 import { isNullOrUndefined } from 'util';
 import { TranslationUnit } from '../model/translation-unit';
 
@@ -24,20 +19,14 @@ import { TranslationUnit } from '../model/translation-unit';
 export class AutoTranslateSummaryPageComponent implements OnInit {
   private _autoTranslateSummaryReport: AutoTranslateSummaryReport;
 
-  constructor(
-    private translatorService: TinyTranslatorService,
-    private translationUnitFilterService: TranslationUnitFilterService,
-    private router: Router,
-  ) {}
+  constructor(private translatorService: TinyTranslatorService, private translationUnitFilterService: TranslationUnitFilterService, private router: Router) {}
 
   ngOnInit() {
     const project = this.translatorService.currentProject();
     if (project) {
       this._autoTranslateSummaryReport = project.autoTranslateSummaryReport();
     }
-    this.translationUnitFilterService.setAutotranslateSummaryReport(
-      this._autoTranslateSummaryReport,
-    );
+    this.translationUnitFilterService.setAutotranslateSummaryReport(this._autoTranslateSummaryReport);
   }
 
   hasTranslateSummaryReport(): boolean {
@@ -49,19 +38,11 @@ export class AutoTranslateSummaryPageComponent implements OnInit {
   }
 
   ignoredResults(): AutoTranslateResult[] {
-    return this._autoTranslateSummaryReport
-      ? this._autoTranslateSummaryReport
-          .allResults()
-          .filter(result => result.ignored())
-      : [];
+    return this._autoTranslateSummaryReport ? this._autoTranslateSummaryReport.allResults().filter(result => result.ignored()) : [];
   }
 
   failedResults(): AutoTranslateResult[] {
-    return this._autoTranslateSummaryReport
-      ? this._autoTranslateSummaryReport
-          .allResults()
-          .filter(result => result.failed())
-      : [];
+    return this._autoTranslateSummaryReport ? this._autoTranslateSummaryReport.allResults().filter(result => result.failed()) : [];
   }
 
   /**
@@ -78,33 +59,17 @@ export class AutoTranslateSummaryPageComponent implements OnInit {
   }
 
   navigateToAutoTranslated() {
-    this.translatorService
-      .currentProject()
-      .translationFileView.setActiveFilter(
-        this.translationUnitFilterService.getFilter(FILTER_AUTOTRANSLATED),
-      );
+    this.translatorService.currentProject().translationFileView.setActiveFilter(this.translationUnitFilterService.getFilter(FILTER_AUTOTRANSLATED));
     this.router.navigateByUrl('translate');
   }
 
   navigateToAutoTranslatedFailed() {
-    this.translatorService
-      .currentProject()
-      .translationFileView.setActiveFilter(
-        this.translationUnitFilterService.getFilter(
-          FILTER_AUTOTRANSLATED_FAILED,
-        ),
-      );
+    this.translatorService.currentProject().translationFileView.setActiveFilter(this.translationUnitFilterService.getFilter(FILTER_AUTOTRANSLATED_FAILED));
     this.router.navigateByUrl('translate');
   }
 
   navigateToAutoTranslatedIgnored() {
-    this.translatorService
-      .currentProject()
-      .translationFileView.setActiveFilter(
-        this.translationUnitFilterService.getFilter(
-          FILTER_AUTOTRANSLATED_IGNORED,
-        ),
-      );
+    this.translatorService.currentProject().translationFileView.setActiveFilter(this.translationUnitFilterService.getFilter(FILTER_AUTOTRANSLATED_IGNORED));
     this.router.navigateByUrl('translate');
   }
 

@@ -49,21 +49,13 @@ export class TranslationProject {
    */
   static deserialize(serializationString: string): TranslationProject {
     const deserializedObject: any = JSON.parse(serializationString);
-    const project = new TranslationProject(
-      deserializedObject.name,
-      TranslationFile.deserialize(deserializedObject.translationFile),
-      deserializedObject.workflowType,
-    );
+    const project = new TranslationProject(deserializedObject.name, TranslationFile.deserialize(deserializedObject.translationFile), deserializedObject.workflowType);
     project.id = deserializedObject.id;
     project.setUserRole(deserializedObject.userRole);
     return project;
   }
 
-  constructor(
-    private _name: string,
-    private _translationFile: TranslationFile,
-    private _workflowType?: WorkflowType,
-  ) {
+  constructor(private _name: string, private _translationFile: TranslationFile, private _workflowType?: WorkflowType) {
     if (isNullOrUndefined(this._workflowType)) {
       this._workflowType = WorkflowType.SINGLE_USER;
     }
@@ -110,9 +102,7 @@ export class TranslationProject {
   }
 
   get userRole(): UserRole {
-    return isNullOrUndefined(this._userRole)
-      ? UserRole.TRANSLATOR
-      : this._userRole;
+    return isNullOrUndefined(this._userRole) ? UserRole.TRANSLATOR : this._userRole;
   }
 
   public setUserRole(role: UserRole) {

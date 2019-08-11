@@ -1,19 +1,9 @@
-import {
-  TranslationMessagesFileFactory,
-  ITranslationMessagesFile,
-  ITransUnit,
-} from 'ngx-i18nsupport-lib';
+import { TranslationMessagesFileFactory, ITranslationMessagesFile, ITransUnit } from 'ngx-i18nsupport-lib';
 import { isNullOrUndefined } from 'util';
 import { TranslationUnit } from './translation-unit';
 import { Observable } from 'rxjs/Observable';
 import { AsynchronousFileReaderResult } from './asynchronous-file-reader.service';
-import {
-  FILETYPE_XTB,
-  FORMAT_XMB,
-  IICUMessage,
-  IICUMessageTranslation,
-  INormalizedMessage,
-} from 'ngx-i18nsupport-lib/dist';
+import { FILETYPE_XTB, FORMAT_XMB, IICUMessage, IICUMessageTranslation, INormalizedMessage } from 'ngx-i18nsupport-lib/dist';
 import { AutoTranslateServiceAPI } from './auto-translate-service-api';
 import { NormalizedMessage } from './normalized-message';
 import { AutoTranslateSummaryReport } from './auto-translate-summary-report';
@@ -63,10 +53,7 @@ export class TranslationFile {
     readingUploadedFile: Observable<AsynchronousFileReaderResult>,
     readingMasterXmbFile?: Observable<AsynchronousFileReaderResult>,
   ): Observable<TranslationFile> {
-    return Observable.combineLatest(
-      readingUploadedFile,
-      readingMasterXmbFile,
-    ).map(contentArray => {
+    return Observable.combineLatest(readingUploadedFile, readingMasterXmbFile).map(contentArray => {
       const fileContent: AsynchronousFileReaderResult = contentArray[0];
       const newInstance = new TranslationFile();
       newInstance._name = fileContent.name;
@@ -85,15 +72,9 @@ export class TranslationFile {
             newInstance.masterContent = masterXmbContent.content;
             newInstance._masterName = masterXmbContent.name;
           }
-          newInstance._translationFile = TranslationMessagesFileFactory.fromUnknownFormatFileContent(
-            fileContent.content,
-            fileContent.name,
-            null,
-            optionalMaster,
-          );
+          newInstance._translationFile = TranslationMessagesFileFactory.fromUnknownFormatFileContent(fileContent.content, fileContent.name, null, optionalMaster);
           if (newInstance._translationFile.i18nFormat() === FORMAT_XMB) {
-            newInstance._error =
-              'xmb files cannot be translated, use xtb instead'; // TODO i18n
+            newInstance._error = 'xmb files cannot be translated, use xtb instead'; // TODO i18n
           }
           newInstance.readTransUnits();
         } catch (err) {
@@ -110,21 +91,16 @@ export class TranslationFile {
    * @return {TranslationFile}
    */
   static deserialize(serializationString: string): TranslationFile {
-    const deserializedObject: ISerializedTranslationFile = <
-      ISerializedTranslationFile
-    >JSON.parse(serializationString);
+    const deserializedObject: ISerializedTranslationFile = <ISerializedTranslationFile>JSON.parse(serializationString);
     return TranslationFile.fromDeserializedObject(deserializedObject);
   }
 
-  static fromDeserializedObject(
-    deserializedObject: ISerializedTranslationFile,
-  ): TranslationFile {
+  static fromDeserializedObject(deserializedObject: ISerializedTranslationFile): TranslationFile {
     const newInstance = new TranslationFile();
     newInstance._name = deserializedObject.name;
     newInstance._size = deserializedObject.size;
     newInstance.fileContent = deserializedObject.fileContent;
-    newInstance._explicitSourceLanguage =
-      deserializedObject.explicitSourceLanguage;
+    newInstance._explicitSourceLanguage = deserializedObject.explicitSourceLanguage;
     try {
       const encoding = null; // unknown, lib can find it
       let optionalMaster: {
@@ -187,9 +163,7 @@ export class TranslationFile {
   }
 
   get numberOfUntranslatedTransUnits(): number {
-    return this._translationFile
-      ? this._translationFile.numberOfUntranslatedTransUnits()
-      : 0;
+    return this._translationFile ? this._translationFile.numberOfUntranslatedTransUnits() : 0;
   }
 
   /**
@@ -215,9 +189,7 @@ export class TranslationFile {
    * @return {string}
    */
   public sourceLanguageFromFile(): string {
-    return this._translationFile
-      ? this._translationFile.sourceLanguage()
-      : 'unknown';
+    return this._translationFile ? this._translationFile.sourceLanguage() : 'unknown';
   }
 
   /**
@@ -254,9 +226,7 @@ export class TranslationFile {
     if (this.numberOfTransUnits === 0) {
       return 0;
     }
-    return (
-      (100 * this.numberOfUntranslatedTransUnits) / this.numberOfTransUnits
-    );
+    return (100 * this.numberOfUntranslatedTransUnits) / this.numberOfTransUnits;
   }
 
   public percentageTranslated(): number {
@@ -342,19 +312,16 @@ export class TranslationFile {
    * @param autoTranslateService the service for the raw text translation via Google Translate
    * @return a summary of the run (how many units are handled, how many sucessful, errors, ..)
    */
-  public autoTranslateUsingService(
-    autoTranslateService: AutoTranslateServiceAPI,
-  ): Observable<AutoTranslateSummaryReport> {
-    return Observable.forkJoin([
-      this.doAutoTranslateNonICUMessages(autoTranslateService),
-      ...this.doAutoTranslateICUMessages(autoTranslateService),
-    ]).map((summaries: AutoTranslateSummaryReport[]) => {
-      const summary = summaries[0];
-      for (let i = 1; i < summaries.length; i++) {
-        summary.merge(summaries[i]);
-      }
-      return summary;
-    });
+  public autoTranslateUsingService(autoTranslateService: AutoTranslateServiceAPI): Observable<AutoTranslateSummaryReport> {
+    return Observable.forkJoin([this.doAutoTranslateNonICUMessages(autoTranslateService), ...this.doAutoTranslateICUMessages(autoTranslateService)]).map(
+      (summaries: AutoTranslateSummaryReport[]) => {
+        const summary = summaries[0];
+        for (let i = 1; i < summaries.length; i++) {
+          summary.merge(summaries[i]);
+        }
+        return summary;
+      },
+    );
   }
 
   /**
@@ -363,47 +330,29 @@ export class TranslationFile {
    * @param autoTranslateService the service for the raw text translation via Google Translate
    * @return a summary of the run (how many units are handled, how many sucessful, errors, ..)
    */
-  private doAutoTranslateNonICUMessages(
-    autoTranslateService: AutoTranslateServiceAPI,
-  ): Observable<AutoTranslateSummaryReport> {
+  private doAutoTranslateNonICUMessages(autoTranslateService: AutoTranslateServiceAPI): Observable<AutoTranslateSummaryReport> {
     // collect all units, that should be auto translated
-    const allUntranslated: TranslationUnit[] = this.allTransUnits().filter(
-      tu => !tu.isTranslated(),
-    );
-    const allTranslatable = allUntranslated.filter(
-      tu => !tu.sourceContentNormalized().isICUMessage(),
-    );
+    const allUntranslated: TranslationUnit[] = this.allTransUnits().filter(tu => !tu.isTranslated());
+    const allTranslatable = allUntranslated.filter(tu => !tu.sourceContentNormalized().isICUMessage());
     const allMessages: string[] = allTranslatable.map(tu => {
       return tu.sourceContentNormalized().dislayText(true);
     });
-    return autoTranslateService
-      .translateMultipleStrings(
-        allMessages,
-        this.sourceLanguage(),
-        this.targetLanguage(),
-      )
-      .map((translations: string[]) => {
-        const summary = new AutoTranslateSummaryReport();
-        for (let i = 0; i < translations.length; i++) {
-          const tu = allTranslatable[i];
-          const translationText = translations[i];
-          const result = tu.autoTranslateNonICUUnit(translationText);
-          summary.addSingleResult(result);
-        }
-        return summary;
-      });
+    return autoTranslateService.translateMultipleStrings(allMessages, this.sourceLanguage(), this.targetLanguage()).map((translations: string[]) => {
+      const summary = new AutoTranslateSummaryReport();
+      for (let i = 0; i < translations.length; i++) {
+        const tu = allTranslatable[i];
+        const translationText = translations[i];
+        const result = tu.autoTranslateNonICUUnit(translationText);
+        summary.addSingleResult(result);
+      }
+      return summary;
+    });
   }
 
-  private doAutoTranslateICUMessages(
-    autoTranslateService: AutoTranslateServiceAPI,
-  ): Observable<AutoTranslateSummaryReport>[] {
+  private doAutoTranslateICUMessages(autoTranslateService: AutoTranslateServiceAPI): Observable<AutoTranslateSummaryReport>[] {
     // collect all units, that should be auto translated
-    const allUntranslated: TranslationUnit[] = this.allTransUnits().filter(
-      tu => !tu.isTranslated(),
-    );
-    const allTranslatableICU = allUntranslated.filter(
-      tu => !isNullOrUndefined(tu.sourceContentNormalized().getICUMessage()),
-    );
+    const allUntranslated: TranslationUnit[] = this.allTransUnits().filter(tu => !tu.isTranslated());
+    const allTranslatableICU = allUntranslated.filter(tu => !isNullOrUndefined(tu.sourceContentNormalized().getICUMessage()));
     return allTranslatableICU.map(tu => {
       return this.doAutoTranslateICUMessage(autoTranslateService, tu);
     });
@@ -415,36 +364,18 @@ export class TranslationFile {
    * @param tu transunit to translate (must contain ICU Message)
    * @return {Observable<AutoTranslateSummaryReport>}
    */
-  private doAutoTranslateICUMessage(
-    autoTranslateService: AutoTranslateServiceAPI,
-    tu: TranslationUnit,
-  ): Observable<AutoTranslateSummaryReport> {
-    const icuMessage: IICUMessage = tu
-      .sourceContentNormalized()
-      .getICUMessage();
+  private doAutoTranslateICUMessage(autoTranslateService: AutoTranslateServiceAPI, tu: TranslationUnit): Observable<AutoTranslateSummaryReport> {
+    const icuMessage: IICUMessage = tu.sourceContentNormalized().getICUMessage();
     const categories = icuMessage.getCategories();
     // check for nested ICUs, we do not support that
-    if (
-      categories.find(
-        category =>
-          !isNullOrUndefined(category.getMessageNormalized().getICUMessage()),
-      )
-    ) {
+    if (categories.find(category => !isNullOrUndefined(category.getMessageNormalized().getICUMessage()))) {
       const summary = new AutoTranslateSummaryReport();
-      summary.addSingleResult(
-        AutoTranslateResult.Ignored(tu, 'nested icu message'),
-      );
+      summary.addSingleResult(AutoTranslateResult.Ignored(tu, 'nested icu message'));
       return Observable.of(summary);
     }
-    const allMessages: string[] = categories.map(category =>
-      category.getMessageNormalized().asDisplayString(),
-    );
+    const allMessages: string[] = categories.map(category => category.getMessageNormalized().asDisplayString());
     return autoTranslateService
-      .translateMultipleStrings(
-        allMessages,
-        this.sourceLanguage(),
-        this.targetLanguage(),
-      )
+      .translateMultipleStrings(allMessages, this.sourceLanguage(), this.targetLanguage())
       .map((translations: string[]) => {
         const summary = new AutoTranslateSummaryReport();
         const icuTranslation: IICUMessageTranslation = {};
@@ -458,9 +389,7 @@ export class TranslationFile {
       })
       .catch(err => {
         const failSummary = new AutoTranslateSummaryReport();
-        failSummary.addSingleResult(
-          AutoTranslateResult.Failed(tu, err.message),
-        );
+        failSummary.addSingleResult(AutoTranslateResult.Failed(tu, err.message));
         return Observable.of(failSummary);
       });
   }

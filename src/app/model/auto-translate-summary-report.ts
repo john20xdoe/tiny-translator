@@ -43,11 +43,7 @@ export class AutoTranslateSummaryReport {
    * @param anotherSummary
    */
   public merge(anotherSummary: AutoTranslateSummaryReport) {
-    this._allResults = Object.assign(
-      {},
-      this._allResults,
-      anotherSummary._allResults,
-    );
+    this._allResults = Object.assign({}, this._allResults, anotherSummary._allResults);
     this._total += anotherSummary.total();
     this._ignored += anotherSummary.ignored();
     this._success += anotherSummary.success();
@@ -74,13 +70,7 @@ export class AutoTranslateSummaryReport {
    * Human readable version of report
    */
   public content(): string {
-    return format(
-      'Total translated: %s\nIgnored: %s\nSuccesful: %s\nFailed: %s',
-      this._total,
-      this._ignored,
-      this._success,
-      this._failed,
-    );
+    return format('Total translated: %s\nIgnored: %s\nSuccesful: %s\nFailed: %s', this._total, this._ignored, this._success, this._failed);
   }
 
   public singleResult(tuId: string): AutoTranslateResult {

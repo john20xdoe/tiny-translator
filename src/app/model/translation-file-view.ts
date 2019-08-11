@@ -41,15 +41,10 @@ export class TranslationFileView {
   public setActiveFilter(filter: ITranslationUnitFilter) {
     this._filter = filter;
     if (this._translationFile) {
-      const oldCurrent =
-        this._currentTransUnitIndex >= 0 ? this.currentTransUnit() : null;
-      this._scrollableTransUnits = this._translationFile
-        .allTransUnits()
-        .filter(tu => this._filter.filters(tu));
+      const oldCurrent = this._currentTransUnitIndex >= 0 ? this.currentTransUnit() : null;
+      this._scrollableTransUnits = this._translationFile.allTransUnits().filter(tu => this._filter.filters(tu));
       if (oldCurrent) {
-        this._currentTransUnitIndex = this._scrollableTransUnits.findIndex(
-          tu => tu === oldCurrent,
-        );
+        this._currentTransUnitIndex = this._scrollableTransUnits.findIndex(tu => tu === oldCurrent);
       }
     } else {
       this._scrollableTransUnits = [];
@@ -71,10 +66,7 @@ export class TranslationFileView {
     if (this._currentTransUnitIndex < 0) {
       this._currentTransUnitIndex = 0;
     }
-    if (
-      this._currentTransUnitIndex >= 0 &&
-      this._currentTransUnitIndex < this._scrollableTransUnits.length
-    ) {
+    if (this._currentTransUnitIndex >= 0 && this._currentTransUnitIndex < this._scrollableTransUnits.length) {
       return this._scrollableTransUnits[this._currentTransUnitIndex];
     } else {
       return null;
@@ -87,9 +79,7 @@ export class TranslationFileView {
    * @return true, if selected, false if not in view.
    */
   public selectTransUnit(selectedTransUnit: TranslationUnit): boolean {
-    const index = this._scrollableTransUnits.findIndex(
-      tu => tu === selectedTransUnit,
-    );
+    const index = this._scrollableTransUnits.findIndex(tu => tu === selectedTransUnit);
     if (index >= 0) {
       this._currentTransUnitIndex = index;
       return true;
@@ -116,9 +106,7 @@ export class TranslationFileView {
     if (this._currentTransUnitIndex < 0) {
       return this._scrollableTransUnits.length > 0;
     } else {
-      return (
-        this._currentTransUnitIndex < this._scrollableTransUnits.length - 1
-      );
+      return this._currentTransUnitIndex < this._scrollableTransUnits.length - 1;
     }
   }
 
@@ -135,9 +123,7 @@ export class TranslationFileView {
   }
 
   public currentTransUnitIndex(): number {
-    return this._currentTransUnitIndex < 0
-      ? 0
-      : this._currentTransUnitIndex + 1;
+    return this._currentTransUnitIndex < 0 ? 0 : this._currentTransUnitIndex + 1;
   }
 
   public scrollabeTransUnitsLength(): number {

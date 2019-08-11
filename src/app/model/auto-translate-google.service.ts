@@ -1,10 +1,5 @@
 import { Inject, Injectable } from '@angular/core';
-import {
-  AutoTranslateDisabledReason,
-  AutoTranslateDisabledReasonKey,
-  AutoTranslateServiceAPI,
-  Language,
-} from './auto-translate-service-api';
+import { AutoTranslateDisabledReason, AutoTranslateDisabledReasonKey, AutoTranslateServiceAPI, Language } from './auto-translate-service-api';
 import { APP_CONFIG, AppConfig } from '../app.config';
 import { Observable } from 'rxjs/Observable';
 import { HttpClient } from '@angular/common/http';
@@ -93,10 +88,7 @@ export class AutoTranslateGoogleService extends AutoTranslateServiceAPI {
     return langLower;
   }
 
-  constructor(
-    @Inject(APP_CONFIG) app_config: AppConfig,
-    private httpClient: HttpClient,
-  ) {
+  constructor(@Inject(APP_CONFIG) app_config: AppConfig, private httpClient: HttpClient) {
     super();
     this._rootUrl = app_config.GOOGLETRANSLATE_API_ROOT_URL;
     // API key is secret, normally it is nit configured and will be null
@@ -146,10 +138,7 @@ export class AutoTranslateGoogleService extends AutoTranslateServiceAPI {
    * @param target the language to translate to
    * @return {AutoTranslateDisabledReason} or null, if API is enabled.
    */
-  public disabledReason(
-    source: string,
-    target: string,
-  ): Observable<AutoTranslateDisabledReason> {
+  public disabledReason(source: string, target: string): Observable<AutoTranslateDisabledReason> {
     return this.supportedLanguages().map((languages: Language[]) => {
       if (languages.length === 0) {
         return this._permanentFailReason;
@@ -193,13 +182,7 @@ export class AutoTranslateGoogleService extends AutoTranslateServiceAPI {
       }
       this._subjects[target] = new BehaviorSubject<Language[]>([]);
       if (this._apiKey) {
-        const languagesRequestUrl =
-          this._rootUrl +
-          'language/translate/v2/languages' +
-          '?key=' +
-          this._apiKey +
-          '&target=' +
-          target;
+        const languagesRequestUrl = this._rootUrl + 'language/translate/v2/languages' + '?key=' + this._apiKey + '&target=' + target;
         this.httpClient
           .get<{ data: LanguagesListResponse }>(languagesRequestUrl)
           .catch((error: Response) => {
@@ -247,11 +230,7 @@ export class AutoTranslateGoogleService extends AutoTranslateServiceAPI {
    * @param to target language code
    * @return Observable with translated message or error
    */
-  public translate(
-    message: string,
-    from: string,
-    to: string,
-  ): Observable<string> {
+  public translate(message: string, from: string, to: string): Observable<string> {
     if (!this._apiKey) {
       return Observable.throw('error, no api key');
     }
@@ -263,14 +242,11 @@ export class AutoTranslateGoogleService extends AutoTranslateServiceAPI {
       source: from,
       // format: TODO useful html or text
     };
-    const realUrl =
-      this._rootUrl + 'language/translate/v2' + '?key=' + this._apiKey;
-    return this.httpClient
-      .post<{ data: TranslationsListResponse }>(realUrl, translateRequest)
-      .map(response => {
-        const result: TranslationsListResponse = response.data;
-        return result.translations[0].translatedText;
-      });
+    const realUrl = this._rootUrl + 'language/translate/v2' + '?key=' + this._apiKey;
+    return this.httpClient.post<{ data: TranslationsListResponse }>(realUrl, translateRequest).map(response => {
+      const result: TranslationsListResponse = response.data;
+      return result.translations[0].translatedText;
+    });
   }
 
   /**
@@ -280,11 +256,7 @@ export class AutoTranslateGoogleService extends AutoTranslateServiceAPI {
    * @param to target language code
    * @return Observable with translated messages or error
    */
-  public translateMultipleStrings(
-    messages: string[],
-    from: string,
-    to: string,
-  ): Observable<string[]> {
+  public translateMultipleStrings(messages: string[], from: string, to: string): Observable<string[]> {
     if (!this._apiKey) {
       return Observable.throw('error, no api key');
     }
@@ -293,20 +265,16 @@ export class AutoTranslateGoogleService extends AutoTranslateServiceAPI {
     }
     from = AutoTranslateGoogleService.stripRegioncode(from);
     to = AutoTranslateGoogleService.stripRegioncode(to);
-    const allRequests: Observable<string[]>[] = this.splitMessagesToGoogleLimit(
-      messages,
-    ).map((partialMessages: string[]) => {
+    const allRequests: Observable<string[]>[] = this.splitMessagesToGoogleLimit(messages).map((partialMessages: string[]) => {
       return this.limitedTranslateMultipleStrings(partialMessages, from, to);
     });
-    return Observable.forkJoin(allRequests).map(
-      (allTranslations: string[][]) => {
-        let all = [];
-        for (let i = 0; i < allTranslations.length; i++) {
-          all = all.concat(allTranslations[i]);
-        }
-        return all;
-      },
-    );
+    return Observable.forkJoin(allRequests).map((allTranslations: string[][]) => {
+      let all = [];
+      for (let i = 0; i < allTranslations.length; i++) {
+        all = all.concat(allTranslations[i]);
+      }
+      return all;
+    });
   }
 
   /**
@@ -317,11 +285,7 @@ export class AutoTranslateGoogleService extends AutoTranslateServiceAPI {
    * @param to
    * @return {Observable<string[]>} the translated strings
    */
-  private limitedTranslateMultipleStrings(
-    messages: string[],
-    from: string,
-    to: string,
-  ): Observable<string[]> {
+  private limitedTranslateMultipleStrings(messages: string[], from: string, to: string): Observable<string[]> {
     if (!this._apiKey) {
       return Observable.throw('error, no api key');
     }
@@ -333,25 +297,22 @@ export class AutoTranslateGoogleService extends AutoTranslateServiceAPI {
       source: from,
       // format: TODO useful html or text
     };
-    const realUrl =
-      this._rootUrl + 'language/translate/v2' + '?key=' + this._apiKey;
-    return this.httpClient
-      .post<{ data: TranslationsListResponse }>(realUrl, translateRequest)
-      .map(response => {
-        const result: TranslationsListResponse = response.data;
-        return result.translations.map((translation: TranslationsResource) => {
-          // just for tests, provoke errors and warnings, if explicitly wanted
-          if (this.failByDesign) {
-            if (translation.translatedText.indexOf('{') >= 0) {
-              return 'oopsi';
-            }
-            if (translation.translatedText.indexOf('<') >= 0) {
-              return 'oopsala';
-            }
+    const realUrl = this._rootUrl + 'language/translate/v2' + '?key=' + this._apiKey;
+    return this.httpClient.post<{ data: TranslationsListResponse }>(realUrl, translateRequest).map(response => {
+      const result: TranslationsListResponse = response.data;
+      return result.translations.map((translation: TranslationsResource) => {
+        // just for tests, provoke errors and warnings, if explicitly wanted
+        if (this.failByDesign) {
+          if (translation.translatedText.indexOf('{') >= 0) {
+            return 'oopsi';
           }
-          return translation.translatedText;
-        });
+          if (translation.translatedText.indexOf('<') >= 0) {
+            return 'oopsala';
+          }
+        }
+        return translation.translatedText;
       });
+    });
   }
 
   /**

@@ -79,9 +79,7 @@ import { UpdateAvailableComponent } from './update-available/update-available.co
     HttpClientModule,
     AppMaterialModule,
     routing,
-    environment.production
-      ? ServiceWorkerModule.register(environment.base_href + 'ngsw-worker.js')
-      : [],
+    environment.production ? ServiceWorkerModule.register(environment.base_href + 'ngsw-worker.js') : [],
   ],
   providers: [
     { provide: APP_CONFIG, useValue: APP_CONFIG_VALUE },
@@ -94,10 +92,7 @@ import { UpdateAvailableComponent } from './update-available/update-available.co
     { provide: AutoTranslateServiceAPI, useClass: AutoTranslateGoogleService },
     TranslationUnitFilterService,
   ],
-  entryComponents: [
-    TranslateUnitWarningConfirmDialogComponent,
-    UpdateAvailableComponent,
-  ],
+  entryComponents: [TranslateUnitWarningConfirmDialogComponent, UpdateAvailableComponent],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

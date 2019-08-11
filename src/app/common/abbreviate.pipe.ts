@@ -17,9 +17,7 @@ export class AbbreviatePipe implements PipeTransform {
   private DEFAULT_LENGTH = 20; // aabreviation length if not given as parameter
 
   transform(value: string, lengthParam?: number): any {
-    const length = !isNullOrUndefined(lengthParam)
-      ? lengthParam
-      : this.DEFAULT_LENGTH;
+    const length = !isNullOrUndefined(lengthParam) ? lengthParam : this.DEFAULT_LENGTH;
     if (isString(value)) {
       if (value.length > length) {
         return value.substring(0, length).concat('..');

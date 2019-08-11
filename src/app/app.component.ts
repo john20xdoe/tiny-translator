@@ -28,12 +28,7 @@ export class AppComponent implements OnInit {
   ngOnInit() {
     if (this.swUpdate) {
       this.swUpdate.available.subscribe((event: UpdateAvailableEvent) => {
-        console.log(
-          '[App] Update available: current version is',
-          event.current,
-          'available version is',
-          event.available,
-        );
+        console.log('[App] Update available: current version is', event.current, 'available version is', event.available);
         this.matSnackBar.openFromComponent(UpdateAvailableComponent, {
           duration: 3000,
         });
@@ -64,21 +59,17 @@ export class AppComponent implements OnInit {
    * Otherwise auto translates all untranslated units..
    */
   autoTranslate() {
-    this.translatorService
-      .canAutoTranslate()
-      .subscribe((canTranslate: boolean) => {
-        if (canTranslate) {
-          this.translatorService.autoTranslate().subscribe(summary => {
-            console.log('Summary: ', summary.content(), summary); // TODO show Toast or result page...
-            this.translatorService
-              .currentProject()
-              .setAutoTranslateSummaryReport(summary);
-            this.router.navigateByUrl('autotranslatesummary');
-          });
-        } else {
-          this.router.navigateByUrl('configureautotranslate');
-        }
-      });
+    this.translatorService.canAutoTranslate().subscribe((canTranslate: boolean) => {
+      if (canTranslate) {
+        this.translatorService.autoTranslate().subscribe(summary => {
+          console.log('Summary: ', summary.content(), summary); // TODO show Toast or result page...
+          this.translatorService.currentProject().setAutoTranslateSummaryReport(summary);
+          this.router.navigateByUrl('autotranslatesummary');
+        });
+      } else {
+        this.router.navigateByUrl('configureautotranslate');
+      }
+    });
   }
 
   configureAutoTranslate() {

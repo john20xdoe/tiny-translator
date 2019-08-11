@@ -50,10 +50,7 @@ export class AutoTranslateServiceAPI {
    * @param target the language to translate to
    * @return {AutoTranslateDisabledReason} or null, if API is enabled.
    */
-  public disabledReason(
-    source: string,
-    target: string,
-  ): Observable<AutoTranslateDisabledReason> {
+  public disabledReason(source: string, target: string): Observable<AutoTranslateDisabledReason> {
     return Observable.of({
       reason: AutoTranslateDisabledReasonKey.NO_PROVIDER,
     });
@@ -76,11 +73,7 @@ export class AutoTranslateServiceAPI {
    * @param to target language code
    * @return Observable with translated message or error
    */
-  public translate(
-    message: string,
-    from: string,
-    to: string,
-  ): Observable<string> {
+  public translate(message: string, from: string, to: string): Observable<string> {
     return Observable.throw('no translation service installed');
   }
 
@@ -91,11 +84,7 @@ export class AutoTranslateServiceAPI {
    * @param to target language code
    * @return Observable with translated messages or error
    */
-  public translateMultipleStrings(
-    messages: string[],
-    from: string,
-    to: string,
-  ): Observable<string[]> {
+  public translateMultipleStrings(messages: string[], from: string, to: string): Observable<string[]> {
     return Observable.throw('no translation service installed');
   }
 }

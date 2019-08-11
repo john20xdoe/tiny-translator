@@ -1,13 +1,4 @@
-import {
-  Component,
-  EventEmitter,
-  Input,
-  OnChanges,
-  OnInit,
-  Output,
-  SimpleChange,
-  SimpleChanges,
-} from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChange, SimpleChanges } from '@angular/core';
 import { TranslationUnit } from '../model/translation-unit';
 import { MatDialog, MatSnackBar } from '@angular/material';
 import { NormalizedMessage } from '../model/normalized-message';
@@ -65,12 +56,7 @@ export class TranslateUnitComponent implements OnInit, OnChanges {
   private isMarkedAsTranslated = false;
   private isMarkedAsReviewed = false;
 
-  constructor(
-    private formBuilder: FormBuilder,
-    private dialog: MatDialog,
-    private _snackbar: MatSnackBar,
-    private autoTranslateService: AutoTranslateServiceAPI,
-  ) {}
+  constructor(private formBuilder: FormBuilder, private dialog: MatDialog, private _snackbar: MatSnackBar, private autoTranslateService: AutoTranslateServiceAPI) {}
 
   ngOnInit() {
     this.initForm();
@@ -222,9 +208,7 @@ export class TranslateUnitComponent implements OnInit, OnChanges {
     if (!this._editedTargetMessage) {
       return [];
     }
-    const errors = this._editedTargetMessage.validateWarnings(
-      this.showNormalized,
-    );
+    const errors = this._editedTargetMessage.validateWarnings(this.showNormalized);
     if (errors) {
       return Object.keys(errors).map(key => errors[key]);
     } else {
@@ -234,11 +218,7 @@ export class TranslateUnitComponent implements OnInit, OnChanges {
 
   commitChanges(navigationDirection: NavigationDirection) {
     if (this.translationUnit) {
-      if (
-        this.isTranslationChanged() ||
-        this.isMarkedAsTranslated ||
-        this.isMarkedAsReviewed
-      ) {
+      if (this.isTranslationChanged() || this.isMarkedAsTranslated || this.isMarkedAsReviewed) {
         this.translationUnit.translate(this._editedTargetMessage);
         switch (this.workflowType) {
           case WorkflowType.SINGLE_USER:
@@ -288,9 +268,7 @@ export class TranslateUnitComponent implements OnInit, OnChanges {
   }
 
   undo() {
-    this._editableTargetMessage = this.translationUnit
-      .targetContentNormalized()
-      .copy();
+    this._editableTargetMessage = this.translationUnit.targetContentNormalized().copy();
     this._editedTargetMessage = this._editableTargetMessage;
     this.changed.emit({
       changedUnit: this.translationUnit,
@@ -320,13 +298,10 @@ export class TranslateUnitComponent implements OnInit, OnChanges {
     } else if (!this.isTranslationChanged()) {
       return Observable.of('accept');
     } else {
-      const dialogRef = this.dialog.open(
-        TranslateUnitWarningConfirmDialogComponent,
-        {
-          data: { errors: errors, warnings: warnings },
-          disableClose: true,
-        },
-      );
+      const dialogRef = this.dialog.open(TranslateUnitWarningConfirmDialogComponent, {
+        data: { errors: errors, warnings: warnings },
+        disableClose: true,
+      });
       return dialogRef.afterClosed();
     }
   }
@@ -348,9 +323,7 @@ export class TranslateUnitComponent implements OnInit, OnChanges {
             }
             break;
           case 'accept':
-            const direction = this.translationFileView.hasNext()
-              ? NavigationDirection.NEXT
-              : NavigationDirection.STAY;
+            const direction = this.translationFileView.hasNext() ? NavigationDirection.NEXT : NavigationDirection.STAY;
             this.commitChanges(direction);
             break;
         }
@@ -384,9 +357,7 @@ export class TranslateUnitComponent implements OnInit, OnChanges {
             }
             break;
           case 'accept':
-            const direction = this.translationFileView.hasPrev()
-              ? NavigationDirection.PREV
-              : NavigationDirection.STAY;
+            const direction = this.translationFileView.hasPrev() ? NavigationDirection.PREV : NavigationDirection.STAY;
             this.commitChanges(direction);
             break;
         }
@@ -407,11 +378,7 @@ export class TranslateUnitComponent implements OnInit, OnChanges {
    */
   autoTranslate() {
     this.sourceContentNormalized()
-      .autoTranslateUsingService(
-        this.autoTranslateService,
-        this.sourceLanguage(),
-        this.targetLanguage(),
-      )
+      .autoTranslateUsingService(this.autoTranslateService, this.sourceLanguage(), this.targetLanguage())
       .subscribe((translatedMessage: NormalizedMessage) => {
         this._editableTargetMessage = translatedMessage;
         this._editedTargetMessage = translatedMessage;
@@ -427,10 +394,7 @@ export class TranslateUnitComponent implements OnInit, OnChanges {
       return Observable.of(true);
     }
     return this.autoTranslateService
-      .canAutoTranslate(
-        this.translationUnit.translationFile().sourceLanguage(),
-        this.translationUnit.translationFile().targetLanguage(),
-      )
+      .canAutoTranslate(this.translationUnit.translationFile().sourceLanguage(), this.translationUnit.translationFile().targetLanguage())
       .map(val => !val);
   }
 }

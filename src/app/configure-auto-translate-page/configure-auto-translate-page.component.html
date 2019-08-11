@@ -1,21 +1,12 @@
 <h3 i18n>Google Translate status for current project</h3>
 <div *ngIf="autoTranslateDisabled() | async; else okBlock">
-  <p>
-    <mat-icon color="primary">error</mat-icon
-    ><span i18n
-      >Google Translate is currently disabled due to the following reason:</span
-    >
-  </p>
+  <p><mat-icon color="primary">error</mat-icon><span i18n>Google Translate is currently disabled due to the following reason:</span></p>
   <p class="reason">{{ autoTranslateDisabledReason() | async }}</p>
 </div>
 <ng-template #okBlock>
   <div>
     <p>
-      <mat-icon>done</mat-icon
-      ><span i18n
-        >Google Translate is ready to translate from {{ sourceLanguage() }} to
-        {{ targetLanguage() }}</span
-      >
+      <mat-icon>done</mat-icon><span i18n>Google Translate is ready to translate from {{ sourceLanguage() }} to {{ targetLanguage() }}</span>
     </p>
   </div>
 </ng-template>
@@ -28,11 +19,7 @@
   <p i18n>Then you have to create an API Key.</p>
   <p>
     <span i18n>For details follow:</span>
-    <a
-      href="https://support.google.com/cloud/answer/6158862?hl=en"
-      target="_blank"
-      >create an API key for your Google Cloud Platform Console project</a
-    >
+    <a href="https://support.google.com/cloud/answer/6158862?hl=en" target="_blank">create an API key for your Google Cloud Platform Console project</a>
   </p>
 </div>
 <form fxLayout="column">
@@ -62,21 +49,14 @@
 <div *ngIf="autoTranslateDisabledTest() | async; else okBlockTest">
   <p>
     <mat-icon color="primary">error</mat-icon
-    ><span i18n
-      >Google Translate cannot translate from {{ sourceLanguageTest() }} to
-      {{ targetLanguageTest() }} due to the following reason:</span
-    >
+    ><span i18n>Google Translate cannot translate from {{ sourceLanguageTest() }} to {{ targetLanguageTest() }} due to the following reason:</span>
   </p>
   <p class="reason">{{ autoTranslateDisabledReasonTest() | async }}</p>
 </div>
 <ng-template #okBlockTest>
   <div>
     <p>
-      <mat-icon>done</mat-icon
-      ><span i18n
-        >Google Translate is ready to translate from
-        {{ sourceLanguageTest() }} to {{ targetLanguageTest() }}</span
-      >
+      <mat-icon>done</mat-icon><span i18n>Google Translate is ready to translate from {{ sourceLanguageTest() }} to {{ targetLanguageTest() }}</span>
     </p>
     <p>{{ testCallSourceResult }}</p>
     <p>{{ testCallTargetResult }}</p>
@@ -84,31 +64,12 @@
 </ng-template>
 <form fxLayout="column">
   <mat-form-field>
-    <input
-      matInput
-      [(ngModel)]="_sourceLanguageTest"
-      name="_sourceLanguageTest"
-      placeholder="Source language code"
-      i18n-placeholder
-    />
+    <input matInput [(ngModel)]="_sourceLanguageTest" name="_sourceLanguageTest" placeholder="Source language code" i18n-placeholder />
   </mat-form-field>
   <mat-form-field>
-    <input
-      matInput
-      [(ngModel)]="_targetLanguageTest"
-      name="_targetLanguageTest"
-      placeholder="Target language code"
-      i18n-placeholder
-    />
+    <input matInput [(ngModel)]="_targetLanguageTest" name="_targetLanguageTest" placeholder="Target language code" i18n-placeholder />
   </mat-form-field>
-  <button
-    mat-raised-button
-    color="accent"
-    i18n
-    (click)="testCall()"
-    matTooltip="Test a call"
-    i18n-matTooltip
-  >
+  <button mat-raised-button color="accent" i18n (click)="testCall()" matTooltip="Test a call" i18n-matTooltip>
     Test
   </button>
 </form>

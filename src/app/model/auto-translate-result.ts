@@ -8,26 +8,15 @@ export class AutoTranslateResult {
     return new AutoTranslateResult(tu, true, false, null);
   }
 
-  public static Failed(
-    tu: TranslationUnit,
-    details: string,
-  ): AutoTranslateResult {
+  public static Failed(tu: TranslationUnit, details: string): AutoTranslateResult {
     return new AutoTranslateResult(tu, false, false, details);
   }
 
-  public static Ignored(
-    tu: TranslationUnit,
-    details: string,
-  ): AutoTranslateResult {
+  public static Ignored(tu: TranslationUnit, details: string): AutoTranslateResult {
     return new AutoTranslateResult(tu, true, true, details);
   }
 
-  private constructor(
-    private _transUnit: TranslationUnit,
-    private _success: boolean,
-    private _ignored: boolean,
-    private _details: string,
-  ) {}
+  private constructor(private _transUnit: TranslationUnit, private _success: boolean, private _ignored: boolean, private _details: string) {}
 
   public success(): boolean {
     return this._success;

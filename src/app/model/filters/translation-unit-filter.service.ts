@@ -34,17 +34,11 @@ export class TranslationUnitFilterService {
       case FILTER_ALL:
         return new TranslationUnitFilterAll();
       case 'autotranslated':
-        return new TranslationUnitFilterAutoTranslated(
-          this._autoTranslateSummaryReport,
-        );
+        return new TranslationUnitFilterAutoTranslated(this._autoTranslateSummaryReport);
       case 'autotranslatedFailed':
-        return new TranslationUnitFilterAutoTranslatedFailed(
-          this._autoTranslateSummaryReport,
-        );
+        return new TranslationUnitFilterAutoTranslatedFailed(this._autoTranslateSummaryReport);
       case 'autotranslatedIgnored':
-        return new TranslationUnitFilterAutoTranslatedIgnored(
-          this._autoTranslateSummaryReport,
-        );
+        return new TranslationUnitFilterAutoTranslatedIgnored(this._autoTranslateSummaryReport);
       case 'needsReview':
         return new TranslationUnitFilterNeedsReview();
       case 'bySubstring':

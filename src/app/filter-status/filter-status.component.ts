@@ -25,9 +25,7 @@ export class FilterStatusComponent implements OnInit {
   substringFilterPattern(): string {
     const activeFilter = this.translationFileView.activeFilter();
     if (activeFilter.name() === 'bySubstring') {
-      const filter: TranslationUnitFilterSubstring = <
-        TranslationUnitFilterSubstring
-      >activeFilter;
+      const filter: TranslationUnitFilterSubstring = <TranslationUnitFilterSubstring>activeFilter;
       return filter.substringFilterPattern();
     }
   }

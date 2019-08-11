@@ -1,26 +1,8 @@
-import {
-  Component,
-  forwardRef,
-  Input,
-  OnChanges,
-  OnInit,
-  SimpleChange,
-  SimpleChanges,
-  Output,
-  EventEmitter,
-} from '@angular/core';
+import { Component, forwardRef, Input, OnChanges, OnInit, SimpleChange, SimpleChanges, Output, EventEmitter } from '@angular/core';
 import { NormalizedMessage } from '../model/normalized-message';
 import { isNullOrUndefined } from 'util';
-import {
-  ControlValueAccessor,
-  FormBuilder,
-  FormGroup,
-  NG_VALUE_ACCESSOR,
-} from '@angular/forms';
-import {
-  IICUMessageCategory,
-  IICUMessageTranslation,
-} from 'ngx-i18nsupport-lib/dist';
+import { ControlValueAccessor, FormBuilder, FormGroup, NG_VALUE_ACCESSOR } from '@angular/forms';
+import { IICUMessageCategory, IICUMessageTranslation } from 'ngx-i18nsupport-lib/dist';
 import { Subscription } from 'rxjs/Subscription';
 /**
  * A component used as an input field for normalized message.
@@ -37,8 +19,7 @@ import { Subscription } from 'rxjs/Subscription';
     },
   ],
 })
-export class NormalizedMessageInputComponent
-  implements OnInit, OnChanges, ControlValueAccessor {
+export class NormalizedMessageInputComponent implements OnInit, OnChanges, ControlValueAccessor {
   /**
    * The message to be edited or shown.
    */
@@ -77,9 +58,7 @@ export class NormalizedMessageInputComponent
     if (!isNullOrUndefined(changes['message'])) {
       this.editedMessage = this.message.copy();
     }
-    const isChanged =
-      !isNullOrUndefined(changes['message']) ||
-      !isNullOrUndefined(changes['normalized']);
+    const isChanged = !isNullOrUndefined(changes['message']) || !isNullOrUndefined(changes['normalized']);
     if (isChanged) {
       this.initForm();
     }
@@ -93,11 +72,9 @@ export class NormalizedMessageInputComponent
       displayedText: [{ value: this.textToDisplay(), disabled: this.disabled }],
       icuMessages: this.formBuilder.array(this.initIcuMessagesFormArray()),
     });
-    this.subscription = this.form.valueChanges
-      .debounceTime(200)
-      .subscribe(formValue => {
-        this.valueChanged(formValue);
-      });
+    this.subscription = this.form.valueChanges.debounceTime(200).subscribe(formValue => {
+      this.valueChanged(formValue);
+    });
   }
 
   private initIcuMessagesFormArray() {
@@ -181,10 +158,7 @@ export class NormalizedMessageInputComponent
     if (!this.readonly && this.message) {
       if (!this.isICUMessage() || !this.normalized) {
         const textEntered = value.displayedText;
-        this.editedMessage = this.message.translate(
-          textEntered,
-          this.normalized,
-        );
+        this.editedMessage = this.message.translate(textEntered, this.normalized);
       } else {
         const categories = this.getICUMessageCategories();
         const valuesEntered = value.icuMessages;

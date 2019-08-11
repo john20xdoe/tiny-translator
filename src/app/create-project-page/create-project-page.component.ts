@@ -9,10 +9,7 @@ import { Router } from '@angular/router';
   styleUrls: ['./create-project-page.component.css'],
 })
 export class CreateProjectPageComponent implements OnInit {
-  constructor(
-    private translatorService: TinyTranslatorService,
-    private router: Router,
-  ) {}
+  constructor(private translatorService: TinyTranslatorService, private router: Router) {}
 
   ngOnInit() {}
 

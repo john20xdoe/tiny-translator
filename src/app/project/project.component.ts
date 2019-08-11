@@ -12,9 +12,7 @@ export class ProjectComponent implements OnInit {
   @Input() showActions: boolean = true;
 
   @Output() onStartWork: EventEmitter<TranslationProject> = new EventEmitter();
-  @Output() onDeleteProject: EventEmitter<
-    TranslationProject
-  > = new EventEmitter();
+  @Output() onDeleteProject: EventEmitter<TranslationProject> = new EventEmitter();
   @Output() onSave: EventEmitter<TranslationProject> = new EventEmitter();
 
   constructor() {}

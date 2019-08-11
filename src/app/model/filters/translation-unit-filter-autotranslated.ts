@@ -9,16 +9,11 @@ import { isNullOrUndefined } from 'util';
  * This list is contained in the AutoTranslateSummaryReport.
  * Created by roobm on 10.07.2017.
  */
-export class TranslationUnitFilterAutoTranslated
-  implements ITranslationUnitFilter {
+export class TranslationUnitFilterAutoTranslated implements ITranslationUnitFilter {
   constructor(private autoTranslateSummaryReport: AutoTranslateSummaryReport) {}
 
   public filters(tu: TranslationUnit): boolean {
-    return (
-      this.autoTranslateSummaryReport &&
-      tu.targetState() === STATE_TRANSLATED &&
-      !isNullOrUndefined(this.autoTranslateSummaryReport.singleResult(tu.id()))
-    );
+    return this.autoTranslateSummaryReport && tu.targetState() === STATE_TRANSLATED && !isNullOrUndefined(this.autoTranslateSummaryReport.singleResult(tu.id()));
   }
 
   public name(): string {

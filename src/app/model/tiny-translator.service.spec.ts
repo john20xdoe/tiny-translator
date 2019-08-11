@@ -10,20 +10,11 @@ import { AutoTranslateServiceAPI } from './auto-translate-service-api';
 describe('TinyTranslatorService', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [
-        TinyTranslatorService,
-        BackendServiceAPI,
-        AsynchronousFileReaderService,
-        DownloaderService,
-        AutoTranslateServiceAPI,
-      ],
+      providers: [TinyTranslatorService, BackendServiceAPI, AsynchronousFileReaderService, DownloaderService, AutoTranslateServiceAPI],
     });
   });
 
-  it('should ...', inject(
-    [TinyTranslatorService],
-    (service: TinyTranslatorService) => {
-      expect(service).toBeTruthy();
-    },
-  ));
+  it('should ...', inject([TinyTranslatorService], (service: TinyTranslatorService) => {
+    expect(service).toBeTruthy();
+  }));
 });

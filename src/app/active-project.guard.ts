@@ -1,9 +1,4 @@
-import {
-  ActivatedRouteSnapshot,
-  CanActivate,
-  Router,
-  RouterStateSnapshot,
-} from '@angular/router';
+import { ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot } from '@angular/router';
 import { Injectable } from '@angular/core';
 import { TinyTranslatorService } from './model/tiny-translator.service';
 import { Observable } from 'rxjs';
@@ -15,15 +10,9 @@ import { Observable } from 'rxjs';
  */
 @Injectable()
 export class ActiveProjectGuard implements CanActivate {
-  constructor(
-    private translatorService: TinyTranslatorService,
-    private router: Router,
-  ) {}
+  constructor(private translatorService: TinyTranslatorService, private router: Router) {}
 
-  canActivate(
-    route: ActivatedRouteSnapshot,
-    routerState: RouterStateSnapshot,
-  ): Observable<boolean> | Promise<boolean> | boolean {
+  canActivate(route: ActivatedRouteSnapshot, routerState: RouterStateSnapshot): Observable<boolean> | Promise<boolean> | boolean {
     if (this.translatorService.currentProject()) {
       return true;
     } else {
