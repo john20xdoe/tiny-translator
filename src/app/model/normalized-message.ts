@@ -4,6 +4,8 @@ import { isNullOrUndefined } from 'util';
 import { IICUMessage, IICUMessageTranslation } from 'ngx-i18nsupport-lib/dist';
 import { AutoTranslateServiceAPI } from './auto-translate-service-api';
 import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
+
 /**
  * Created by martin on 19.05.2017.
  * Wrapper around INormalizedMessage for GUI usage.
@@ -123,13 +125,15 @@ export class NormalizedMessage {
     if (this.getICUMessage()) {
       return this.autoTranslateICUMessageUsingService(autoTranslateService, sourceLanguage, targetLanguage);
     } else {
-      return autoTranslateService.translate(this.dislayText(true), sourceLanguage, targetLanguage).map((translation: string) => {
-        if (!isNullOrUndefined(translation)) {
-          return this.translate(translation, true);
-        } else {
-          return null;
-        }
-      });
+      return autoTranslateService.translate(this.dislayText(true), sourceLanguage, targetLanguage).pipe(
+        map((translation: string) => {
+          if (!isNullOrUndefined(translation)) {
+            return this.translate(translation, true);
+          } else {
+            return null;
+          }
+        }),
+      );
     }
   }
 
@@ -141,15 +145,17 @@ export class NormalizedMessage {
       throw new Error('nested ICU message not supported');
     }
     const allMessages: string[] = categories.map(category => category.getMessageNormalized().asDisplayString());
-    return autoTranslateService.translateMultipleStrings(allMessages, sourceLanguage, targetLanguage).map((translations: string[]) => {
-      const icuTranslation: IICUMessageTranslation = {};
-      for (let i = 0; i < translations.length; i++) {
-        const translationText = translations[i];
-        icuTranslation[categories[i].getCategory()] = translationText;
-      }
-      const result = this.translateICUMessage(icuTranslation);
-      return result;
-    });
+    return autoTranslateService.translateMultipleStrings(allMessages, sourceLanguage, targetLanguage).pipe(
+      map((translations: string[]) => {
+        const icuTranslation: IICUMessageTranslation = {};
+        for (let i = 0; i < translations.length; i++) {
+          const translationText = translations[i];
+          icuTranslation[categories[i].getCategory()] = translationText;
+        }
+        const result = this.translateICUMessage(icuTranslation);
+        return result;
+      }),
+    );
   }
 
   public translateICUMessage(newValue: IICUMessageTranslation): NormalizedMessage {

@@ -1,5 +1,5 @@
-
-import {throwError as observableThrowError,  Observable ,  BehaviorSubject } from 'rxjs';
+import { throwError as observableThrowError, Observable, BehaviorSubject, of, forkJoin } from 'rxjs';
+import { map, catchError } from 'rxjs/operators';
 import { Inject, Injectable } from '@angular/core';
 import { AutoTranslateDisabledReason, AutoTranslateDisabledReasonKey, AutoTranslateServiceAPI, Language } from './auto-translate-service-api';
 import { APP_CONFIG, AppConfig } from '../app.config';
@@ -122,14 +122,16 @@ export class AutoTranslateGoogleService extends AutoTranslateServiceAPI {
    * @param target the language to translate to
    */
   public canAutoTranslate(source: string, target: string): Observable<boolean> {
-    return this.supportedLanguages().map((languages: Language[]) => {
-      const s = AutoTranslateGoogleService.stripRegioncode(source);
-      const t = AutoTranslateGoogleService.stripRegioncode(target);
-      if (!s || languages.findIndex(lang => lang.language === s) < 0) {
-        return false;
-      }
-      return t && languages.findIndex(lang => lang.language === t) >= 0;
-    });
+    return this.supportedLanguages().pipe(
+      map((languages: Language[]) => {
+        const s = AutoTranslateGoogleService.stripRegioncode(source);
+        const t = AutoTranslateGoogleService.stripRegioncode(target);
+        if (!s || languages.findIndex(lang => lang.language === s) < 0) {
+          return false;
+        }
+        return t && languages.findIndex(lang => lang.language === t) >= 0;
+      }),
+    );
   }
 
   /**
@@ -139,24 +141,26 @@ export class AutoTranslateGoogleService extends AutoTranslateServiceAPI {
    * @return {AutoTranslateDisabledReason} or null, if API is enabled.
    */
   public disabledReason(source: string, target: string): Observable<AutoTranslateDisabledReason> {
-    return this.supportedLanguages().map((languages: Language[]) => {
-      if (languages.length === 0) {
-        return this._permanentFailReason;
-      }
-      const s = AutoTranslateGoogleService.stripRegioncode(source);
-      if (!s || languages.findIndex(lang => lang.language === s) < 0) {
-        return {
-          reason: AutoTranslateDisabledReasonKey.SOURCE_LANG_NOT_SUPPORTED,
-        };
-      }
-      const t = AutoTranslateGoogleService.stripRegioncode(target);
-      if (!t || languages.findIndex(lang => lang.language === t) < 0) {
-        return {
-          reason: AutoTranslateDisabledReasonKey.TARGET_LANG_NOT_SUPPORTED,
-        };
-      }
-      return null;
-    });
+    return this.supportedLanguages().pipe(
+      map((languages: Language[]) => {
+        if (languages.length === 0) {
+          return this._permanentFailReason;
+        }
+        const s = AutoTranslateGoogleService.stripRegioncode(source);
+        if (!s || languages.findIndex(lang => lang.language === s) < 0) {
+          return {
+            reason: AutoTranslateDisabledReasonKey.SOURCE_LANG_NOT_SUPPORTED,
+          };
+        }
+        const t = AutoTranslateGoogleService.stripRegioncode(target);
+        if (!t || languages.findIndex(lang => lang.language === t) < 0) {
+          return {
+            reason: AutoTranslateDisabledReasonKey.TARGET_LANG_NOT_SUPPORTED,
+          };
+        }
+        return null;
+      }),
+    );
   }
 
   /**
@@ -185,23 +189,25 @@ export class AutoTranslateGoogleService extends AutoTranslateServiceAPI {
         const languagesRequestUrl = this._rootUrl + 'language/translate/v2/languages' + '?key=' + this._apiKey + '&target=' + target;
         this.httpClient
           .get<{ data: LanguagesListResponse }>(languagesRequestUrl)
-          .catch((error: Response) => {
-            if (this.isInvalidApiKeyError(error)) {
-              this._permanentFailReason = {
-                reason: AutoTranslateDisabledReasonKey.INVALID_KEY,
-              };
-            } else {
-              this._permanentFailReason = {
-                reason: AutoTranslateDisabledReasonKey.CONNECT_PROBLEM,
-                details: JSON.stringify(error.body),
-              };
-            }
-            return [];
-          })
-          .map(response => {
-            const result: LanguagesListResponse = response.data;
-            return result.languages;
-          })
+          .pipe(
+            catchError((error: Response) => {
+              if (this.isInvalidApiKeyError(error)) {
+                this._permanentFailReason = {
+                  reason: AutoTranslateDisabledReasonKey.INVALID_KEY,
+                };
+              } else {
+                this._permanentFailReason = {
+                  reason: AutoTranslateDisabledReasonKey.CONNECT_PROBLEM,
+                  details: JSON.stringify(error.body),
+                };
+              }
+              return [];
+            }),
+            map(response => {
+              const result: LanguagesListResponse = response.data;
+              return result.languages;
+            }),
+          )
           .subscribe(languages => {
             this._subjects[target].next(languages);
           });
@@ -243,10 +249,12 @@ export class AutoTranslateGoogleService extends AutoTranslateServiceAPI {
       // format: TODO useful html or text
     };
     const realUrl = this._rootUrl + 'language/translate/v2' + '?key=' + this._apiKey;
-    return this.httpClient.post<{ data: TranslationsListResponse }>(realUrl, translateRequest).map(response => {
-      const result: TranslationsListResponse = response.data;
-      return result.translations[0].translatedText;
-    });
+    return this.httpClient.post<{ data: TranslationsListResponse }>(realUrl, translateRequest).pipe(
+      map(response => {
+        const result: TranslationsListResponse = response.data;
+        return result.translations[0].translatedText;
+      }),
+    );
   }
 
   /**
@@ -261,20 +269,22 @@ export class AutoTranslateGoogleService extends AutoTranslateServiceAPI {
       return observableThrowError('error, no api key');
     }
     if (messages.length === 0) {
-      return Observable.of([]);
+      return of([]);
     }
     from = AutoTranslateGoogleService.stripRegioncode(from);
     to = AutoTranslateGoogleService.stripRegioncode(to);
     const allRequests: Observable<string[]>[] = this.splitMessagesToGoogleLimit(messages).map((partialMessages: string[]) => {
       return this.limitedTranslateMultipleStrings(partialMessages, from, to);
     });
-    return Observable.forkJoin(allRequests).map((allTranslations: string[][]) => {
-      let all = [];
-      for (let i = 0; i < allTranslations.length; i++) {
-        all = all.concat(allTranslations[i]);
-      }
-      return all;
-    });
+    return forkJoin(allRequests).pipe(
+      map((allTranslations: string[][]) => {
+        let all = [];
+        for (let i = 0; i < allTranslations.length; i++) {
+          all = all.concat(allTranslations[i]);
+        }
+        return all;
+      }),
+    );
   }
 
   /**
@@ -298,21 +308,23 @@ export class AutoTranslateGoogleService extends AutoTranslateServiceAPI {
       // format: TODO useful html or text
     };
     const realUrl = this._rootUrl + 'language/translate/v2' + '?key=' + this._apiKey;
-    return this.httpClient.post<{ data: TranslationsListResponse }>(realUrl, translateRequest).map(response => {
-      const result: TranslationsListResponse = response.data;
-      return result.translations.map((translation: TranslationsResource) => {
-        // just for tests, provoke errors and warnings, if explicitly wanted
-        if (this.failByDesign) {
-          if (translation.translatedText.indexOf('{') >= 0) {
-            return 'oopsi';
+    return this.httpClient.post<{ data: TranslationsListResponse }>(realUrl, translateRequest).pipe(
+      map(response => {
+        const result: TranslationsListResponse = response.data;
+        return result.translations.map((translation: TranslationsResource) => {
+          // just for tests, provoke errors and warnings, if explicitly wanted
+          if (this.failByDesign) {
+            if (translation.translatedText.indexOf('{') >= 0) {
+              return 'oopsi';
+            }
+            if (translation.translatedText.indexOf('<') >= 0) {
+              return 'oopsala';
+            }
           }
-          if (translation.translatedText.indexOf('<') >= 0) {
-            return 'oopsala';
-          }
-        }
-        return translation.translatedText;
-      });
-    });
+          return translation.translatedText;
+        });
+      }),
+    );
   }
 
   /**

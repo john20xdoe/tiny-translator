@@ -3,12 +3,13 @@ import { TranslationFile } from './translation-file';
 import { isNullOrUndefined } from 'util';
 import { BackendServiceAPI } from './backend-service-api';
 import { TranslationProject, WorkflowType } from './translation-project';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { DownloaderService } from './downloader.service';
 import { AsynchronousFileReaderService } from './asynchronous-file-reader.service';
 import { AutoTranslateDisabledReasonKey, AutoTranslateServiceAPI } from './auto-translate-service-api';
 import { AutoTranslateSummaryReport } from './auto-translate-summary-report';
 import { TranslationUnit } from './translation-unit';
+import { map } from 'rxjs/operators';
 
 @Injectable()
 export class TinyTranslatorService {
@@ -67,9 +68,11 @@ export class TinyTranslatorService {
   public createProject(projectName: string, file: File, masterXmbFile?: File, workflowType?: WorkflowType): Observable<TranslationProject> {
     const uploadingFile = this.fileReaderService.readFile(file);
     const readingMaster = this.fileReaderService.readFile(masterXmbFile);
-    return TranslationFile.fromUploadedFile(uploadingFile, readingMaster).map((translationfile: TranslationFile) => {
-      return new TranslationProject(projectName, translationfile, workflowType);
-    });
+    return TranslationFile.fromUploadedFile(uploadingFile, readingMaster).pipe(
+      map((translationfile: TranslationFile) => {
+        return new TranslationProject(projectName, translationfile, workflowType);
+      }),
+    );
   }
 
   public setCurrentProject(project: TranslationProject) {
@@ -188,7 +191,7 @@ export class TinyTranslatorService {
    */
   public canAutoTranslate(): Observable<boolean> {
     if (isNullOrUndefined(this.currentProject()) || !this.currentProject().canTranslate()) {
-      return Observable.of(false);
+      return of(false);
     }
     return this.canAutoTranslateForLanguages(this.currentProject().translationFile.sourceLanguage(), this.currentProject().translationFile.targetLanguage());
   }
@@ -209,7 +212,7 @@ export class TinyTranslatorService {
    */
   public autoTranslateDisabledReason(): Observable<string> {
     if (isNullOrUndefined(this.currentProject()) || !this.currentProject().canTranslate()) {
-      return Observable.of('no translatable project');
+      return of('no translatable project');
     }
     return this.autoTranslateDisabledReasonForLanguages(this.currentProject().translationFile.sourceLanguage(), this.currentProject().translationFile.targetLanguage());
   }
@@ -219,25 +222,27 @@ export class TinyTranslatorService {
    * @return {Observable<string>}
    */
   public autoTranslateDisabledReasonForLanguages(source: string, target: string): Observable<string> {
-    return this.autoTranslateService.disabledReason(source, target).map(reason => {
-      if (isNullOrUndefined(reason)) {
-        return null; // means not disabled, everything is ok!
-      }
-      switch (reason.reason) {
-        case AutoTranslateDisabledReasonKey.NO_PROVIDER:
-          return 'no provider';
-        case AutoTranslateDisabledReasonKey.NO_KEY:
-          return 'no key';
-        case AutoTranslateDisabledReasonKey.INVALID_KEY:
-          return 'invalid key';
-        case AutoTranslateDisabledReasonKey.SOURCE_LANG_NOT_SUPPORTED:
-          return 'source language not supported';
-        case AutoTranslateDisabledReasonKey.TARGET_LANG_NOT_SUPPORTED:
-          return 'target language not supported';
-        case AutoTranslateDisabledReasonKey.CONNECT_PROBLEM:
-          return 'connection problem: ' + reason.details;
-      }
-    });
+    return this.autoTranslateService.disabledReason(source, target).pipe(
+      map(reason => {
+        if (isNullOrUndefined(reason)) {
+          return null; // means not disabled, everything is ok!
+        }
+        switch (reason.reason) {
+          case AutoTranslateDisabledReasonKey.NO_PROVIDER:
+            return 'no provider';
+          case AutoTranslateDisabledReasonKey.NO_KEY:
+            return 'no key';
+          case AutoTranslateDisabledReasonKey.INVALID_KEY:
+            return 'invalid key';
+          case AutoTranslateDisabledReasonKey.SOURCE_LANG_NOT_SUPPORTED:
+            return 'source language not supported';
+          case AutoTranslateDisabledReasonKey.TARGET_LANG_NOT_SUPPORTED:
+            return 'target language not supported';
+          case AutoTranslateDisabledReasonKey.CONNECT_PROBLEM:
+            return 'connection problem: ' + reason.details;
+        }
+      }),
+    );
   }
 
   /**
@@ -258,12 +263,14 @@ export class TinyTranslatorService {
     if (this.currentProject() && this.currentProject().translationFile) {
       return this.currentProject()
         .translationFile.autoTranslateUsingService(this.autoTranslateService)
-        .map(summary => {
-          this.commitChanges(this.currentProject());
-          return summary;
-        });
+        .pipe(
+          map(summary => {
+            this.commitChanges(this.currentProject());
+            return summary;
+          }),
+        );
     } else {
-      return Observable.of(new AutoTranslateSummaryReport());
+      return of(new AutoTranslateSummaryReport());
     }
   }
 }

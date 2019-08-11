@@ -1,5 +1,4 @@
-
-import {throwError as observableThrowError,  Observable } from 'rxjs';
+import { throwError as observableThrowError, Observable, of } from 'rxjs';
 
 /**
  * Reasons, why you cannot use the API.
@@ -42,7 +41,7 @@ export class AutoTranslateServiceAPI {
    * @param target the language to translate to
    */
   public canAutoTranslate(source: string, target: string): Observable<boolean> {
-    return Observable.of(false);
+    return of(false);
   }
 
   /**
@@ -52,7 +51,7 @@ export class AutoTranslateServiceAPI {
    * @return {AutoTranslateDisabledReason} or null, if API is enabled.
    */
   public disabledReason(source: string, target: string): Observable<AutoTranslateDisabledReason> {
-    return Observable.of({
+    return of({
       reason: AutoTranslateDisabledReasonKey.NO_PROVIDER,
     });
   }
@@ -63,7 +62,7 @@ export class AutoTranslateServiceAPI {
    * @param target language for readable name. (default is en)
    */
   supportedLanguages(target?: string): Observable<Language[]> {
-    return Observable.of([]);
+    return of([]);
   }
 
   /**
