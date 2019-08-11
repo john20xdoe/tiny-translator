@@ -68,7 +68,7 @@
                 }
               ]
             },
-            "production-en": {
+            "en": {
               "i18nFile": "src/i18n/messages.en.xlf",
               "i18nFormat": "xlf",
               "i18nLocale": "en",
@@ -90,7 +90,7 @@
                 }
               ]
             },
-            "production-de": {
+            "de": {
               "i18nFile": "src/i18n/messages.de.xlf",
               "i18nFormat": "xlf",
               "i18nLocale": "de",
@@ -112,7 +112,7 @@
                 }
               ]
             },
-            "production-fr": {
+            "fr": {
               "i18nFile": "src/i18n/messages.fr-google.xlf",
               "i18nFormat": "xlf",
               "i18nLocale": "fr",
@@ -134,7 +134,7 @@
                 }
               ]
             },
-            "production-ru": {
+            "ru": {
               "i18nFile": "src/i18n/messages.ru-google.xlf",
               "i18nFormat": "xlf",
               "i18nLocale": "ru",
@@ -182,10 +182,10 @@
           },
           "configurations": {
             "development": {
-              "browserTarget": "tiny-translator:build:development"
+              "browserTarget": "tiny-translator:build:development-en"
             },
             "development-en": {
-              "browserTarget": "tiny-translator:build:development"
+              "browserTarget": "tiny-translator:build:development-en"
             },
             "development-de": {
               "browserTarget": "tiny-translator:build:development-de"
@@ -197,19 +197,19 @@
               "browserTarget": "tiny-translator:build:development-ru"
             },
             "production": {
-              "browserTarget": "tiny-translator:build:production"
+              "browserTarget": "tiny-translator:build:en"
             },
-            "production-en": {
-              "browserTarget": "tiny-translator:build:production"
+            "en": {
+              "browserTarget": "tiny-translator:build:en"
             },
-            "production-de": {
-              "browserTarget": "tiny-translator:build:production-de"
+            "de": {
+              "browserTarget": "tiny-translator:build:de"
             },
-            "production-fr": {
-              "browserTarget": "tiny-translator:build:production-fr"
+            "fr": {
+              "browserTarget": "tiny-translator:build:fr"
             },
-            "production-ru": {
-              "browserTarget": "tiny-translator:build:production-ru"
+            "ru": {
+              "browserTarget": "tiny-translator:build:ru"
             },
             "failtests": {
               "browserTarget": "tiny-translator:build:failtests"
@@ -222,7 +222,16 @@
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "tiny-translator:build"
+            "browserTarget": "tiny-translator:build",
+            "outputPath": "i18n",
+            "i18nFormat": "xlf",
+            "i18nLocale": "en"
+          },
+          "configurations": {
+            "en": { "i18nLocale": "en" },
+            "de": { "i18nLocale": "de" },
+            "fr": { "i18nLocale": "fr" },
+            "ru": { "i18nLocale": "ru" }
           }
         },
         "test": {
@@ -242,6 +251,18 @@
           "options": {
             "tsConfig": ["src/tsconfig.app.json", "src/tsconfig.spec.json"],
             "exclude": ["**/node_modules/**"]
+          }
+        },
+        "xliffmerge": {
+          "builder": "@ngx-i18nsupport/tooling:xliffmerge",
+          "options": {
+            "xliffmergeOptions": {
+              "i18nFormat": "xlf",
+              "srcDir": "src/i18n",
+              "genDir": "src/i18n",
+              "defaultLanguage": "en",
+              "languages": ["en", "de", "fr", "ru"]
+            }
           }
         }
       }
