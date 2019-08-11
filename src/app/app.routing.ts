@@ -40,7 +40,7 @@ const appRoutes: Routes = [
     path: 'configureautotranslate',
     component: ConfigureAutoTranslatePageComponent,
   },
-  { path: '', redirectTo: '/translate', pathMatch: 'full' },
+  { path: '', redirectTo: '/home', pathMatch: 'full' },
 ];
 
 export const appRoutingProviders: any[] = [];
