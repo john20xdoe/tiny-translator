@@ -1,5 +1,6 @@
 {
   "configVersion": 1,
+  "timestamp": 1565537867433,
   "appData": {
     "version": "0.11.0",
     "message": "Introducing Service Worker"
@@ -12,11 +13,7 @@
       "updateMode": "prefetch",
       "urls": [
         "/tiny-translator/ru/favicon.ico",
-        "/tiny-translator/ru/index.html",
-        "/tiny-translator/ru/inline.318b50c57b4eba3d437b.bundle.js",
-        "/tiny-translator/ru/main.d63b1647e2e8620b2403.bundle.js",
-        "/tiny-translator/ru/polyfills.f9fe83605661ee6924ff.bundle.js",
-        "/tiny-translator/ru/styles.992409c439680810b619.bundle.css"
+        "/tiny-translator/ru/index.html"
       ],
       "patterns": []
     },
@@ -51,11 +48,7 @@
     "/tiny-translator/ru/assets/icons/launcher-icon-4x.png": "69b2166eef189f609fae199e442ff45d063ba848",
     "/tiny-translator/ru/assets/unknowflag.png": "cc728d91f0714001c4e5f285f744821480ad2303",
     "/tiny-translator/ru/favicon.ico": "84161b857f5c547e3699ddfbffc6d8d737542e01",
-    "/tiny-translator/ru/index.html": "1938f3c6dcce18b174db0c3a53be0ddde67c291e",
-    "/tiny-translator/ru/inline.318b50c57b4eba3d437b.bundle.js": "998c6060446975e566fd17509558ddc68d72eec3",
-    "/tiny-translator/ru/main.d63b1647e2e8620b2403.bundle.js": "b4a0d5077200ea2a90cbbe612785dac761c08e84",
-    "/tiny-translator/ru/polyfills.f9fe83605661ee6924ff.bundle.js": "005b07e1302d1d3dcbe634333ebc207bce18f4a2",
-    "/tiny-translator/ru/styles.992409c439680810b619.bundle.css": "1f8d40feb892a1be1f11a4bf607250c8d943ddf5"
+    "/tiny-translator/ru/index.html": "008fb211720142ed2f412ec453124d51f49037b7"
   },
   "navigationUrls": [
     {
