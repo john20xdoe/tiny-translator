@@ -1,8 +1,11 @@
 {
   "compileOnSave": false,
+  "angularCompilerOptions": {
+    "preserveWhitespaces": "off"
+  },
   "compilerOptions": {
     "outDir": "./dist/out-tsc",
-    "baseUrl": "src",
+    "baseUrl": "",
     "sourceMap": true,
     "declaration": false,
     "moduleResolution": "node",
@@ -16,9 +19,11 @@
       "es2017",
       "dom"
     ],
-    "baseUrl": "",
     "paths": {
-      "@app/*": ["src/app/*"]
-    }
+      "@app/*": [
+        "src/app/*"
+      ]
+    },
+    "module": "es2015"
   }
 }
