@@ -16,18 +16,42 @@
             "main": "src/main.ts",
             "tsConfig": "src/tsconfig.app.json",
             "polyfills": "src/polyfills.ts",
-            "assets": [
-              "src/assets",
-              "src/favicon.ico",
-              "src/manifest.json"
-            ],
-            "styles": [
-              "src/styles.scss"
-            ],
+            "assets": ["src/assets", "src/favicon.ico", "src/manifest.json"],
+            "styles": ["src/styles.scss"],
             "scripts": []
           },
           "configurations": {
+            "development": {
+              "i18nFile": "src/i18n/messages.en.xlf",
+              "i18nFormat": "xlf",
+              "i18nLocale": "en"
+            },
+            "development-en": {
+              "i18nFile": "src/i18n/messages.en.xlf",
+              "i18nFormat": "xlf",
+              "i18nLocale": "en"
+            },
+            "development-de": {
+              "i18nFile": "src/i18n/messages.de.xlf",
+              "i18nFormat": "xlf",
+              "i18nLocale": "de"
+            },
+            "development-fr": {
+              "i18nFile": "src/i18n/messages.fr-google.xlf",
+              "i18nFormat": "xlf",
+              "i18nLocale": "fr"
+            },
+            "development-ru": {
+              "i18nFile": "src/i18n/messages.ru-google.xlf",
+              "i18nFormat": "xlf",
+              "i18nLocale": "ru"
+            },
             "production": {
+              "i18nFile": "src/i18n/messages.en.xlf",
+              "i18nFormat": "xlf",
+              "i18nLocale": "en",
+              "baseHref": "/tiny-translator/en/",
+              "outputPath": "dist/tiny-translator/en",
               "optimization": true,
               "outputHashing": "all",
               "sourceMap": false,
@@ -44,6 +68,95 @@
                 }
               ]
             },
+            "production-en": {
+              "i18nFile": "src/i18n/messages.en.xlf",
+              "i18nFormat": "xlf",
+              "i18nLocale": "en",
+              "baseHref": "/tiny-translator/en/",
+              "outputPath": "dist/tiny-translator/en",
+              "optimization": true,
+              "outputHashing": "all",
+              "sourceMap": false,
+              "extractCss": true,
+              "namedChunks": false,
+              "aot": true,
+              "extractLicenses": true,
+              "vendorChunk": false,
+              "buildOptimizer": true,
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.prod.ts"
+                }
+              ]
+            },
+            "production-de": {
+              "i18nFile": "src/i18n/messages.de.xlf",
+              "i18nFormat": "xlf",
+              "i18nLocale": "de",
+              "baseHref": "/tiny-translator/de/",
+              "outputPath": "dist/tiny-translator/de",
+              "optimization": true,
+              "outputHashing": "all",
+              "sourceMap": false,
+              "extractCss": true,
+              "namedChunks": false,
+              "aot": true,
+              "extractLicenses": true,
+              "vendorChunk": false,
+              "buildOptimizer": true,
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.prod.ts"
+                }
+              ]
+            },
+            "production-fr": {
+              "i18nFile": "src/i18n/messages.fr-google.xlf",
+              "i18nFormat": "xlf",
+              "i18nLocale": "fr",
+              "baseHref": "/tiny-translator/fr/",
+              "outputPath": "dist/tiny-translator/fr",
+              "optimization": true,
+              "outputHashing": "all",
+              "sourceMap": false,
+              "extractCss": true,
+              "namedChunks": false,
+              "aot": true,
+              "extractLicenses": true,
+              "vendorChunk": false,
+              "buildOptimizer": true,
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.prod.ts"
+                }
+              ]
+            },
+            "production-ru": {
+              "i18nFile": "src/i18n/messages.ru-google.xlf",
+              "i18nFormat": "xlf",
+              "i18nLocale": "ru",
+              "baseHref": "/tiny-translator/ru/",
+              "outputPath": "dist/tiny-translator/ru",
+              "optimization": true,
+              "outputHashing": "all",
+              "sourceMap": false,
+              "extractCss": true,
+              "namedChunks": false,
+              "aot": true,
+              "extractLicenses": true,
+              "vendorChunk": false,
+              "buildOptimizer": true,
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.prod.ts"
+                }
+              ]
+            },
+
             "failtests": {
               "fileReplacements": [
                 {
@@ -68,6 +181,9 @@
             "browserTarget": "tiny-translator:build"
           },
           "configurations": {
+            "development": {
+              "browserTarget": "tiny-translator:build:development"
+            },
             "production": {
               "browserTarget": "tiny-translator:build:production"
             },
@@ -93,26 +209,15 @@
             "polyfills": "src/polyfills.ts",
             "tsConfig": "src/tsconfig.spec.json",
             "scripts": [],
-            "styles": [
-              "src/styles.scss"
-            ],
-            "assets": [
-              "src/assets",
-              "src/favicon.ico",
-              "src/manifest.json"
-            ]
+            "styles": ["src/styles.scss"],
+            "assets": ["src/assets", "src/favicon.ico", "src/manifest.json"]
           }
         },
         "lint": {
           "builder": "@angular-devkit/build-angular:tslint",
           "options": {
-            "tsConfig": [
-              "src/tsconfig.app.json",
-              "src/tsconfig.spec.json"
-            ],
-            "exclude": [
-              "**/node_modules/**"
-            ]
+            "tsConfig": ["src/tsconfig.app.json", "src/tsconfig.spec.json"],
+            "exclude": ["**/node_modules/**"]
           }
         }
       }
@@ -132,12 +237,8 @@
         "lint": {
           "builder": "@angular-devkit/build-angular:tslint",
           "options": {
-            "tsConfig": [
-              "e2e/tsconfig.e2e.json"
-            ],
-            "exclude": [
-              "**/node_modules/**"
-            ]
+            "tsConfig": ["e2e/tsconfig.e2e.json"],
+            "exclude": ["**/node_modules/**"]
           }
         }
       }
