@@ -5,12 +5,8 @@ import { HttpClientModule } from '@angular/common/http';
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { environment } from '../environments/environment';
 
-import './rxjs-operators';
-
 import { APP_CONFIG, APP_CONFIG_VALUE } from './app.config';
 import { routing, appRoutingProviders } from './app.routing';
-
-import 'hammerjs';
 
 import { AppComponent } from './app.component';
 import { ProjectStarterComponent } from './project-starter/project-starter.component';
