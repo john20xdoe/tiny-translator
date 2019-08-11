@@ -20,12 +20,12 @@ follows https://tympanus.net/codrops/2015/09/15/styling-customizing-file-inputs-
   font-size: 1.25em;
   font-weight: 700;
   color: black;
-  background-color: mat-color($dit-app-accent);
+  background-color: mat-color($mat-accent);
   display: inline-block;
   padding: 20px;
 }
 
 .inputfile:focus + label,
 .inputfile + label:hover {
-  background-color: mat-color($dit-app-primary);
+  background-color: mat-color($mat-primary);
 }
