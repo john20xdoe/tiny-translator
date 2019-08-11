@@ -6,7 +6,7 @@ import { TranslationProject } from '../model/translation-project';
 @Component({
   selector: 'app-home-page',
   templateUrl: './home-page.component.html',
-  styleUrls: ['./home-page.component.css'],
+  styleUrls: ['./home-page.component.scss'],
 })
 export class HomePageComponent implements OnInit {
   constructor(private translatorService: TinyTranslatorService, private router: Router) {}
@@ -28,5 +28,10 @@ export class HomePageComponent implements OnInit {
 
   public saveProject(project: TranslationProject) {
     this.translatorService.saveProject(project);
+  }
+
+  public getCurrentProjectId() {
+    const project = this.translatorService.currentProject();
+    return project ? project.id : null;
   }
 }

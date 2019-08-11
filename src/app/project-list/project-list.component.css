@@ -1,3 +1,7 @@
+:host {
+  flex-wrap: wrap;
+}
+
 app-project {
-  padding: 10px;
+  padding: 4px;
 }

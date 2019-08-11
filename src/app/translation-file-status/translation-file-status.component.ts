@@ -35,6 +35,15 @@ export class TranslationFileStatusComponent implements OnInit {
     }
   }
 
+  /** specific number of untranslated and translated units */
+  public unitsCount(): string {
+    if (this.translationFile) {
+      let { numberOfTransUnits, numberOfUntranslatedTransUnits } = this.translationFile;
+      return `${numberOfUntranslatedTransUnits}/${numberOfTransUnits}`;
+    }
+    return 'None';
+  }
+
   /**
    * Save the changed file.
    */
