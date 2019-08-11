@@ -30,6 +30,11 @@ $dit-app-theme: mat-light-theme($dit-app-primary, $dit-app-accent, $dit-app-warn
 // that you are using.
 @include angular-material-theme($dit-app-theme);
 
+$typography: mat-typography-config(
+  $font-family: 'Raleway, sans-serif'
+);
+@include mat-core($typography);
+
 body {
   margin: 0;
   font-family: Roboto;
