@@ -8,17 +8,16 @@
   }
 }
 
-
 .mat-card {
   padding: 8px;
 
   // Unclear bottom margin from somewhere
   > .mat-card-actions:last-child {
-    margin: unset;  
+    margin: unset;
     padding-bottom: 0;
   }
 
-  mat-card-actions{
+  mat-card-actions {
     display: flex;
     justify-content: space-between;
   }
