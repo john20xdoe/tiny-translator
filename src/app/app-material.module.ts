@@ -13,6 +13,7 @@ import {
   MatRadioModule,
   MatSlideToggleModule,
   MatSnackBarModule,
+  MatTabsModule,
   MatToolbarModule,
   MatTooltipModule,
 } from '@angular/material';
@@ -37,6 +38,7 @@ import { FlexLayoutModule } from '@angular/flex-layout';
     MatRadioModule,
     MatSlideToggleModule,
     MatSnackBarModule,
+    MatTabsModule,
     MatToolbarModule,
     MatTooltipModule,
     OverlayModule,
@@ -56,6 +58,7 @@ import { FlexLayoutModule } from '@angular/flex-layout';
     MatRadioModule,
     MatSlideToggleModule,
     MatSnackBarModule,
+    MatTabsModule,
     MatToolbarModule,
     MatTooltipModule,
     OverlayModule,
