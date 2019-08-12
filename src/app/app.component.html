@@ -3,20 +3,7 @@
     <mat-toolbar-row>
       <span id="apptitle">Tiny Translator</span>
       <a mat-stroked-button disabled>Angular 7</a>
-      <span>&nbsp;</span>
-      <div fxLayout="row" fxLayoutAlign="space-between" fxLayoutGap="10px" fxLayoutWrap>
-        <app-language code="en" [showCode]="false"></app-language>
-        <app-language code="de" [showCode]="false"></app-language>
-        <app-language code="fr" [showCode]="false"></app-language>
-        <app-language code="en-us" [showCode]="false"></app-language>
-        <app-language code="ru" [showCode]="false"></app-language>
-        <app-language code="zh" [showCode]="false"></app-language>
-        <app-language code="ar" [showCode]="false"></app-language>
-        <app-language code="in" [showCode]="false"></app-language>
-        <app-language code="pt-br" [showCode]="false"></app-language>
-      </div>
-      <span>&nbsp;</span>
-      <span class="toolbar-spacer"> </span>
+
       <a mat-icon-button routerLink="/home" routerLinkActive="active"><mat-icon>home</mat-icon></a>
       <a mat-raised-button color="accent" routerLink="/editproject" routerLinkActive="active" matTooltip="Details of the project (click to open)" i18n-matTooltip>
         <span>{{ currentProjectName() | abbreviate: 30 }}</span>
@@ -45,6 +32,7 @@
           <span i18n>Last results..</span>
         </button>
       </mat-menu>
+      <span class="toolbar-spacer"> </span>
     </mat-toolbar-row>
   </mat-toolbar>
 
