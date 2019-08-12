@@ -87,7 +87,7 @@ $mat-dark-theme-foreground: (
 
 // Background config
 // Light bg
-$light-background: #efefef;
+$light-background: #f1f1f1;
 $light-bg-darker-5: darken($light-background, 5%);
 $light-bg-darker-10: darken($light-background, 10%);
 $light-bg-darker-20: darken($light-background, 20%);
@@ -257,10 +257,10 @@ body {
   color: mat-color($mat-warn, 200);
 }
 
-@mixin maxVH() {
+@mixin maxVH($additionalReduction: 0px) {
   /* 164px = Height of toolbar (128) plus footer (20) + 2*margin */
   // max-height: calc(100vh - 164px);
-
-  max-height: calc(100vh - 84px);
+  
+  max-height: calc(calc(100vh - 84px) - #{$additionalReduction});
   // max-width: calc(1000vw);
 }

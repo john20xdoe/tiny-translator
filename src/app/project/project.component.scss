@@ -1,5 +1,18 @@
+@import '../../styles.scss';
+
 :host {
-  max-width: 280px;
+  max-width: 220px;
+  min-width: 220px;
+
+  mat-card {
+    background-color: mat-color($theme, unselected-chip);
+
+    &:hover {
+      background-color: mat-color($mat-primary, lighter);
+      transition: 0.5ms;
+    }
+  }
+  
 }
 
 :host(.open) {
@@ -8,8 +21,9 @@
   }
 }
 
-.mat-card {
+mat-card {
   padding: 8px;
+  
 
   // Unclear bottom margin from somewhere
   > .mat-card-actions:last-child {
@@ -25,4 +39,5 @@
 
 mat-mini-fab {
   margin-left: auto;
+  margin-right: 4px;
 }

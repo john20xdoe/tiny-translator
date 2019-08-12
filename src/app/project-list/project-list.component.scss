@@ -1,7 +1,9 @@
+@import '../../styles.scss';
+
 :host {
   flex-wrap: wrap;
 }
 
 app-project {
-  padding: 4px;
+  padding: 8px;
 }
