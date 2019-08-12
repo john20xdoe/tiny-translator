@@ -6,6 +6,7 @@
 
       <a mat-icon-button routerLink="/home" routerLinkActive="active"><mat-icon>home</mat-icon></a>
       <a mat-raised-button color="accent" routerLink="/editproject" routerLinkActive="active" matTooltip="Details of the project (click to open)" i18n-matTooltip>
+        <mat-icon>edit</mat-icon>
         <span>{{ currentProjectName() | abbreviate: 30 }}</span>
       </a>
 
