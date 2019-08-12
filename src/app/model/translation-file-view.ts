@@ -118,7 +118,7 @@ export class TranslationFileView {
     }
   }
 
-  public scrollabeTransUnits(): TranslationUnit[] {
+  public scrollableTransUnits(): TranslationUnit[] {
     return this._scrollableTransUnits;
   }
 

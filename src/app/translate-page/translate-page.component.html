@@ -1,13 +1,12 @@
-<div id="page" fxLayout="row">
-  <app-translate-unit-list
-    [translationFileView]="currentView()"
-    [workflowType]="currentProject()?.workflowType"
-    [hasAutotranslatedUnits]="hasAutotranslatedUnits()"
-    (changeTranslationUnit)="onChangeTranslationUnit($event)"
-    fxFlex="0 0 25%"
-    fxHide.lt-md
-  ></app-translate-unit-list>
-  <div id="transunit" fxLayout="column" fxFlex="grow">
+<div fxLayout="row">
+  <mat-tab-group animationDuration="0ms" [selectedIndex]="selectedTab" (selectedIndexChange)="filterChanged($event)">
+    <mat-tab *ngFor="let tab of tabs; index as i" label="{{ tabNames[i] }}"></mat-tab>
+  </mat-tab-group>
+</div>
+<div fxLayout="row"></div>
+<div fxLayout="row">
+  <app-translate-unit-list [filterBy]="tabs[selectedTab]" [translationFileView]="currentView()" (changeTranslationUnit)="onChangeTranslationUnit($event)"></app-translate-unit-list>
+  <div id="transunit" fxLayout="column">
     <app-filter-status fxHide.gt-sm [translationFileView]="currentView()"></app-filter-status>
     <app-project-status fxHide.lt-md [project]="currentProject()" (onSave)="save()"></app-project-status>
     <app-translate-unit

@@ -1,0 +1,12 @@
+:host {
+  flex: 1;
+}
+
+
+#transunit {
+  padding: 10px;
+}
+
+.mat-radio-button ~ .mat-radio-button {
+  margin-left: 16px;
+}

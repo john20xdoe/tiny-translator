@@ -1,19 +1,10 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output, ViewChild, ElementRef } from '@angular/core';
 import { TranslationUnit } from '../model/translation-unit';
 import { MatRadioChange } from '@angular/material';
 import { TranslationFileView } from '../model/translation-file-view';
 import { WorkflowType } from '../model/translation-project';
 import { Subject, Subscription } from 'rxjs';
-import {
-  FILTER_ALL,
-  FILTER_AUTOTRANSLATED,
-  FILTER_AUTOTRANSLATED_FAILED,
-  FILTER_AUTOTRANSLATED_IGNORED,
-  FILTER_NEEDS_REVIEW,
-  FILTER_SUBSTRING,
-  FILTER_UNTRANSLATED,
-  TranslationUnitFilterService,
-} from '../model/filters/translation-unit-filter.service';
+import { TranslationFilter, TranslationUnitFilterService } from '../model/filters/translation-unit-filter.service';
 import { debounceTime } from 'rxjs/operators';
 
 /**
@@ -26,18 +17,29 @@ import { debounceTime } from 'rxjs/operators';
   styleUrls: ['./translate-unit-list.component.scss'],
 })
 export class TranslateUnitListComponent implements OnInit {
+  TranslationFilter = TranslationFilter;
   private _translationFileView: TranslationFileView;
   public _selectedFilterName = 'all';
   public substringToSearch: string;
   private substringSubject: Subject<string>;
   private substringSubscription: Subscription;
 
-  /**
-   * workflowType determines, what filters are visibile.
-   */
-  @Input() workflowType: WorkflowType;
+  /** workflowType determines, what filters are visibile. */
+  // @Input() workflowType: WorkflowType;
+  // @Input() hasAutotranslatedUnits: boolean;
 
-  @Input() hasAutotranslatedUnits: boolean;
+  private _filterBy: TranslationFilter;
+  @Input() set filterBy(value: TranslationFilter) {
+    this.filterChanged(value);
+    this._filterBy = value;
+  }
+  get filterBy() {
+    return this._filterBy;
+  }
+
+  @Input() public get translationFileView() {
+    return this._translationFileView;
+  }
 
   /**
    * Emitted, when user wants to navigate to another unit.
@@ -50,10 +52,6 @@ export class TranslateUnitListComponent implements OnInit {
     this.substringSubject = new Subject<string>();
   }
 
-  @Input() public get translationFileView() {
-    return this._translationFileView;
-  }
-
   public set translationFileView(view: TranslationFileView) {
     if (view) {
       this._translationFileView = view;
@@ -63,77 +61,32 @@ export class TranslateUnitListComponent implements OnInit {
     this._selectedFilterName = this._translationFileView.activeFilter().name();
   }
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.filterChanged(this.filterBy);
+  }
 
   public transUnits(): TranslationUnit[] {
-    return this.translationFileView.scrollabeTransUnits();
-  }
-
-  public showAll() {
-    this.translationFileView.setActiveFilter(this.translationUnitFilterService.getFilter(FILTER_ALL));
-  }
-
-  public showUntranslated() {
-    this.translationFileView.setActiveFilter(this.translationUnitFilterService.getFilter(FILTER_UNTRANSLATED));
-  }
-
-  public showNeedsReview() {
-    this.translationFileView.setActiveFilter(this.translationUnitFilterService.getFilter(FILTER_NEEDS_REVIEW));
-  }
-
-  public showBySearchFilter() {
-    if (this.substringSubscription) {
-      this.substringSubscription.unsubscribe();
-    }
-    const substr = this.substringToSearch ? this.substringToSearch : '';
-    this.translationFileView.setActiveFilter(this.translationUnitFilterService.getFilter(FILTER_SUBSTRING, substr));
-    this.substringSubscription = this.substringSubject.pipe(debounceTime(200)).subscribe(sub => {
-      this.translationFileView.setActiveFilter(this.translationUnitFilterService.getFilter(FILTER_SUBSTRING, sub));
-    });
+    return this.translationFileView.scrollableTransUnits();
   }
 
   substringToSearchChange() {
     this.substringSubject.next(this.substringToSearch);
   }
 
-  public showAutotranslated() {
-    this.translationFileView.setActiveFilter(this.translationUnitFilterService.getFilter(FILTER_AUTOTRANSLATED));
-  }
+  filterChanged(filter: TranslationFilter = TranslationFilter.ALL) {
+    if (filter === TranslationFilter.SUBSTRING) {
+      if (this.substringSubscription) {
+        this.substringSubscription.unsubscribe();
+      }
+      this.substringSubscription = this.substringSubject.pipe(debounceTime(400)).subscribe(sub => {
+        this.translationFileView.setActiveFilter(this.translationUnitFilterService.getFilter(TranslationFilter.SUBSTRING, sub));
+      });
 
-  public showAutotranslatedFailed() {
-    this.translationFileView.setActiveFilter(this.translationUnitFilterService.getFilter(FILTER_AUTOTRANSLATED_FAILED));
-  }
-
-  public showAutotranslatedIgnored() {
-    this.translationFileView.setActiveFilter(this.translationUnitFilterService.getFilter(FILTER_AUTOTRANSLATED_IGNORED));
-  }
-
-  filterChanged(changeEvent: MatRadioChange) {
-    switch (changeEvent.value) {
-      case 'all':
-        this.showAll();
-        break;
-      case 'untranslated':
-        this.showUntranslated();
-        break;
-      case 'needsReview':
-        this.showNeedsReview();
-        break;
-      case 'bySubstring':
-        this.showBySearchFilter();
-        break;
-      case 'autotranslated':
-        this.showAutotranslated();
-        break;
-      case 'autotranslatedFailed':
-        this.showAutotranslatedFailed();
-        break;
-      case 'autotranslatedIgnored':
-        this.showAutotranslatedIgnored();
-        break;
-      default:
-      // do nothing
+      const substr = this.substringToSearch ? this.substringToSearch : '';
+      this.substringSubject.next(substr);
     }
+
+    return this.translationFileView.setActiveFilter(this.translationUnitFilterService.getFilter(filter));
   }
 
   public selectTransUnit(tu: TranslationUnit) {
@@ -142,9 +95,5 @@ export class TranslateUnitListComponent implements OnInit {
 
   isSelected(tu: TranslationUnit): boolean {
     return tu && tu === this.translationFileView.currentTransUnit();
-  }
-
-  isWorkflowWithReview(): boolean {
-    return this.workflowType === WorkflowType.WITH_REVIEW;
   }
 }

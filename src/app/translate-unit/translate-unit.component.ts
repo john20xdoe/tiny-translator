@@ -30,7 +30,7 @@ export interface TranslateUnitChange {
 @Component({
   selector: 'app-translate-unit',
   templateUrl: './translate-unit.component.html',
-  styleUrls: ['./translate-unit.component.css'],
+  styleUrls: ['./translate-unit.component.scss'],
 })
 export class TranslateUnitComponent implements OnInit, OnChanges {
   @Input() translationFileView: TranslationFileView;

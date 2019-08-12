@@ -9,13 +9,25 @@ import { TranslationUnitFilterNeedsReview } from './translation-unit-filter-need
 import { TranslationUnitFilterSubstring } from './translation-unit-filter-substring';
 import { TranslationUnitFilterUntranslated } from './translation-unit-filter-untranslated';
 
-export const FILTER_ALL = 'all';
-export const FILTER_AUTOTRANSLATED = 'autotranslated';
-export const FILTER_AUTOTRANSLATED_FAILED = 'autotranslatedFailed';
-export const FILTER_AUTOTRANSLATED_IGNORED = 'autotranslatedIgnored';
-export const FILTER_NEEDS_REVIEW = 'needsReview';
-export const FILTER_SUBSTRING = 'bySubstring';
-export const FILTER_UNTRANSLATED = 'untranslated';
+export enum TranslationFilter {
+  ALL = 'all',
+  UNTRANSLATED = 'untranslated',
+  SUBSTRING = 'bySubstring',
+  NEEDS_REVIEW = 'needsReview',
+  AUTOTRANSLATED = 'autotranslated',
+  AUTOTRANSLATED_FAILED = 'autotranslatedFailed',
+  AUTOTRANSLATED_IGNORED = 'autotranslatedIgnored',
+}
+
+export const TranslationFilterDescription = {
+  [TranslationFilter.ALL]: 'All',
+  [TranslationFilter.UNTRANSLATED]: 'Untranslated',
+  [TranslationFilter.SUBSTRING]: 'Search Substring',
+  [TranslationFilter.NEEDS_REVIEW]: 'Needs Review',
+  [TranslationFilter.AUTOTRANSLATED]: 'Autotranslated',
+  [TranslationFilter.AUTOTRANSLATED_FAILED]: 'Autotranslate Failed',
+  [TranslationFilter.AUTOTRANSLATED_IGNORED]: 'Autotranslate Ignored',
+};
 
 @Injectable()
 export class TranslationUnitFilterService {
@@ -25,25 +37,25 @@ export class TranslationUnitFilterService {
 
   /**
    * Create a new filter.
-   * @param name one of the FILTER_.. constants
+   * @param name TranslationFilter
    * @param substr Substring in case of FILTER_SUBSTRING
    * @return {ITranslationUnitFilter} new filter instance
    */
-  public getFilter(name: string, substr?: string): ITranslationUnitFilter {
+  public getFilter(name: TranslationFilter, substr?: string): ITranslationUnitFilter {
     switch (name) {
-      case FILTER_ALL:
+      case TranslationFilter.ALL:
         return new TranslationUnitFilterAll();
-      case 'autotranslated':
+      case TranslationFilter.AUTOTRANSLATED:
         return new TranslationUnitFilterAutoTranslated(this._autoTranslateSummaryReport);
-      case 'autotranslatedFailed':
+      case TranslationFilter.AUTOTRANSLATED_FAILED:
         return new TranslationUnitFilterAutoTranslatedFailed(this._autoTranslateSummaryReport);
-      case 'autotranslatedIgnored':
+      case TranslationFilter.AUTOTRANSLATED_IGNORED:
         return new TranslationUnitFilterAutoTranslatedIgnored(this._autoTranslateSummaryReport);
-      case 'needsReview':
+      case TranslationFilter.NEEDS_REVIEW:
         return new TranslationUnitFilterNeedsReview();
-      case 'bySubstring':
+      case TranslationFilter.SUBSTRING:
         return new TranslationUnitFilterSubstring(substr);
-      case 'untranslated':
+      case TranslationFilter.UNTRANSLATED:
         return new TranslationUnitFilterUntranslated();
     }
     return null;

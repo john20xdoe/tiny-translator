@@ -1,14 +1,22 @@
 @import '~@angular/material/theming';
-
 @import '../../styles.scss';
 
-#list {
-  /* 164px = Height of toolbar (128) plus footer (20) + 2*margin */
-  max-height: calc(100vh - 164px);
-  min-width: 300px;
-  overflow: auto;
+:host {
+  display: block;  
+  width: 360px;
+  overflow-x: hidden;
+  
+  @include maxVH(48px);
 }
 
 .selected {
-  background-color: mat-color($mat-accent);
+  background-color: mat-color($mat-accent, lighter);
+}
+
+.search-field {
+  position: sticky;
+  top: 0;
+  background-color: white;
+  z-index: 2;
+  width: 100%;
 }
